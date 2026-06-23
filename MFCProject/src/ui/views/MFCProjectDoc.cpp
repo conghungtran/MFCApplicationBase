@@ -1,5 +1,5 @@
 
-// TestProjectDoc.cpp : implementation of the CTestProjectDoc class
+// MFCProjectDoc.cpp : implementation of the CMFCProjectDoc class
 //
 
 #include "pch.h"
@@ -7,10 +7,10 @@
 // SHARED_HANDLERS can be defined in an ATL project implementing preview, thumbnail
 // and search filter handlers and allows sharing of document code with that project.
 #ifndef SHARED_HANDLERS
-#include "TestProject.h"
+#include "MFCProject.h"
 #endif
 
-#include "TestProjectDoc.h"
+#include "MFCProjectDoc.h"
 
 #include <propkey.h>
 
@@ -18,27 +18,27 @@
 #define new DEBUG_NEW
 #endif
 
-// CTestProjectDoc
+// CMFCProjectDoc
 
-IMPLEMENT_DYNCREATE(CTestProjectDoc, CDocument)
+IMPLEMENT_DYNCREATE(CMFCProjectDoc, CDocument)
 
-BEGIN_MESSAGE_MAP(CTestProjectDoc, CDocument)
+BEGIN_MESSAGE_MAP(CMFCProjectDoc, CDocument)
 END_MESSAGE_MAP()
 
 
-// CTestProjectDoc construction/destruction
+// CMFCProjectDoc construction/destruction
 
-CTestProjectDoc::CTestProjectDoc() noexcept
+CMFCProjectDoc::CMFCProjectDoc() noexcept
 {
 	// TODO: add one-time construction code here
 
 }
 
-CTestProjectDoc::~CTestProjectDoc()
+CMFCProjectDoc::~CMFCProjectDoc()
 {
 }
 
-BOOL CTestProjectDoc::OnNewDocument()
+BOOL CMFCProjectDoc::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
@@ -52,9 +52,9 @@ BOOL CTestProjectDoc::OnNewDocument()
 
 
 
-// CTestProjectDoc serialization
+// CMFCProjectDoc serialization
 
-void CTestProjectDoc::Serialize(CArchive& ar)
+void CMFCProjectDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
@@ -69,7 +69,7 @@ void CTestProjectDoc::Serialize(CArchive& ar)
 #ifdef SHARED_HANDLERS
 
 // Support for thumbnails
-void CTestProjectDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
+void CMFCProjectDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 {
 	// Modify this code to draw the document's data
 	dc.FillSolidRect(lprcBounds, RGB(255, 255, 255));
@@ -90,7 +90,7 @@ void CTestProjectDoc::OnDrawThumbnail(CDC& dc, LPRECT lprcBounds)
 }
 
 // Support for Search Handlers
-void CTestProjectDoc::InitializeSearchContent()
+void CMFCProjectDoc::InitializeSearchContent()
 {
 	CString strSearchContent;
 	// Set search contents from document's data.
@@ -100,7 +100,7 @@ void CTestProjectDoc::InitializeSearchContent()
 	SetSearchContent(strSearchContent);
 }
 
-void CTestProjectDoc::SetSearchContent(const CString& value)
+void CMFCProjectDoc::SetSearchContent(const CString& value)
 {
 	if (value.IsEmpty())
 	{
@@ -120,19 +120,19 @@ void CTestProjectDoc::SetSearchContent(const CString& value)
 
 #endif // SHARED_HANDLERS
 
-// CTestProjectDoc diagnostics
+// CMFCProjectDoc diagnostics
 
 #ifdef _DEBUG
-void CTestProjectDoc::AssertValid() const
+void CMFCProjectDoc::AssertValid() const
 {
 	CDocument::AssertValid();
 }
 
-void CTestProjectDoc::Dump(CDumpContext& dc) const
+void CMFCProjectDoc::Dump(CDumpContext& dc) const
 {
 	CDocument::Dump(dc);
 }
 #endif //_DEBUG
 
 
-// CTestProjectDoc commands
+// CMFCProjectDoc commands

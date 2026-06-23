@@ -1,5 +1,5 @@
 
-// TestProjectView.cpp : implementation of the TestProjectView class
+// MFCProjectView.cpp : implementation of the MFCProjectView class
 //
 
 #include "pch.h"
@@ -7,51 +7,51 @@
 // SHARED_HANDLERS can be defined in an ATL project implementing preview, thumbnail
 // and search filter handlers and allows sharing of document code with that project.
 #ifndef SHARED_HANDLERS
-#include "TestProject.h"
+#include "MFCProject.h"
 #endif
 
-#include "TestProjectDoc.h"
-#include "TestProjectView.h"
+#include "MFCProjectDoc.h"
+#include "MFCProjectView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-// TestProjectView
+// MFCProjectView
 
-IMPLEMENT_DYNCREATE(TestProjectView, CFormView)
+IMPLEMENT_DYNCREATE(MFCProjectView, CFormView)
 
-BEGIN_MESSAGE_MAP(TestProjectView, CFormView)
+BEGIN_MESSAGE_MAP(MFCProjectView, CFormView)
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, &CFormView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CFormView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &TestProjectView::OnFilePrintPreview)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &MFCProjectView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_BN_CLICKED(IDC_BUTTON1, &TestProjectView::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON1, &MFCProjectView::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
-// TestProjectView construction/destruction
+// MFCProjectView construction/destruction
 
-TestProjectView::TestProjectView() noexcept
+MFCProjectView::MFCProjectView() noexcept
 	: CFormView(IDD_TESTPROJECT_FORM)
 {
 	// TODO: add construction code here
 
 }
 
-TestProjectView::~TestProjectView()
+MFCProjectView::~MFCProjectView()
 {
 }
 
-void TestProjectView::DoDataExchange(CDataExchange* pDX)
+void MFCProjectView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_BUTTON1, m_btnAddPrinter);
 	DDX_Control(pDX, IDC_EDIT1, m_editModel);
 }
 
-BOOL TestProjectView::PreCreateWindow(CREATESTRUCT& cs)
+BOOL MFCProjectView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -59,7 +59,7 @@ BOOL TestProjectView::PreCreateWindow(CREATESTRUCT& cs)
 	return CFormView::PreCreateWindow(cs);
 }
 
-void TestProjectView::OnInitialUpdate()
+void MFCProjectView::OnInitialUpdate()
 {
 	CFormView::OnInitialUpdate();
 	GetParentFrame()->RecalcLayout();
@@ -78,44 +78,44 @@ void TestProjectView::OnInitialUpdate()
 }
 
 
-// TestProjectView printing
+// MFCProjectView printing
 
 
-void TestProjectView::OnFilePrintPreview()
+void MFCProjectView::OnFilePrintPreview()
 {
 #ifndef SHARED_HANDLERS
 	AFXPrintPreview(this);
 #endif
 }
 
-BOOL TestProjectView::OnPreparePrinting(CPrintInfo* pInfo)
+BOOL MFCProjectView::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// default preparation
 	return DoPreparePrinting(pInfo);
 }
 
-void TestProjectView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void MFCProjectView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add extra initialization before printing
 }
 
-void TestProjectView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+void MFCProjectView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add cleanup after printing
 }
 
-void TestProjectView::OnPrint(CDC* pDC, CPrintInfo* /*pInfo*/)
+void MFCProjectView::OnPrint(CDC* pDC, CPrintInfo* /*pInfo*/)
 {
 	// TODO: add customized printing code here
 }
 
-void TestProjectView::OnRButtonUp(UINT /* nFlags */, CPoint point)
+void MFCProjectView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
 	ClientToScreen(&point);
 	OnContextMenu(this, point);
 }
 
-void TestProjectView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
+void MFCProjectView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
@@ -123,30 +123,30 @@ void TestProjectView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 }
 
 
-// TestProjectView diagnostics
+// MFCProjectView diagnostics
 
 #ifdef _DEBUG
-void TestProjectView::AssertValid() const
+void MFCProjectView::AssertValid() const
 {
 	CFormView::AssertValid();
 }
 
-void TestProjectView::Dump(CDumpContext& dc) const
+void MFCProjectView::Dump(CDumpContext& dc) const
 {
 	CFormView::Dump(dc);
 }
 
-CTestProjectDoc* TestProjectView::GetDocument() const // non-debug version is inline
+CMFCProjectDoc* MFCProjectView::GetDocument() const // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CTestProjectDoc)));
-	return (CTestProjectDoc*)m_pDocument;
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMFCProjectDoc)));
+	return (CMFCProjectDoc*)m_pDocument;
 }
 #endif //_DEBUG
 
 
-// TestProjectView message handlers
+// MFCProjectView message handlers
 
-void TestProjectView::OnBnClickedButton1()
+void MFCProjectView::OnBnClickedButton1()
 {
 	TRACE0("View called!\n");  // xem trong Output window của VS
 	AfxMessageBox(_T("View Printer!"));

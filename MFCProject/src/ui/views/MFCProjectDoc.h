@@ -1,16 +1,16 @@
 
-// TestProjectDoc.h : interface of the CTestProjectDoc class
+// MFCProjectDoc.h : interface of the CMFCProjectDoc class
 //
 
 
 #pragma once
 
 
-class CTestProjectDoc : public CDocument
+class CMFCProjectDoc : public CDocument
 {
 protected: // create from serialization only
-	CTestProjectDoc() noexcept;
-	DECLARE_DYNCREATE(CTestProjectDoc)
+	CMFCProjectDoc() noexcept;
+	DECLARE_DYNCREATE(CMFCProjectDoc)
 
 // Attributes
 public:
@@ -29,7 +29,7 @@ public:
 
 // Implementation
 public:
-	virtual ~CTestProjectDoc();
+	virtual ~CMFCProjectDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

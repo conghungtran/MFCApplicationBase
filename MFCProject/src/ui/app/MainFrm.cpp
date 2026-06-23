@@ -4,7 +4,7 @@
 
 #include "pch.h"
 #include "framework.h"
-#include "TestProject.h"
+#include "MFCProject.h"
 #include "MainFrm.h"
 
 #ifdef _DEBUG
@@ -224,7 +224,7 @@ BOOL CMainFrame::CreateTaskPane()
 	// ---- Thêm các Task Group ----
 	int nGroup = m_wndTasksPane.AddGroup(_T("Printer Actions"), FALSE, FALSE);
 	TRACE1("nGroup = %d\n", nGroup);  // phải là 0, 1, 2... không phải -1
-	m_wndTasksPane.AddTask(nGroup, _T("Test File New"), -1, ID_FILE_NEW);
+	m_wndTasksPane.AddTask(nGroup, _T("MFC File New"), -1, ID_FILE_NEW);
 
 	//CButton* pBtn = new CButton();
 	//pBtn->Create(_T("Add Printer"),
@@ -246,7 +246,7 @@ BOOL CMainFrame::CreateTaskPane()
 
 	//m_wndTasksPane.AddTask(nGroup, _T("Remove Printer"),
 	//	0, 0, ID_PRINTER_REMOVE);
-	//m_wndTasksPane.AddTask(nGroup, _T("Print Test Page"),
+	//m_wndTasksPane.AddTask(nGroup, _T("Print MFC Page"),
 	//	0, 0, ID_PRINTER_TEST);
 
 	//int nGroup2 = m_wndTasksPane.AddGroup(_T("Maintenance"));

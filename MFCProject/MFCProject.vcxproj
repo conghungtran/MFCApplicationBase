@@ -22,8 +22,9 @@
     <VCProjectVersion>18.0</VCProjectVersion>
     <ProjectGuid>{5BC43F72-FBC4-B75C-0CE0-A7E21AF878B0}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
-    <RootNamespace>TestProject</RootNamespace>
+    <RootNamespace>MFCProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MFCBaseApplication</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -200,7 +201,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\pch\targetver.h" />
-    <ClInclude Include="src\ui\app\TestProject.h" />
+    <ClInclude Include="src\ui\app\MFCProject.h" />
     <ClInclude Include="src\ui\controls\CCustomButton.h" />
     <ClInclude Include="src\ui\controls\CCustomEdit.h" />
     <ClInclude Include="src\ui\controls\CustomTaskPane.h" />
@@ -208,11 +209,11 @@
     <ClInclude Include="src\pch\pch.h" />
     <ClInclude Include="src\ui\app\MainFrm.h" />
     <ClInclude Include="src\ui\resources\Resource.h" />
-    <ClInclude Include="src\ui\views\TestProjectDoc.h" />
-    <ClInclude Include="src\ui\views\TestProjectView.h" />
+    <ClInclude Include="src\ui\views\MFCProjectDoc.h" />
+    <ClInclude Include="src\ui\views\MFCProjectView.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ui\app\TestProject.cpp" />
+    <ClCompile Include="src\ui\app\MFCProject.cpp" />
     <ClCompile Include="src\ui\controls\CCustomButton.cpp" />
     <ClCompile Include="src\ui\controls\CCustomEdit.cpp" />
     <ClCompile Include="src\ui\controls\CustomTaskPane.cpp" />
@@ -223,21 +224,21 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\ui\views\TestProjectDoc.cpp" />
-    <ClCompile Include="src\ui\views\TestProjectView.cpp" />
+    <ClCompile Include="src\ui\views\MFCProjectDoc.cpp" />
+    <ClCompile Include="src\ui\views\MFCProjectView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\ui\resources\TestProject.rc" />
+    <ResourceCompile Include="src\ui\resources\MFCProject.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\ui\resources\res\TestProject.ico" />
-    <Image Include="src\ui\resources\res\TestProjectDoc.ico" />
+    <Image Include="src\ui\resources\res\MFCProject.ico" />
+    <Image Include="src\ui\resources\res\MFCProjectDoc.ico" />
     <Image Include="src\ui\resources\res\Toolbar.bmp" />
     <Image Include="src\ui\resources\res\Toolbar256.bmp" />
     <Image Include="src\ui\resources\res\userimages.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ui\resources\res\TestProject.rc2" />
+    <None Include="src\ui\resources\res\MFCProject.rc2" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

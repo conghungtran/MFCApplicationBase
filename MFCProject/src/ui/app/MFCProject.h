@@ -1,5 +1,5 @@
 
-// TestProject.h : main header file for the TestProject application
+// MFCProject.h : main header file for the MFCProject application
 //
 #pragma once
 
@@ -10,14 +10,14 @@
 #include "resource.h"       // main symbols
 
 
-// CTestProjectApp:
-// See TestProject.cpp for the implementation of this class
+// CMFCProjectApp:
+// See MFCProject.cpp for the implementation of this class
 //
 
-class CTestProjectApp : public CWinAppEx
+class CMFCProjectApp : public CWinAppEx
 {
 public:
-	CTestProjectApp() noexcept;
+	CMFCProjectApp() noexcept;
 
 
 // Overrides
@@ -36,4 +36,4 @@ public:
 	DECLARE_MESSAGE_MAP()
 };
 
-extern CTestProjectApp theApp;
+extern CMFCProjectApp theApp;

@@ -1,26 +1,26 @@
 
-// TestProject.cpp : Defines the class behaviors for the application.
+// MFCProject.cpp : Defines the class behaviors for the application.
 //
 
 #include "pch.h"
 #include "framework.h"
 #include "afxwinappex.h"
 #include "afxdialogex.h"
-#include "TestProject.h"
+#include "MFCProject.h"
 #include "MainFrm.h"
 
-#include "TestProjectDoc.h"
-#include "TestProjectView.h"
+#include "MFCProjectDoc.h"
+#include "MFCProjectView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-// CTestProjectApp
+// CMFCProjectApp
 
-BEGIN_MESSAGE_MAP(CTestProjectApp, CWinAppEx)
-	ON_COMMAND(ID_APP_ABOUT, &CTestProjectApp::OnAppAbout)
+BEGIN_MESSAGE_MAP(CMFCProjectApp, CWinAppEx)
+	ON_COMMAND(ID_APP_ABOUT, &CMFCProjectApp::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
@@ -29,9 +29,9 @@ BEGIN_MESSAGE_MAP(CTestProjectApp, CWinAppEx)
 END_MESSAGE_MAP()
 
 
-// CTestProjectApp construction
+// CMFCProjectApp construction
 
-CTestProjectApp::CTestProjectApp() noexcept
+CMFCProjectApp::CMFCProjectApp() noexcept
 {
 	m_bHiColorIcons = TRUE;
 
@@ -47,20 +47,20 @@ CTestProjectApp::CTestProjectApp() noexcept
 
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("TestProject.AppID.NoVersion"));
+	SetAppID(_T("MFCProject.AppID.NoVersion"));
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
-// The one and only CTestProjectApp object
+// The one and only CMFCProjectApp object
 
-CTestProjectApp theApp;
+CMFCProjectApp theApp;
 
 
-// CTestProjectApp initialization
+// CMFCProjectApp initialization
 
-BOOL CTestProjectApp::InitInstance()
+BOOL CMFCProjectApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -115,9 +115,9 @@ BOOL CTestProjectApp::InitInstance()
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
-		RUNTIME_CLASS(CTestProjectDoc),
+		RUNTIME_CLASS(CMFCProjectDoc),
 		RUNTIME_CLASS(CMainFrame),       // main SDI frame window
-		RUNTIME_CLASS(TestProjectView));
+		RUNTIME_CLASS(MFCProjectView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
@@ -140,7 +140,7 @@ BOOL CTestProjectApp::InitInstance()
 	return TRUE;
 }
 
-int CTestProjectApp::ExitInstance()
+int CMFCProjectApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
@@ -148,7 +148,7 @@ int CTestProjectApp::ExitInstance()
 	return CWinAppEx::ExitInstance();
 }
 
-// CTestProjectApp message handlers
+// CMFCProjectApp message handlers
 
 
 // CAboutDlg dialog used for App About
@@ -184,15 +184,15 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
-void CTestProjectApp::OnAppAbout()
+void CMFCProjectApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
-// CTestProjectApp customization load/save methods
+// CMFCProjectApp customization load/save methods
 
-void CTestProjectApp::PreLoadState()
+void CMFCProjectApp::PreLoadState()
 {
 	BOOL bNameValid;
 	CString strName;
@@ -201,15 +201,15 @@ void CTestProjectApp::PreLoadState()
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
 }
 
-void CTestProjectApp::LoadCustomState()
+void CMFCProjectApp::LoadCustomState()
 {
 }
 
-void CTestProjectApp::SaveCustomState()
+void CMFCProjectApp::SaveCustomState()
 {
 }
 
-// CTestProjectApp message handlers
+// CMFCProjectApp message handlers
 
 
 

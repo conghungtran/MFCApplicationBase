@@ -1,5 +1,5 @@
 
-// TestProjectView.h : interface of the TestProjectView class
+// MFCProjectView.h : interface of the MFCProjectView class
 //
 
 #pragma once
@@ -7,11 +7,11 @@
 #include "CCustomEdit.h"
 
 
-class TestProjectView : public CFormView
+class MFCProjectView : public CFormView
 {
 protected: // create from serialization only
-	TestProjectView() noexcept;
-	DECLARE_DYNCREATE(TestProjectView)
+	MFCProjectView() noexcept;
+	DECLARE_DYNCREATE(MFCProjectView)
 
 public:
 #ifdef AFX_DESIGN_TIME
@@ -20,7 +20,7 @@ public:
 
 // Attributes
 public:
-	CTestProjectDoc* GetDocument() const;
+	CMFCProjectDoc* GetDocument() const;
 
 // Operations
 public:
@@ -38,7 +38,7 @@ protected:
 
 // Implementation
 public:
-	virtual ~TestProjectView();
+	virtual ~MFCProjectView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -58,8 +58,8 @@ public:
 	CCustomEdit m_editModel;
 };
 
-#ifndef _DEBUG  // debug version in TestProjectView.cpp
-inline CTestProjectDoc* TestProjectView::GetDocument() const
-   { return reinterpret_cast<CTestProjectDoc*>(m_pDocument); }
+#ifndef _DEBUG  // debug version in MFCProjectView.cpp
+inline CMFCProjectDoc* MFCProjectView::GetDocument() const
+   { return reinterpret_cast<CMFCProjectDoc*>(m_pDocument); }
 #endif
 

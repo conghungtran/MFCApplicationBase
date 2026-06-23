@@ -18,7 +18,7 @@
     <ClInclude Include="src\pch\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\app\TestProject.h">
+    <ClInclude Include="src\ui\app\MFCProject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\controls\CCustomButton.h">
@@ -42,15 +42,15 @@
     <ClInclude Include="src\ui\resources\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\views\TestProjectDoc.h">
+    <ClInclude Include="src\ui\views\MFCProjectDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\views\TestProjectView.h">
+    <ClInclude Include="src\ui\views\MFCProjectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ui\app\TestProject.cpp">
+    <ClCompile Include="src\ui\app\MFCProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\controls\CCustomButton.cpp">
@@ -68,15 +68,15 @@
     <ClCompile Include="src\pch\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ui\views\TestProjectDoc.cpp">
+    <ClCompile Include="src\ui\views\MFCProjectDoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ui\views\TestProjectView.cpp">
+    <ClCompile Include="src\ui\views\MFCProjectView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\ui\resources\TestProject.rc">
+    <ResourceCompile Include="src\ui\resources\MFCProject.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -84,10 +84,10 @@
     <Image Include="src\ui\resources\res\userimages.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="src\ui\resources\res\TestProjectDoc.ico">
+    <Image Include="src\ui\resources\res\MFCProjectDoc.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="src\ui\resources\res\TestProject.ico">
+    <Image Include="src\ui\resources\res\MFCProject.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="src\ui\resources\res\Toolbar.bmp">
@@ -98,7 +98,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ui\resources\res\TestProject.rc2">
+    <None Include="src\ui\resources\res\MFCProject.rc2">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
