@@ -13,6 +13,7 @@ class PagePrinter : public CDialogEx
 public:
 	PagePrinter(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~PagePrinter();
+	BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 
 	
 	BOOL InitToolBar();

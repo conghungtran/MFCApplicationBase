@@ -18,6 +18,8 @@ public:
 // Operations
 public:
 	void OnFileOpen();
+	void ReplaceToolbarWithShellIcons();
+
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

@@ -65,8 +65,22 @@ BEGIN_MESSAGE_MAP(PagePrinter, CDialogEx)
 	ON_MESSAGE(WM_EDIT_ITEM, &PagePrinter::OnEditItem)
 	ON_MESSAGE(WM_DELETE_ITEM, &PagePrinter::OnDeleteItem)
     ON_WM_SIZE()
+    ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
 
+
+BOOL PagePrinter::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+    // Nếu con trỏ đang ở trên toolbar
+    if (pWnd->GetSafeHwnd() == m_wndToolBar.GetSafeHwnd())
+    {
+        ::SetCursor(LoadCursor(NULL, IDC_HAND));
+        return TRUE; // Đã xử lý
+    }
+
+    // Nếu không phải toolbar, gọi base class
+    return CDialogEx::OnSetCursor(pWnd, nHitTest, message);
+}
 
 
 // OnInit ToolBar + ControlList
@@ -179,6 +193,8 @@ BOOL PagePrinter::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
+
+
     // ============================================================
     // 1. TẠO TOOLBAR bằng CToolBarCtrl
     // ============================================================
@@ -195,6 +211,7 @@ BOOL PagePrinter::OnInitDialog()
 
     // Image list
     m_imageList.Create(40, 40, ILC_COLOR32 | ILC_MASK, 4, 4);
+
 
 
 
@@ -277,6 +294,9 @@ void PagePrinter::AddSampleData() {
     m_listCtrl.SetItemText(idx, COL_STATUS, _T("Online"));
 
     idx = m_listCtrl.InsertItem(1, _T("Canon LBP2900"));
+    m_listCtrl.SetItemText(idx, COL_STATUS, _T("Offline"));
+
+    idx = m_listCtrl.InsertItem(2, _T("Toshiba GBX113"));
     m_listCtrl.SetItemText(idx, COL_STATUS, _T("Offline"));
 }
 

@@ -13,6 +13,15 @@
 #include <iostream>
 #include "MFCProjectView.h"
 
+// Đặt trước OnCreate — free function
+static HICON GetShellIcon(SHSTOCKICONID id)
+{
+	SHSTOCKICONINFO sii = {};
+	sii.cbSize = sizeof(sii);
+	SHGetStockIconInfo(id, SHGSI_ICON | SHGSI_LARGEICON, &sii);
+	return sii.hIcon;
+}
+
 // CMainFrame
 
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWndEx)
@@ -130,6 +139,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
+	//ReplaceToolbarWithShellIcons();
 
 	CString strToolBarName;
 	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);
@@ -213,6 +223,41 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	return 0;
 }
+void CMainFrame::ReplaceToolbarWithShellIcons()
+{
+	const int SIZE = 24;
+
+	SHSTOCKICONID shellIDs[] =
+	{
+		SIID_DOCNOASSOC,  // ID_FILE_NEW
+		SIID_FOLDER,      // ID_FILE_OPEN
+		SIID_STACK,       // ID_FILE_SAVE
+		SIID_PRINTER,     // ID_FILE_PRINT
+		SIID_INFO,        // ID_APP_ABOUT
+		SIID_WORLD,
+		SIID_DRIVECD,
+		SIID_DRIVENETDISABLED,
+		SIID_DRIVENET
+	};
+
+	CMFCToolBarImages* pImages = m_wndToolBar.GetImages();
+	pImages->Clear();
+	pImages->SetImageSize(CSize(SIZE, SIZE));
+
+	for (int i = 0; i < _countof(shellIDs); i++)
+	{
+		HICON hIcon = GetShellIcon(shellIDs[i]);
+		if (hIcon)
+		{
+			pImages->AddIcon(hIcon, TRUE);
+			DestroyIcon(hIcon);
+		}
+	}
+
+	m_wndToolBar.AdjustLayout();
+	m_wndToolBar.RedrawWindow();
+}
+
 
 BOOL CMainFrame::CreateSidePane()
 {
