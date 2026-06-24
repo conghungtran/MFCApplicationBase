@@ -132,6 +132,15 @@
     <Image Include="src\ui\resources\res\icon3.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="src\ui\resources\res\plus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Downloads\icons8-search-50.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Downloads\icons8-search-ios-17-outlined\icons8-search-500.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ui\resources\res\MFCProject.rc2">

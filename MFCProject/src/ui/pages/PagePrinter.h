@@ -18,7 +18,7 @@ public:
 	BOOL InitToolBar();
 
 	void InitControlList();
-
+	void AddSampleData();
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_PAGE_PRINTER };
@@ -37,7 +37,7 @@ public:
 	CCustomListCtrl m_listCtrl;
 
 	CImageList m_imageList;
-	CToolBar m_wndToolBar;
+	CToolBarCtrl m_wndToolBar;
 
 	CCustomButton m_btnAdd;
 	CCustomButton m_btnDelete;

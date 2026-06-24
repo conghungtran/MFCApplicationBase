@@ -239,11 +239,14 @@
     <ResourceCompile Include="src\ui\resources\MFCProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\icons8-search-50.png" />
+    <Image Include="..\..\..\..\Downloads\icons8-search-ios-17-outlined\icons8-search-500.png" />
     <Image Include="src\ui\resources\res\icon1.ico" />
     <Image Include="src\ui\resources\res\icon2.ico" />
     <Image Include="src\ui\resources\res\icon3.ico" />
     <Image Include="src\ui\resources\res\MFCProject.ico" />
     <Image Include="src\ui\resources\res\MFCProjectDoc.ico" />
+    <Image Include="src\ui\resources\res\plus.ico" />
     <Image Include="src\ui\resources\res\Toolbar.bmp" />
     <Image Include="src\ui\resources\res\toolbar1.bmp" />
     <Image Include="src\ui\resources\res\Toolbar256.bmp" />

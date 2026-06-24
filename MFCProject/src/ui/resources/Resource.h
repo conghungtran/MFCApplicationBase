@@ -21,12 +21,10 @@
 #define IDD_PAGE_PRINTER                315
 #define IDD_PAGE_TICKET                 316
 #define IDD_PAGE_FIRMWARE               317
-#define IDR_TOOLBAR_PRINTER             322
 #define IDI_ICON_DELETE1                325
 #define IDI_ICON_REFRESH1               326
 #define IDB_PNG1                        327
 #define IDB_PNG2                        330
-
 #define IDI_ICON_ADD1                   332
 #define IDI_ICON_ADD                    400
 #define IDI_ICON_DELETE                 401
@@ -47,10 +45,10 @@
 #define ID_VIEW_SIDE_PANE               2005
 #define ID_SETTINGS                     2006
 #define ID_LOGOUT                       2007
+#define IDC_TOOLBAR_PRINTER             2302
 #define ID_PAGE_PRINTER                 3001
 #define ID_PAGE_TICKET                  3002
 #define ID_PAGE_FIRMWARE                3003
-#define ID_BUTTON32773                  32773
 
 // Next default values for new objects
 // 
