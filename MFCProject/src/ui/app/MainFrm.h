@@ -17,11 +17,12 @@ public:
 
 // Operations
 public:
-
+	void OnFileOpen();
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = nullptr, CCreateContext* pContext = nullptr);
+	
 
 // Implementation
 public:
@@ -49,12 +50,11 @@ protected:
 	afx_msg void OnViewCustomize();
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 
-	afx_msg void OnPrinterAdd();
-	afx_msg void OnPrinterRemove();
-	afx_msg void OnTicketCreate();
+	afx_msg void OnPagePrinter();
+	afx_msg void OnPageTicket();
+	afx_msg void OnPageFirmware();
 
 
-	BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo) override;
 
 
 	DECLARE_MESSAGE_MAP()

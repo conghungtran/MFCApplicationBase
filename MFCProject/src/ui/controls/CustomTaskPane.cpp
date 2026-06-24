@@ -32,13 +32,13 @@ int CSidePanelPane::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CSidePanelPane::CreateButtons()
 {
     // --- Group: Printer Actions ---
-    m_btnAddPrinter.Create(_T("Add Printer"),
+    m_btnPagePrinter.Create(_T("Printer"),
         WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
-        CRect(12, 50, 188, 82), this, ID_PRINTER_ADD);
+        CRect(12, 50, 188, 82), this, ID_PAGE_PRINTER);
     
-    m_btnAddPrinter.SetFont(&m_font);
-    SetButtonColors(m_btnAddPrinter);
-    m_btnAddPrinter.SetColors(
+    m_btnPagePrinter.SetFont(&m_font);
+    SetButtonColors(m_btnPagePrinter);
+    m_btnPagePrinter.SetColors(
         RGB(76, 153, 0),   // normal
         RGB(55, 138, 221),   // hover
         RGB(15, 70, 130),   // pressed
@@ -47,24 +47,52 @@ void CSidePanelPane::CreateButtons()
 
     SHSTOCKICONINFO sii = { sizeof(sii) };
     SHGetStockIconInfo(SIID_DOCASSOC, SHGSI_ICON | SHGSI_SMALLICON, &sii);
-    m_btnAddPrinter.SetIcon(sii.hIcon);
+    m_btnPagePrinter.SetIcon(sii.hIcon);
 
-    m_btnRemovePrinter.Create(_T("Remove Printer"),
+    m_btnPageTicket.Create(_T("Ticket"),
         WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
-        CRect(12, 94, 188, 126), this, ID_PRINTER_REMOVE);
-    m_btnRemovePrinter.SetFont(&m_font);
+        CRect(12, 94, 188, 126), this, ID_PAGE_TICKET);
+    m_btnPageTicket.SetFont(&m_font);
 
-    SHSTOCKICONINFO sii2 = { sizeof(sii2) };
-    SHGetStockIconInfo(SIID_USERS, SHGSI_ICON | SHGSI_SMALLICON, &sii2);
-    m_btnRemovePrinter.SetIcon(sii2.hIcon);
-    SetButtonColors(m_btnRemovePrinter);
+    SHSTOCKICONINFO sii_ticket = { sizeof(sii_ticket) };
+    SHGetStockIconInfo(SIID_USERS, SHGSI_ICON | SHGSI_SMALLICON, &sii_ticket);
+    m_btnPageTicket.SetIcon(sii_ticket.hIcon);
+    SetButtonColors(m_btnPageTicket);
 
     // --- Group: Maintenance ---
-    m_btnCreateTicket.Create(_T("Create Ticket"),
+    m_btnPageFirmware.Create(_T("Firmware"),
         WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
-        CRect(12, 180, 188, 212), this, ID_TICKET_CREATE);
-    m_btnCreateTicket.SetFont(&m_font);
-    SetButtonColors(m_btnCreateTicket);
+        CRect(12, 180, 188, 212), this, ID_PAGE_FIRMWARE);
+    m_btnPageFirmware.SetFont(&m_font);
+    SetButtonColors(m_btnPageFirmware);
+
+    SHSTOCKICONINFO sii_firmware = { sizeof(sii_firmware) };
+    SHGetStockIconInfo(SIID_WORLD, SHGSI_ICON | SHGSI_SMALLICON, &sii_firmware);
+    m_btnPageFirmware.SetIcon(sii_firmware.hIcon);
+
+    // --- Bottom button: Settings ---
+    // Tạo ở vị trí tạm, OnSize sẽ đặt đúng vị trí
+    m_btnSettings.Create(_T("SETTING"),
+        WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
+        CRect(12, 0, 188, 32), this, ID_SETTINGS);
+    m_btnSettings.SetFont(&m_font);
+    SetButtonColors(m_btnSettings);
+
+    SHSTOCKICONINFO sii_setting  = { sizeof(sii_setting) };
+    SHGetStockIconInfo(SIID_DRIVEBD, SHGSI_ICON | SHGSI_SMALLICON, &sii_setting);
+    m_btnSettings.SetIcon(sii_setting.hIcon);
+
+    //--- Bottom button: Logout ---
+    //Tạo ở vị trí tạm, OnSize sẽ đặt đúng vị trí
+    m_btnLogout.Create(_T("LOGOUT"),
+        WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
+        CRect(12, 0, 188, 32), this, ID_LOGOUT);
+    m_btnLogout.SetFont(&m_font);
+    SetButtonColors(m_btnLogout);
+
+    SHSTOCKICONINFO sii_logout = { sizeof(sii_logout) };
+    SHGetStockIconInfo(SIID_MEDIABDROM, SHGSI_ICON | SHGSI_SMALLICON, &sii_logout);
+    m_btnLogout.SetIcon(sii_logout.hIcon);
 }
 
 void CSidePanelPane::SetButtonColors(CCustomButton& btn)
@@ -82,13 +110,35 @@ void CSidePanelPane::OnSize(UINT nType, int cx, int cy)
     CDockablePane::OnSize(nType, cx, cy);
 
     // Resize button theo chiều rộng pane
-    if (m_btnAddPrinter.GetSafeHwnd())
+    if (m_btnPagePrinter.GetSafeHwnd())
     {
         int w = cx - 24;  // margin 12px mỗi bên
-        m_btnAddPrinter.SetWindowPos(nullptr, 12, 50, w, 32, SWP_NOZORDER);
-        m_btnRemovePrinter.SetWindowPos(nullptr, 12, 94, w, 32, SWP_NOZORDER);
-        m_btnCreateTicket.SetWindowPos(nullptr, 12, 180, w, 32, SWP_NOZORDER);
+        m_btnPagePrinter.SetWindowPos(nullptr, 12, 50, w, 32, SWP_NOZORDER);
+        m_btnPageTicket.SetWindowPos(nullptr, 12, 94, w, 32, SWP_NOZORDER);
+        m_btnPageFirmware.SetWindowPos(nullptr, 12, 180, w, 32, SWP_NOZORDER);
     }
+
+    const int btnHeight = 32;
+    const int margin = 12;
+    const int gap = 8; // khoảng cách giữa 2 button
+
+    // Logout nằm sát đáy nhất
+    if (m_btnLogout.GetSafeHwnd())
+        m_btnLogout.SetWindowPos(nullptr,
+            margin,
+            cy - btnHeight - margin,
+            cx - margin * 2,
+            btnHeight,
+            SWP_NOZORDER);
+
+    // Settings nằm phía trên Logout
+    if (m_btnSettings.GetSafeHwnd())
+        m_btnSettings.SetWindowPos(nullptr,
+            margin,
+            cy - btnHeight * 2 - margin - gap,
+            cx - margin * 2,
+            btnHeight,
+            SWP_NOZORDER);
 }
 
 void CSidePanelPane::OnPaint()

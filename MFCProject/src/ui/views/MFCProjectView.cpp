@@ -28,7 +28,7 @@ BEGIN_MESSAGE_MAP(MFCProjectView, CFormView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &MFCProjectView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
-	ON_BN_CLICKED(IDC_BUTTON1, &MFCProjectView::OnBnClickedButton1)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // MFCProjectView construction/destruction
@@ -47,8 +47,8 @@ MFCProjectView::~MFCProjectView()
 void MFCProjectView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_BUTTON1, m_btnAddPrinter);
-	DDX_Control(pDX, IDC_EDIT1, m_editModel);
+	//DDX_Control(pDX, IDC_BUTTON1, m_btnAddPrinter);
+	//DDX_Control(pDX, IDC_EDIT1, m_editModel);
 }
 
 BOOL MFCProjectView::PreCreateWindow(CREATESTRUCT& cs)
@@ -65,18 +65,57 @@ void MFCProjectView::OnInitialUpdate()
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
 
-	m_btnAddPrinter.SetColors(
-		RGB(24, 95, 165),   // normal
-		RGB(55, 138, 221),   // hover
-		RGB(15, 70, 130),   // pressed
-		RGB(255, 255, 255)   // text
-	);
+	//m_btnAddPrinter.SetColors(
+	//	RGB(24, 95, 165),   // normal
+	//	RGB(55, 138, 221),   // hover
+	//	RGB(15, 70, 130),   // pressed
+	//	RGB(255, 255, 255)   // text
+	//);
 
-	m_editModel.SetPlaceholder(_T("Enter Model"));
-	m_editModel.SetBorderColor(RGB(0, 120, 215));
+	//m_editModel.SetPlaceholder(_T("Enter Model"));
+	//m_editModel.SetBorderColor(RGB(0, 120, 215));
+
+	CRect rect;
+	GetClientRect(&rect);
+
+	// Tạo các page — parent là View (this)
+	m_pagePrinter.Create(IDD_PAGE_PRINTER, this);
+	m_pagePrinter.MoveWindow(rect);
+
+	m_pageTicket.Create(IDD_PAGE_TICKET, this);
+	m_pageTicket.MoveWindow(rect);
+
+	m_pageFirmware.Create(IDD_PAGE_FIRMWARE, this);
+	m_pageFirmware.MoveWindow(rect);
+
+
+	// Hiện trang mặc định
+	m_pCurrentPage = nullptr;
+	SwitchPage(&m_pagePrinter);
 
 }
 
+void MFCProjectView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	CRect rect(0, 0, cx, cy);
+
+	if (m_pagePrinter.GetSafeHwnd())
+		m_pagePrinter.MoveWindow(rect);
+
+	if (m_pageTicket.GetSafeHwnd())
+		m_pageTicket.MoveWindow(rect);
+
+	if (m_pageFirmware.GetSafeHwnd())
+		m_pageFirmware.MoveWindow(rect);
+}
+
+
+void MFCProjectView::OnDraw(CDC* pDC)
+{
+	// Để trống — các page dialog tự vẽ
+}
 
 // MFCProjectView printing
 
@@ -92,6 +131,14 @@ BOOL MFCProjectView::OnPreparePrinting(CPrintInfo* pInfo)
 {
 	// default preparation
 	return DoPreparePrinting(pInfo);
+}
+void MFCProjectView::SwitchPage(CDialog* pNewPage)
+{
+	if (m_pCurrentPage)
+		m_pCurrentPage->ShowWindow(SW_HIDE);
+
+	m_pCurrentPage = pNewPage;
+	m_pCurrentPage->ShowWindow(SW_SHOW);
 }
 
 void MFCProjectView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)

@@ -17,6 +17,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include <iostream>
 
 // CMFCProjectDoc
 
@@ -32,6 +33,18 @@ CMFCProjectDoc::CMFCProjectDoc() noexcept
 {
 	// TODO: add one-time construction code here
 
+}
+
+BOOL CMFCProjectDoc::OnOpenDocument(LPCTSTR lpszPathName)
+{
+	std::cout << "Open files Documents \n";
+	if (!CDocument::OnOpenDocument(lpszPathName))
+		return FALSE;
+
+	// Load dữ liệu từ file vào model
+	// m_printerManager->LoadFromFile(lpszPathName);
+
+	return TRUE;
 }
 
 CMFCProjectDoc::~CMFCProjectDoc()

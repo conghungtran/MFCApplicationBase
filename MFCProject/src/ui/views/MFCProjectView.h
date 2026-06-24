@@ -5,7 +5,10 @@
 #pragma once
 #include "CCustomButton.h"
 #include "CCustomEdit.h"
-
+#include "PagePrinter.h"
+#include "PageTicket.h"
+#include "MFCProjectDoc.h"
+#include "PageFirmware.h"
 
 class MFCProjectView : public CFormView
 {
@@ -22,12 +25,19 @@ public:
 public:
 	CMFCProjectDoc* GetDocument() const;
 
+	PagePrinter		m_pagePrinter;
+	PageTicket		m_pageTicket;
+	PageFirmware    m_pageFirmware;
+	CDialog* m_pCurrentPage;
+
 // Operations
 public:
 
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	void SwitchPage(CDialog* pNewPage);
+	void OnSize(UINT nType, int cx, int cy);
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual void OnInitialUpdate(); // called first time after construct
@@ -35,6 +45,8 @@ protected:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnPrint(CDC* pDC, CPrintInfo* pInfo);
+	virtual void OnDraw(CDC* pDC);
+	
 
 // Implementation
 public:

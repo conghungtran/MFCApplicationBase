@@ -10,6 +10,8 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include <iostream>
+#include "MFCProjectView.h"
 
 // CMainFrame
 
@@ -22,13 +24,14 @@ const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_COMMAND(ID_PRINTER_ADD, &CMainFrame::OnPrinterAdd)
-	ON_COMMAND(ID_PRINTER_REMOVE, &CMainFrame::OnPrinterRemove)
-	ON_COMMAND(ID_TICKET_CREATE, &CMainFrame::OnTicketCreate)
+	ON_COMMAND(ID_PAGE_PRINTER, &CMainFrame::OnPagePrinter)
+	ON_COMMAND(ID_PAGE_TICKET, &CMainFrame::OnPageTicket)
+	ON_COMMAND(ID_PAGE_FIRMWARE, &CMainFrame::OnPageFirmware)
+
 
 	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
-
-
+	
+	ON_COMMAND(ID_FILE_OPEN, &CMainFrame::OnFileOpen)
 
 END_MESSAGE_MAP()
 
@@ -42,19 +45,39 @@ static UINT indicators[] =
 
 // CMainFrame construction/destruction
 
-void CMainFrame::OnPrinterAdd()
+void CMainFrame::OnFileOpen()
 {
-	TRACE0("OnPrinterAdd called!\n");  // xem trong Output window của VS
-	AfxMessageBox(_T("Add Printer!"));
+	std::cout << "Open files \n";
+	CFileDialog dlg(
+		TRUE,           // TRUE = Open dialog
+		_T("txt"),      // Default extension
+		nullptr,
+		OFN_FILEMUSTEXIST | OFN_HIDEREADONLY,
+		_T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||")
+	);
+
+	if (dlg.DoModal() == IDOK)
+	{
+		CString strPath = dlg.GetPathName();
+		// Xử lý file path ở đây
+		AfxGetApp()->OpenDocumentFile(strPath);
+	}
 }
 
-BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+void CMainFrame::OnPagePrinter()
 {
-	if (nID == ID_PRINTER_ADD)  // <-- đặt breakpoint ở dòng này
-		int x = 0;              // dòng dummy để breakpoint dừng được
+	//TRACE0("OnPrinterAdd called!\n");  // xem trong Output window của VS
+	//AfxMessageBox(_T("Add Printer!"));
 
-	return CFrameWndEx::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	MFCProjectView* pView = (MFCProjectView*)pFrame->GetActiveView();
+
+	if (pView)
+		pView->SwitchPage(&pView->m_pagePrinter);
+
 }
+
+
 CMainFrame::CMainFrame() noexcept
 {
 	// TODO: add member initialization code here
@@ -64,10 +87,24 @@ CMainFrame::~CMainFrame()
 {
 }
 
-void CMainFrame::OnPrinterRemove() { 
-	AfxMessageBox(_T("Remove Printer")); 
+void CMainFrame::OnPageTicket() { 
+	//AfxMessageBox(_T("Remove Printer")); 
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	MFCProjectView* pView = (MFCProjectView*)pFrame->GetActiveView();
+
+	if (pView)
+		pView->SwitchPage(&pView->m_pageTicket);
 }
-void CMainFrame::OnTicketCreate() { AfxMessageBox(_T("Create Ticket")); }
+void CMainFrame::OnPageFirmware() 
+{
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	MFCProjectView* pView = (MFCProjectView*)pFrame->GetActiveView();
+
+	if (pView)
+		pView->SwitchPage(&pView->m_pageFirmware);
+}
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -119,11 +156,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 
-	//if (!CreateTaskPane())
-	//{
-	//	TRACE0("Failed to create tasks pane\n");
-	//	return -1;
-	//}
+	if (!CreateTaskPane())
+	{
+		TRACE0("Failed to create tasks pane\n");
+		return -1;
+	}
 
 	if (!CreateSidePane())
 	{
@@ -193,6 +230,7 @@ BOOL CMainFrame::CreateSidePane()
 	m_wndSidePane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndSidePane, AFX_IDW_DOCKBAR_LEFT);
 
+
 	return TRUE;
 }
 
@@ -211,7 +249,7 @@ BOOL CMainFrame::CreateTaskPane()
 		return FALSE;
 	}
 
-	TRACE1("ID_PRINTER_ADD = %d\n", ID_PRINTER_ADD);
+	TRACE1("ID_PRINTER_ADD = %d\n", ID_PAGE_PRINTER);
 	m_wndTasksPane.SetActiveInGroup(0);
 
 	// Cho phép dock
@@ -233,15 +271,13 @@ BOOL CMainFrame::CreateTaskPane()
 	//	&m_wndTasksPane,
 	//	ID_PRINTER_ADD);
 
-	//// Group Bot
-	//int nGroupBot = m_wndTasksPane.AddGroup(_T("Bot Actions"), 1, 0);
-	//m_wndTasksPane.AddTask(nGroupBot, _T("Add Printer"),
-	//	0, 0);
-	//m_wndTasksPane.AddTask(nGroupBot, _T("Remove Printer"),
-	//	0, 0);
+	// Group Bot
+	int nGroupBot = m_wndTasksPane.AddGroup(_T("Bot Actions"), 1, 0);
+	m_wndTasksPane.AddTask(nGroupBot, _T("Logout"),
+		0, 0);
 
-	int nTask = m_wndTasksPane.AddTask(nGroup, _T("Add Printer"), -1, ID_PRINTER_ADD);
-	TRACE1("nTask = %d\n", nTask);    // phải >= 0
+	//int nTask = m_wndTasksPane.AddTask(nGroup, _T("Add Printer"), -1, ID_PRINTER_ADD);
+	//TRACE1("nTask = %d\n", nTask);    // phải >= 0
 
 
 	//m_wndTasksPane.AddTask(nGroup, _T("Remove Printer"),

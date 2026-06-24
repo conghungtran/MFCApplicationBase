@@ -1,4 +1,4 @@
-
+﻿
 // MFCProject.cpp : Defines the class behaviors for the application.
 //
 
@@ -15,6 +15,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include <iostream>
 
 
 // CMFCProjectApp
@@ -60,8 +61,24 @@ CMFCProjectApp theApp;
 
 // CMFCProjectApp initialization
 
+
 BOOL CMFCProjectApp::InitInstance()
 {
+
+	// Tạo console window
+	if (!AllocConsole()) {
+		// Xử lý lỗi nếu cần
+	}
+
+	// Chuyển hướng stdout/stderr đến console
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+	freopen_s(&fp, "CONIN$", "r", stdin);
+
+	// Bây giờ có thể dùng cout, printf, v.v.
+	std::cout << "Welcome to MFC: \n" << std::endl;
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.

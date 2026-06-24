@@ -10,9 +10,13 @@ public:
     virtual ~CSidePanelPane();
 
 protected:
-    CCustomButton m_btnAddPrinter;
-    CCustomButton m_btnRemovePrinter;
-    CCustomButton m_btnCreateTicket;
+    CCustomButton m_btnPagePrinter;
+    CCustomButton m_btnPageTicket;
+    CCustomButton m_btnPageFirmware;
+
+    CCustomButton m_btnSettings;
+    CCustomButton m_btnLogout;
+
     CFont         m_font;
 
     void CreateButtons();

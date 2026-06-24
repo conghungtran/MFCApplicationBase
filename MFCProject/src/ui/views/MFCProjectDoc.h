@@ -17,6 +17,7 @@ public:
 
 // Operations
 public:
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 
 // Overrides
 public:
