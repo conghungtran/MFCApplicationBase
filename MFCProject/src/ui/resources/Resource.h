@@ -21,6 +21,20 @@
 #define IDD_PAGE_PRINTER                315
 #define IDD_PAGE_TICKET                 316
 #define IDD_PAGE_FIRMWARE               317
+#define IDR_TOOLBAR_PRINTER             322
+#define IDI_ICON_DELETE1                325
+#define IDI_ICON_REFRESH1               326
+#define IDB_PNG1                        327
+#define IDB_PNG2                        330
+
+#define IDI_ICON_ADD1                   332
+#define IDI_ICON_ADD                    400
+#define IDI_ICON_DELETE                 401
+#define LR_DEFAULTCOLOR                 402
+#define IDI_ICON_REFRESH                403
+#define ID_ADD_PRINTER                  405
+#define ID_DELETE_PRINTER               406
+#define ID_REFRESH                      407
 #define IDC_BUTTON_DRAWER               1000
 #define IDC_BUTTON1                     1001
 #define ID_VIEW_CLASSVIEW               1002
@@ -36,13 +50,14 @@
 #define ID_PAGE_PRINTER                 3001
 #define ID_PAGE_TICKET                  3002
 #define ID_PAGE_FIRMWARE                3003
+#define ID_BUTTON32773                  32773
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        317
-#define _APS_NEXT_COMMAND_VALUE         32771
+#define _APS_NEXT_RESOURCE_VALUE        333
+#define _APS_NEXT_COMMAND_VALUE         32774
 #define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

@@ -97,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\res\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\res\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,7 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\res\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,7 +181,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\resources\res\;$(ProjectDir)src\ui\resources\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -239,9 +239,13 @@
     <ResourceCompile Include="src\ui\resources\MFCProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="src\ui\resources\res\icon1.ico" />
+    <Image Include="src\ui\resources\res\icon2.ico" />
+    <Image Include="src\ui\resources\res\icon3.ico" />
     <Image Include="src\ui\resources\res\MFCProject.ico" />
     <Image Include="src\ui\resources\res\MFCProjectDoc.ico" />
     <Image Include="src\ui\resources\res\Toolbar.bmp" />
+    <Image Include="src\ui\resources\res\toolbar1.bmp" />
     <Image Include="src\ui\resources\res\Toolbar256.bmp" />
     <Image Include="src\ui\resources\res\userimages.bmp" />
   </ItemGroup>

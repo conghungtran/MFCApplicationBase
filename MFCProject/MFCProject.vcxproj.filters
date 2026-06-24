@@ -120,6 +120,18 @@
     <Image Include="src\ui\resources\res\Toolbar256.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="src\ui\resources\res\toolbar1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\ui\resources\res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\ui\resources\res\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\ui\resources\res\icon3.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ui\resources\res\MFCProject.rc2">

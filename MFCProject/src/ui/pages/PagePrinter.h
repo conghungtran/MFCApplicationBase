@@ -1,6 +1,7 @@
 #pragma once
 #include "afxdialogex.h"
 #include "CCustomListCtrl.h"
+#include "CCustomButton.h"
 
 
 // CPagePrinter dialog
@@ -12,6 +13,11 @@ class PagePrinter : public CDialogEx
 public:
 	PagePrinter(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~PagePrinter();
+
+	
+	BOOL InitToolBar();
+
+	void InitControlList();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -29,4 +35,11 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CCustomListCtrl m_listCtrl;
+
+	CImageList m_imageList;
+	CToolBar m_wndToolBar;
+
+	CCustomButton m_btnAdd;
+	CCustomButton m_btnDelete;
+	CCustomButton m_btnRefresh;
 };
