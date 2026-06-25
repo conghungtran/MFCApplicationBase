@@ -200,7 +200,7 @@ BOOL PagePrinter::OnInitDialog()
     // ============================================================
     CRect clientRect;
     GetClientRect(&clientRect);
-
+    
     // Tạo toolbar chiếm toàn bộ chiều rộng, cao 52px
     m_wndToolBar.Create(
         WS_CHILD | WS_VISIBLE | CCS_TOP | TBSTYLE_FLAT | TBSTYLE_TOOLTIPS,
@@ -208,23 +208,8 @@ BOOL PagePrinter::OnInitDialog()
         this,
         IDC_TOOLBAR_PRINTER
     );
-
     // Image list
     m_imageList.Create(40, 40, ILC_COLOR32 | ILC_MASK, 4, 4);
-
-
-
-
-    //HICON hIconDelete = (HICON)LoadImage(
-    //    NULL, IDI_ERROR, IMAGE_ICON, 40, 40, LR_SHARED);
-    //HICON hIconRefresh = (HICON)LoadImage(
-    //    NULL, IDI_INFORMATION, IMAGE_ICON, 40, 40, LR_SHARED);
-   
-    //HICON hIconAdd = (HICON)LoadImage(
-    //    AfxGetInstanceHandle(),
-    //    MAKEINTRESOURCE(IDI_ICON_ADD1),
-    //    IMAGE_ICON, 40, 40, LR_DEFAULTCOLOR
-    //);
 
     HICON hIconAdd = GetShellIcon(SIID_PRINTER);
     HICON hIconDelete = GetShellIcon(SIID_DELETE);
@@ -279,7 +264,6 @@ BOOL PagePrinter::OnInitDialog()
     );
 
     m_listCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-
     AddSampleData();
 
     return TRUE;

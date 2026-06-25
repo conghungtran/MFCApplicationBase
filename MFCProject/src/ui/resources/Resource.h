@@ -21,6 +21,10 @@
 #define IDD_PAGE_PRINTER                315
 #define IDD_PAGE_TICKET                 316
 #define IDD_PAGE_FIRMWARE               317
+
+#define WM_SEARCH						3181
+#define IDC_SEARCH						3182
+
 #define IDI_ICON_DELETE1                325
 #define IDI_ICON_REFRESH1               326
 #define IDB_PNG1                        327
@@ -36,8 +40,10 @@
 #define IDC_BUTTON_DRAWER               1000
 #define IDC_BUTTON1                     1001
 #define ID_VIEW_CLASSVIEW               1002
-#define IDC_EDIT1                       1002
 #define ID_VIEW_TASKS_PANE              1003
+#define IDC_EDIT_SEARCH                       1004
+#define ID_FIND_PRINTER                       1005
+
 #define IDC_MFCEDITBROWSE1              1008
 #define IDC_LIST_PRINTER                1009
 #define ID_PRINTER_REMOVE               2003

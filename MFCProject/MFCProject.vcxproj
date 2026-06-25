@@ -200,6 +200,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ui\controls\CSearchCtrl.h" />
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h" />
     <ClInclude Include="src\ui\pages\PageFirmware.h" />
     <ClInclude Include="src\ui\pages\PageTicket.h" />
@@ -217,6 +218,7 @@
     <ClInclude Include="src\ui\views\MFCProjectView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\controls\CSearchCtrl.cpp" />
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp" />
     <ClCompile Include="src\ui\pages\PageFirmware.cpp" />
     <ClCompile Include="src\ui\pages\PageTicket.cpp" />
