@@ -30,4 +30,7 @@ protected:
 public:
 	CSearchCtrl m_search;
 	CBrush m_brBackground;
+
+public:
+
 };

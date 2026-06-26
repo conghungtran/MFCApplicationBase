@@ -65,4 +65,6 @@ HBRUSH PageTicket::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     return hbr;
 }
 
+
+
 // PageTicket message handlers

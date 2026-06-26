@@ -43,4 +43,9 @@ public:
 	CCustomButton m_btnAdd;
 	CCustomButton m_btnDelete;
 	CCustomButton m_btnRefresh;
+
+public:
+	void StretchSeparators();
+
+
 };

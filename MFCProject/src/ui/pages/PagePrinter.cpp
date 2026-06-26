@@ -40,7 +40,7 @@ void PagePrinter::OnSize(UINT nType, int cx, int cy)
 
     // Resize toolbar
     m_wndToolBar.SetWindowPos(NULL, 0, 0, cx, 52, SWP_NOZORDER);
-
+    StretchSeparators();
     // Reposition toolbar trước
     RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
 
@@ -49,10 +49,15 @@ void PagePrinter::OnSize(UINT nType, int cx, int cy)
     m_wndToolBar.GetWindowRect(&toolbarRect);
     ScreenToClient(&toolbarRect);
 
-    int top = toolbarRect.bottom + 5;
+    m_listCtrl.SetWindowPos(nullptr,
+        10, toolbarRect.bottom + 5,
+        cx - 20, cy - toolbarRect.bottom - 15,
+        SWP_NOZORDER);
 
-    // Resize list bên dưới
-    m_listCtrl.SetWindowPos(NULL, 10, 57, cx - 20, cy - 67, SWP_NOZORDER);
+    //int top = toolbarRect.bottom + 5;
+
+    //// Resize list bên dưới
+    //m_listCtrl.SetWindowPos(NULL, 10, 57, cx - 20, cy - 67, SWP_NOZORDER);
 }
 
 void PagePrinter::DoDataExchange(CDataExchange* pDX)
@@ -218,6 +223,8 @@ BOOL PagePrinter::OnInitDialog()
     if (hIconAdd)     m_imageList.Add(hIconAdd);
     if (hIconDelete)  m_imageList.Add(hIconDelete);
     if (hIconRefresh) m_imageList.Add(hIconRefresh);
+    if (hIconRefresh) m_imageList.Add(hIconRefresh);
+    if (hIconRefresh) m_imageList.Add(hIconRefresh);
 
     m_wndToolBar.SetImageList(&m_imageList);
 
@@ -225,8 +232,10 @@ BOOL PagePrinter::OnInitDialog()
     m_wndToolBar.SetBitmapSize(CSize(40, 40));
     m_wndToolBar.SetButtonSize(CSize(52, 52));
 
-    // Thêm buttons
-    TBBUTTON buttons[3] = {};
+    // Thêm buttons — có separator ở giữa
+    TBBUTTON buttons[7] = {};
+
+    // ── TRÁI ──
     buttons[0].iBitmap = 0;
     buttons[0].idCommand = ID_ADD_PRINTER;
     buttons[0].fsState = TBSTATE_ENABLED;
@@ -237,13 +246,40 @@ BOOL PagePrinter::OnInitDialog()
     buttons[1].fsState = TBSTATE_ENABLED;
     buttons[1].fsStyle = TBSTYLE_BUTTON;
 
-    buttons[2].iBitmap = 2;
-    buttons[2].idCommand = ID_REFRESH;
+    // ── SPACER trái → giữa ──
+    buttons[2].iBitmap = -1;
+    buttons[2].idCommand = 0;
     buttons[2].fsState = TBSTATE_ENABLED;
-    buttons[2].fsStyle = TBSTYLE_BUTTON;
+    buttons[2].fsStyle = TBSTYLE_SEP;
 
-    m_wndToolBar.AddButtons(3, buttons);
+    // ── GIỮA ──
+    buttons[3].iBitmap = 2;
+    buttons[3].idCommand = ID_REFRESH;
+    buttons[3].fsState = TBSTATE_ENABLED;
+    buttons[3].fsStyle = TBSTYLE_BUTTON;
+
+    // ── SPACER giữa → phải ──
+    buttons[4].iBitmap = -1;
+    buttons[4].idCommand = 0;
+    buttons[4].fsState = TBSTATE_ENABLED;
+    buttons[4].fsStyle = TBSTYLE_SEP;
+
+    // ── PHẢI ──
+    buttons[5].iBitmap = 3;
+    buttons[5].idCommand = ID_APP_ABOUT;
+    buttons[5].fsState = TBSTATE_ENABLED;
+    buttons[5].fsStyle = TBSTYLE_BUTTON;
+
+    buttons[6].iBitmap = 4;
+    buttons[6].idCommand = ID_HELP;
+    buttons[6].fsState = TBSTATE_ENABLED;
+    buttons[6].fsStyle = TBSTYLE_BUTTON;
+
+    m_wndToolBar.AddButtons(7, buttons);
     m_wndToolBar.AutoSize();
+
+    // Gọi SAU AutoSize
+    StretchSeparators();
 
     // ============================================================
     // 2. TẠO LIST CONTROL bên dưới toolbar
@@ -318,6 +354,56 @@ LRESULT PagePrinter::OnDeleteItem(WPARAM wParam, LPARAM lParam)
         m_listCtrl.DeleteItem(nRow);
     }
     return 0;
+}
+
+
+void PagePrinter::StretchSeparators()
+{
+    CRect rcToolbar;
+    m_wndToolBar.GetClientRect(&rcToolbar);
+    int totalWidth = rcToolbar.Width();
+    if (totalWidth <= 0) return;
+
+    // Tính tổng width button thật
+    int btnTotalWidth = 0;
+    int separatorCount = 0;
+    int count = m_wndToolBar.GetButtonCount();
+
+    for (int i = 0; i < count; i++)
+    {
+        TBBUTTON tb = {};
+        m_wndToolBar.GetButton(i, &tb);
+
+        if (tb.fsStyle & TBSTYLE_SEP)
+            separatorCount++;
+        else
+        {
+            CRect rc;
+            m_wndToolBar.GetItemRect(i, &rc);
+            btnTotalWidth += rc.Width();
+        }
+    }
+
+    if (separatorCount == 0) return;
+
+    int separatorWidth = max((totalWidth - btnTotalWidth) / separatorCount, 8);
+
+    for (int i = 0; i < count; i++)
+    {
+        TBBUTTON tb = {};
+        m_wndToolBar.GetButton(i, &tb);
+
+        if (tb.fsStyle & TBSTYLE_SEP)
+        {
+            TBBUTTONINFO tbi = {};
+            tbi.cbSize = sizeof(tbi);
+            tbi.dwMask = TBIF_SIZE | TBIF_BYINDEX;  // BYINDEX = dùng index
+            tbi.cx = (WORD)separatorWidth;
+            m_wndToolBar.SetButtonInfo(i, &tbi);    // truyền index i
+        }
+    }
+
+    m_wndToolBar.AutoSize();
 }
 
 //BOOL PagePrinter::InitToolBar() {
