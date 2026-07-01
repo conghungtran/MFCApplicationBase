@@ -1,6 +1,3 @@
-// PagePrinter.cpp : implementation file
-//
-
 #include "pch.h"
 #include "afxdialogex.h"
 #include "PagePrinter.h"
@@ -53,10 +50,16 @@ void PagePrinter::OnSize(UINT nType, int cx, int cy)
         cx - 20, cy - toolbarRect.bottom - 15,
         SWP_NOZORDER);
 
-    //int top = toolbarRect.bottom + 5;
+    const int TOOLBAR_H = 56;
+    const int PAGINATION_H = 44;
 
-    //// Resize list bên dưới
-    //m_listCtrl.SetWindowPos(NULL, 10, 57, cx - 20, cy - 67, SWP_NOZORDER);
+    m_wndToolBar.MoveWindow(0, 0, cx, TOOLBAR_H);
+    m_listCtrl.MoveWindow(0, TOOLBAR_H, cx, cy - TOOLBAR_H - PAGINATION_H);
+    m_pagination.MoveWindow(0, cy - PAGINATION_H, cx, PAGINATION_H);
+    int top = toolbarRect.bottom + 5;
+
+    // Resize list bên dưới
+    m_listCtrl.SetWindowPos(NULL, 10, 57, cx - 20, cy - 67, SWP_NOZORDER);
 }
 
 void PagePrinter::DoDataExchange(CDataExchange* pDX)
@@ -64,10 +67,47 @@ void PagePrinter::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 }
 
+void PagePrinter::RefreshTotalCount()
+{
+    // //Gọi repository đếm tổng
+    //m_nTotalRecords = m_printerRepo->Count();
+
+    //int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    //m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
+}
+
+void PagePrinter::LoadPage(int nPage)
+{
+    //m_nCurrentPage = nPage;
+    //int offset = (nPage - 1) * m_nPageSize;
+
+    //// Gọi repository với LIMIT/OFFSET
+    //auto printers = m_printerRepo->GetPaged(offset, m_nPageSize);
+
+    //m_listCtrl.DeleteAllItems();
+    //int row = 0;
+    //for (const auto& p : printers)
+    //{
+    //    m_listCtrl.InsertItem(row, p.GetName().c_str());
+    //    m_listCtrl.SetItemText(row, 1, p.GetStatus().c_str());
+    //    m_listCtrl.SetItemText(row, 2, p.GetIP().c_str());
+    //    row++;
+    //}
+}
+
+LRESULT PagePrinter::OnPageChanged(WPARAM wParam, LPARAM lParam)
+{
+    int nPage = (int)wParam;
+    LoadPage(nPage);
+    return 0;
+}
+
 
 BEGIN_MESSAGE_MAP(PagePrinter, CDialogEx)
 	ON_MESSAGE(WM_EDIT_ITEM, &PagePrinter::OnEditItem)
 	ON_MESSAGE(WM_DELETE_ITEM, &PagePrinter::OnDeleteItem)
+    ON_MESSAGE(WM_PAGE_CHANGED, &PagePrinter::OnPageChanged)
+
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
@@ -93,6 +133,8 @@ BOOL PagePrinter::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
+    const int TOOLBAR_H = 56;
+    const int PAGINATION_H = 44;
 
 
     // ============================================================
@@ -127,9 +169,14 @@ BOOL PagePrinter::OnInitDialog()
         listRect, this, IDC_LIST_PRINTER
     );
 
+    // Create Pagging
+    m_pagination.Create(this, ID_PAGINATION,
+        CRect(0, clientRect.Height() - PAGINATION_H, clientRect.Width(), clientRect.Height()));
+
     m_listCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
     AddSampleData();
-
+    RefreshTotalCount();
+    LoadPage(1);
     return TRUE;
 }
 
@@ -192,95 +239,6 @@ LRESULT PagePrinter::OnDeleteItem(WPARAM wParam, LPARAM lParam)
     }
     return 0;
 }
-
-
-
-//BOOL PagePrinter::InitToolBar() {
-//    
-//    // Tạo toolbar
-//    if (!m_wndToolBar.Create(this, WS_CHILD | WS_VISIBLE | CBRS_TOP,
-//        AFX_IDW_TOOLBAR))
-//    {
-//        TRACE0("Failed to create toolbar\n");
-//        return FALSE;
-//    }
-//
-//    // Tạo image list
-//    m_imageList.Create(16, 16, ILC_COLOR24, 4, 4);
-//
-//    // Load icon từ resource
-//    HICON hIconAdd = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON_ADD1));
-//    HICON hIconDelete = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON_DELETE1));
-//    HICON hIconRefresh = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON_REFRESH1));
-//
-//    // Thêm icon vào image list
-//    m_imageList.Add(hIconAdd);
-//    m_imageList.Add(hIconDelete);
-//    m_imageList.Add(hIconRefresh);
-//
-//    // Gán image list cho toolbar
-//    m_wndToolBar.GetToolBarCtrl().SetImageList(&m_imageList);
-//
-//    // Thêm các nút vào toolbar
-//    TBBUTTON buttons[3] = {};
-//    buttons[0].iBitmap = 0;  // Index trong image list
-//    buttons[0].idCommand = ID_ADD_PRINTER;
-//    buttons[0].fsState = TBSTATE_ENABLED;
-//    buttons[0].fsStyle = TBSTYLE_BUTTON;
-//
-//    buttons[1].iBitmap = 1;
-//    buttons[1].idCommand = ID_DELETE_PRINTER;
-//    buttons[1].fsState = TBSTATE_ENABLED;
-//    buttons[1].fsStyle = TBSTYLE_BUTTON;
-//
-//    buttons[2].iBitmap = 2;
-//    buttons[2].idCommand = ID_REFRESH;
-//    buttons[2].fsState = TBSTATE_ENABLED;
-//    buttons[2].fsStyle = TBSTYLE_BUTTON;
-//
-//    // 1. Set size TRƯỚC
-//    m_wndToolBar.GetToolBarCtrl().SetBitmapSize(CSize(24, 24));
-//    m_wndToolBar.GetToolBarCtrl().SetButtonSize(CSize(36, 36));
-//
-//    // 2. Thêm button SAU
-//    m_wndToolBar.GetToolBarCtrl().AddButtons(3, buttons);
-//
-//    // 3. Reposition cuối cùng
-//    RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
-//}
-//
-//
-//void PagePrinter::InitControlList() {
-//
-//    // Control List
-//
-//    CRect rect;
-//    GetClientRect(&rect);
-//    rect.DeflateRect(10, 10);
-//
-//    // Tạo list ctrl bằng code, không cần SubclassDlgItem
-//    m_listCtrl.Create(
-//        WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT,
-//        rect, this, IDC_LIST_PRINTER
-//    );
-//
-//    // Subclass list control từ resource (IDC_LIST_PRINTER)
-//    //m_listCtrl.SubclassDlgItem(IDC_LIST_PRINTER, this);
-//    m_listCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-//
-//    // Thêm cột
-//    m_listCtrl.InsertColumn(COL_NAME, _T("Printer Name"), LVCFMT_LEFT, 200);
-//    m_listCtrl.InsertColumn(COL_STATUS, _T("Status"), LVCFMT_LEFT, 120);
-//    m_listCtrl.InsertColumn(COL_ACTION, _T("Action"), LVCFMT_LEFT, 150);
-//
-//    // Thêm dữ liệu mẫu
-//    int idx = m_listCtrl.InsertItem(0, _T("HP LaserJet 1020"));
-//    m_listCtrl.SetItemText(idx, COL_STATUS, _T("Online"));
-//
-//    idx = m_listCtrl.InsertItem(1, _T("Canon LBP2900"));
-//    m_listCtrl.SetItemText(idx, COL_STATUS, _T("Offline"));
-//}
-//
 
 
 // PagePrinter message handlers

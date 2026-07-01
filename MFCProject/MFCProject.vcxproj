@@ -200,6 +200,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ui\controls\CPaginationBar.h" />
     <ClInclude Include="src\ui\controls\BookPageToolBar.h" />
     <ClInclude Include="src\ui\controls\CSearchCtrl.h" />
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\ui\views\MFCProjectView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\controls\CPaginationBar.cpp" />
     <ClCompile Include="src\ui\controls\BookPageToolBar.cpp" />
     <ClCompile Include="src\ui\controls\CSearchCtrl.cpp" />
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp" />

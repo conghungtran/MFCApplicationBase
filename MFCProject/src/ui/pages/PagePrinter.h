@@ -51,5 +51,14 @@ protected:
 
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	CPaginationBar  m_pagination;
 
+	// Phân trang
+	int m_nCurrentPage = 1;
+	int m_nPageSize = 20;
+	int m_nTotalRecords = 0;
+
+	afx_msg LRESULT OnPageChanged(WPARAM wParam, LPARAM lParam);
+	void LoadPage(int nPage);
+	void RefreshTotalCount();
 };

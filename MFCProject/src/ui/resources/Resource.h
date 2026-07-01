@@ -60,7 +60,9 @@
 #define ID_BTN_DELETE                      3184
 
 #define ID_BTN_REFRESH                      3185
-#define WM_PAGE_CHANGED                      3186
+#define ID_PAGINATION                      3187
+#define WM_PAGE_CHANGED                      3188
+
 
 
 // Next default values for new objects
