@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 // MFCProjectView construction/destruction
 
 MFCProjectView::MFCProjectView() noexcept
-	: CFormView(IDD_TESTPROJECT_FORM)
+	: CFormView(IDD_MFCPROJECT_FORM)
 {
 	// TODO: add construction code here
 
@@ -79,7 +79,7 @@ void MFCProjectView::OnInitialUpdate()
 	GetClientRect(&rect);
 
 	// Tạo các page — parent là View (this)
-	m_pagePrinter.Create(IDD_PAGE_PRINTER, this);
+	m_pagePrinter.Create(IDD_PAGE_BOOK, this);
 	m_pagePrinter.MoveWindow(rect);
 
 	m_pageTicket.Create(IDD_PAGE_TICKET, this);

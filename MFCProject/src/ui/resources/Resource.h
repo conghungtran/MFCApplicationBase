@@ -4,7 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
-#define IDD_TESTPROJECT_FORM            101
+#define IDD_MFCPROJECT_FORM             101
 #define IDR_POPUP_EDIT                  119
 #define ID_STATUSBAR_PANE1              120
 #define ID_STATUSBAR_PANE2              121
@@ -18,13 +18,9 @@
 #define IDR_MFCProjectTYPE              130
 #define IDS_EDIT_MENU                   306
 #define IDD_DIALOG_DRAWER               310
-#define IDD_PAGE_PRINTER                315
+#define IDD_PAGE_BOOK                   315
 #define IDD_PAGE_TICKET                 316
 #define IDD_PAGE_FIRMWARE               317
-
-#define WM_SEARCH						3181
-#define IDC_SEARCH						3182
-
 #define IDI_ICON_DELETE1                325
 #define IDI_ICON_REFRESH1               326
 #define IDB_PNG1                        327
@@ -41,9 +37,8 @@
 #define IDC_BUTTON1                     1001
 #define ID_VIEW_CLASSVIEW               1002
 #define ID_VIEW_TASKS_PANE              1003
-#define IDC_EDIT_SEARCH                       1004
-#define ID_FIND_PRINTER                       1005
-
+#define IDC_EDIT_SEARCH                 1004
+#define ID_FIND_PRINTER                 1005
 #define IDC_MFCEDITBROWSE1              1008
 #define IDC_LIST_PRINTER                1009
 #define ID_PRINTER_REMOVE               2003
@@ -55,6 +50,16 @@
 #define ID_PAGE_PRINTER                 3001
 #define ID_PAGE_TICKET                  3002
 #define ID_PAGE_FIRMWARE                3003
+#define WM_SEARCH                       3181
+#define IDC_SEARCH                      3182
+
+
+#define ID_SEARCH_CTRL                      3183
+#define ID_BTN_ADD                      3184
+#define ID_BTN_DELETE                      3184
+
+#define ID_BTN_REFRESH                      3182
+
 
 // Next default values for new objects
 // 

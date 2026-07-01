@@ -2,6 +2,7 @@
 #include "afxdialogex.h"
 #include "CCustomListCtrl.h"
 #include "CCustomButton.h"
+#include "BookPageToolBar.h"
 
 
 // CPagePrinter dialog
@@ -38,14 +39,16 @@ public:
 	CCustomListCtrl m_listCtrl;
 
 	CImageList m_imageList;
-	CToolBarCtrl m_wndToolBar;
+	BookPageToolBar m_wndToolBar;
 
 	CCustomButton m_btnAdd;
 	CCustomButton m_btnDelete;
 	CCustomButton m_btnRefresh;
 
-public:
-	void StretchSeparators();
+protected:
+	CBrush m_brushWhite;
 
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 
 };

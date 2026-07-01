@@ -200,6 +200,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ui\controls\BookPageToolBar.h" />
     <ClInclude Include="src\ui\controls\CSearchCtrl.h" />
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h" />
     <ClInclude Include="src\ui\pages\PageFirmware.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="src\ui\views\MFCProjectView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\controls\BookPageToolBar.cpp" />
     <ClCompile Include="src\ui\controls\CSearchCtrl.cpp" />
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp" />
     <ClCompile Include="src\ui\pages\PageFirmware.cpp" />
@@ -241,8 +243,6 @@
     <ResourceCompile Include="src\ui\resources\MFCProject.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\icons8-search-50.png" />
-    <Image Include="..\..\..\..\Downloads\icons8-search-ios-17-outlined\icons8-search-500.png" />
     <Image Include="src\ui\resources\res\icon1.ico" />
     <Image Include="src\ui\resources\res\icon2.ico" />
     <Image Include="src\ui\resources\res\icon3.ico" />
