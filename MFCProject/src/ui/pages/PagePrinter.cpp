@@ -32,23 +32,10 @@ void PagePrinter::OnSize(UINT nType, int cx, int cy)
 {
     CDialog::OnSize(nType, cx, cy);
 
-    if (!m_wndToolBar.GetSafeHwnd() || !m_listCtrl.GetSafeHwnd())
+    if (!m_wndToolBar.GetSafeHwnd() ||
+        !m_listCtrl.GetSafeHwnd() ||
+        !m_pagination.GetSafeHwnd())
         return;
-
-    // Resize toolbar
-    m_wndToolBar.SetWindowPos(NULL, 0, 0, cx, 52, SWP_NOZORDER);
-    // Reposition toolbar trước
-    RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
-
-    // Lấy chiều cao toolbar sau reposition
-    CRect toolbarRect;
-    m_wndToolBar.GetWindowRect(&toolbarRect);
-    ScreenToClient(&toolbarRect);
-
-    m_listCtrl.SetWindowPos(nullptr,
-        10, toolbarRect.bottom + 5,
-        cx - 20, cy - toolbarRect.bottom - 15,
-        SWP_NOZORDER);
 
     const int TOOLBAR_H = 56;
     const int PAGINATION_H = 44;
@@ -56,10 +43,6 @@ void PagePrinter::OnSize(UINT nType, int cx, int cy)
     m_wndToolBar.MoveWindow(0, 0, cx, TOOLBAR_H);
     m_listCtrl.MoveWindow(0, TOOLBAR_H, cx, cy - TOOLBAR_H - PAGINATION_H);
     m_pagination.MoveWindow(0, cy - PAGINATION_H, cx, PAGINATION_H);
-    int top = toolbarRect.bottom + 5;
-
-    // Resize list bên dưới
-    m_listCtrl.SetWindowPos(NULL, 10, 57, cx - 20, cy - 67, SWP_NOZORDER);
 }
 
 void PagePrinter::DoDataExchange(CDataExchange* pDX)
@@ -69,30 +52,20 @@ void PagePrinter::DoDataExchange(CDataExchange* pDX)
 
 void PagePrinter::RefreshTotalCount()
 {
-    // //Gọi repository đếm tổng
-    //m_nTotalRecords = m_printerRepo->Count();
+    // TODO: đổi thành m_printerRepo->Count() khi có repository
+    m_nTotalRecords = m_listCtrl.GetItemCount();
 
-    //int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
-    //m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
+    int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
-
 void PagePrinter::LoadPage(int nPage)
 {
-    //m_nCurrentPage = nPage;
-    //int offset = (nPage - 1) * m_nPageSize;
+    m_nCurrentPage = nPage;
 
-    //// Gọi repository với LIMIT/OFFSET
-    //auto printers = m_printerRepo->GetPaged(offset, m_nPageSize);
-
-    //m_listCtrl.DeleteAllItems();
-    //int row = 0;
-    //for (const auto& p : printers)
-    //{
-    //    m_listCtrl.InsertItem(row, p.GetName().c_str());
-    //    m_listCtrl.SetItemText(row, 1, p.GetStatus().c_str());
-    //    m_listCtrl.SetItemText(row, 2, p.GetIP().c_str());
-    //    row++;
-    //}
+    // TODO: đổi thành repo->GetPaged(offset, m_nPageSize) khi có repository
+    // Hiện tại data đã load hết trong AddSampleData() nên chỉ update pagination UI
+    int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
 
 LRESULT PagePrinter::OnPageChanged(WPARAM wParam, LPARAM lParam)
@@ -128,55 +101,41 @@ BOOL PagePrinter::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     return CDialogEx::OnSetCursor(pWnd, nHitTest, message);
 }
 
-
 BOOL PagePrinter::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
-    const int TOOLBAR_H = 56;
-    const int PAGINATION_H = 44;
-
-
-    // ============================================================
-    // 1. TẠO TOOLBAR bằng CToolBarCtrl
-    // ============================================================
     CRect clientRect;
     GetClientRect(&clientRect);
     m_brushWhite.CreateSolidBrush(RGB(255, 255, 255));
 
-    m_wndToolBar.Create(this, IDC_TOOLBAR_PRINTER,
-        CRect(0, 0, clientRect.Width(), 56));
+    const int TOOLBAR_H = 56;
+    const int PAGINATION_H = 44;
 
-    // Image list
+    // ── Toolbar ───────────────────────────────────────────────────
+    m_wndToolBar.Create(this, IDC_TOOLBAR_PRINTER,
+        CRect(0, 0, clientRect.Width(), TOOLBAR_H));
+
     m_imageList.Create(40, 40, ILC_COLOR32 | ILC_MASK, 4, 4);
 
-
-    // ============================================================
-    // 2. TẠO LIST CONTROL bên dưới toolbar
-    // ============================================================
-    CRect toolbarRect;
-    m_wndToolBar.GetWindowRect(&toolbarRect);
-    ScreenToClient(&toolbarRect);
-
-    CRect listRect;
-    listRect.left = 10;
-    listRect.top = toolbarRect.bottom + 5;
-    listRect.right = clientRect.right - 10;
-    listRect.bottom = clientRect.bottom - 10;
-
+    // ── List Ctrl ─────────────────────────────────────────────────
     m_listCtrl.Create(
         WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT,
-        listRect, this, IDC_LIST_PRINTER
+        CRect(0, TOOLBAR_H, clientRect.Width(),
+            clientRect.Height() - PAGINATION_H),
+        this, IDC_LIST_PRINTER
     );
-
-    // Create Pagging
-    m_pagination.Create(this, ID_PAGINATION,
-        CRect(0, clientRect.Height() - PAGINATION_H, clientRect.Width(), clientRect.Height()));
-
     m_listCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+
+    // ── Pagination ────────────────────────────────────────────────
+    m_pagination.Create(this, ID_PAGINATION,
+        CRect(0, clientRect.Height() - PAGINATION_H,
+            clientRect.Width(), clientRect.Height()));
+
     AddSampleData();
     RefreshTotalCount();
     LoadPage(1);
+
     return TRUE;
 }
 
@@ -201,21 +160,26 @@ BOOL PagePrinter::OnEraseBkgnd(CDC* pDC)
     return TRUE;
 }
 
-void PagePrinter::AddSampleData() {
+void PagePrinter::AddSampleData()
+{
     m_listCtrl.InsertColumn(COL_NAME, _T("Printer Name"), LVCFMT_LEFT, 200);
     m_listCtrl.InsertColumn(COL_STATUS, _T("Status"), LVCFMT_LEFT, 120);
     m_listCtrl.InsertColumn(COL_ACTION, _T("Action"), LVCFMT_LEFT, 150);
 
-    int idx = m_listCtrl.InsertItem(0, _T("HP LaserJet 1020"));
-    m_listCtrl.SetItemText(idx, COL_STATUS, _T("Online"));
+    // Thêm 25 dòng để test pagination (page size = 20 → 2 trang)
+    CString name, status;
+    for (int i = 0; i < 25; ++i)
+    {
+        name.Format(_T("Printer %02d"), i + 1);
+        status = (i % 3 == 0) ? _T("Offline") : _T("Online");
 
-    idx = m_listCtrl.InsertItem(1, _T("Canon LBP2900"));
-    m_listCtrl.SetItemText(idx, COL_STATUS, _T("Offline"));
+        int idx = m_listCtrl.InsertItem(i, name);
+        m_listCtrl.SetItemText(idx, COL_STATUS, status);
+    }
 
-    idx = m_listCtrl.InsertItem(2, _T("Toshiba GBX113"));
-    m_listCtrl.SetItemText(idx, COL_STATUS, _T("Offline"));
+    // Cập nhật total sau khi add data
+    m_nTotalRecords = m_listCtrl.GetItemCount();
 }
-
 
 LRESULT PagePrinter::OnEditItem(WPARAM wParam, LPARAM lParam)
 {
