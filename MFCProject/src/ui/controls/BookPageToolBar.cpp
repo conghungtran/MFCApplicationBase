@@ -8,6 +8,7 @@ IMPLEMENT_DYNAMIC(BookPageToolBar, CWnd)
 BEGIN_MESSAGE_MAP(BookPageToolBar, CWnd)
     ON_WM_CREATE()
     ON_WM_SIZE()
+    ON_WM_CTLCOLOR()
     ON_WM_PAINT()
     ON_WM_ERASEBKGND()
     ON_MESSAGE(WM_SEARCH, &BookPageToolBar::OnSearch)
@@ -45,10 +46,10 @@ void BookPageToolBar::CreateButtons()
                 CRect(0, 0, 0, 0), this, nID);
 
             btn.SetColors(
-                RGB(245, 245, 245),  // Normal
+                RGB(255, 255, 255),  // Normal  ← trắng, khớp nền toolbar
                 RGB(220, 235, 255),  // Hover
                 RGB(190, 215, 255),  // Pressed
-                RGB(50, 50, 50)      // Text
+                RGB(50, 50, 50)    // Text
             );
 
             SHSTOCKICONINFO sii = { sizeof(sii) };
@@ -104,17 +105,18 @@ void BookPageToolBar::OnPaint()
     CRect rc;
     GetClientRect(&rc);
 
-    dc.FillSolidRect(rc, RGB(245, 245, 245));
+    dc.FillSolidRect(rc, RGB(255, 255, 255));
 
-    CPen pen(PS_SOLID, 1, RGB(210, 210, 210));
-    CPen* pOld = dc.SelectObject(&pen);
-    dc.MoveTo(rc.left, rc.bottom - 1);
-    dc.LineTo(rc.right, rc.bottom - 1);
-    dc.SelectObject(pOld);
+    //CPen pen(PS_SOLID, 1, RGB(210, 210, 210));
+    //CPen* pOld = dc.SelectObject(&pen);
+    //dc.MoveTo(rc.left, rc.bottom - 1);
+    //dc.LineTo(rc.right, rc.bottom - 1);
+    //dc.SelectObject(pOld);
 }
 
 BOOL BookPageToolBar::OnEraseBkgnd(CDC* pDC)
 {
+
     return TRUE;
 }
 

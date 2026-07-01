@@ -24,6 +24,7 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 
+
 private:
     void RepositionControls();
     void CreateButtons();

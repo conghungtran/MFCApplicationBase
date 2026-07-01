@@ -3,6 +3,7 @@
 #include "CCustomListCtrl.h"
 #include "CCustomButton.h"
 #include "BookPageToolBar.h"
+#include "CPaginationBar.h"
 
 
 // CPagePrinter dialog

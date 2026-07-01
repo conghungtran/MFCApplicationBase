@@ -54,11 +54,13 @@
 #define IDC_SEARCH                      3182
 
 
+
 #define ID_SEARCH_CTRL                      3183
 #define ID_BTN_ADD                      3184
 #define ID_BTN_DELETE                      3184
 
-#define ID_BTN_REFRESH                      3182
+#define ID_BTN_REFRESH                      3185
+#define WM_PAGE_CHANGED                      3186
 
 
 // Next default values for new objects
