@@ -1,5 +1,6 @@
 #pragma once
 #include "IBookRepository.h"
+#include <afxdb.h>
 
 // ==============================
 // Cài đặt Repository dùng CDatabase / CRecordset (ODBC) - cho MySQL

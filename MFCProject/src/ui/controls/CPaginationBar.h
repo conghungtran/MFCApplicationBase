@@ -33,7 +33,7 @@ protected:
 private:
     static const int ID_BTN_PREV = 2001;
     static const int ID_BTN_NEXT = 2002;
-    static const int ID_PAGE_BTN_BASE = 2010;  // 2010, 2011, ... 2016
+    static const int ID_PAGE_BTN_BASE = 2010;
     static const int MAX_PAGE_BTNS = 7;
 
     int m_nCurrentPage = 1;

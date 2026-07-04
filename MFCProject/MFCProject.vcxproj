@@ -212,7 +212,7 @@
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h" />
     <ClInclude Include="src\ui\pages\PageFirmware.h" />
     <ClInclude Include="src\ui\pages\PageTicket.h" />
-    <ClInclude Include="src\ui\pages\PagePrinter.h" />
+    <ClInclude Include="src\ui\pages\PageBook.h" />
     <ClInclude Include="src\pch\targetver.h" />
     <ClInclude Include="src\ui\app\MFCProject.h" />
     <ClInclude Include="src\ui\controls\CCustomButton.h" />
@@ -236,7 +236,7 @@
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp" />
     <ClCompile Include="src\ui\pages\PageFirmware.cpp" />
     <ClCompile Include="src\ui\pages\PageTicket.cpp" />
-    <ClCompile Include="src\ui\pages\PagePrinter.cpp" />
+    <ClCompile Include="src\ui\pages\PageBook.cpp" />
     <ClCompile Include="src\ui\app\MFCProject.cpp" />
     <ClCompile Include="src\ui\controls\CCustomButton.cpp" />
     <ClCompile Include="src\ui\controls\CCustomEdit.cpp" />

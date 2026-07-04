@@ -6,15 +6,15 @@
 #include "CPaginationBar.h"
 
 
-// CPagePrinter dialog
+// CPageBook dialog
 
-class PagePrinter : public CDialogEx
+class PageBook : public CDialogEx
 {
-	DECLARE_DYNAMIC(PagePrinter)
+	DECLARE_DYNAMIC(PageBook)
 
 public:
-	PagePrinter(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~PagePrinter();
+	PageBook(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~PageBook();
 	BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 
 	

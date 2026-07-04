@@ -16,6 +16,7 @@
 #define new DEBUG_NEW
 #endif
 #include <iostream>
+#include <DatabaseManager.h>
 
 
 // CMFCProjectApp
@@ -70,6 +71,7 @@ BOOL CMFCProjectApp::InitInstance()
 		// Xử lý lỗi nếu cần
 	}
 
+
 	// Chuyển hướng stdout/stderr đến console
 	FILE* fp;
 	freopen_s(&fp, "CONOUT$", "w", stdout);
@@ -78,6 +80,19 @@ BOOL CMFCProjectApp::InitInstance()
 
 	// Bây giờ có thể dùng cout, printf, v.v.
 	std::cout << "Welcome to MFC: \n" << std::endl;
+
+
+	if (!CDatabaseManager::Instance().ConnectDirect(
+		_T("MySQL ODBC 9.7 Unicode Driver"),  // đúng tên driver trong tab Drivers - copy chính xác
+		_T("localhost"),
+		_T("3306"),
+		_T("book"),
+		_T("root"),
+		_T("")))
+	{
+		std::cout << "Can not connect \n";
+		return FALSE;
+	}
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable

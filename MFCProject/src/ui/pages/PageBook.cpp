@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "afxdialogex.h"
-#include "PagePrinter.h"
+#include "PageBook.h"
 #include "Resource.h"
 #include <iostream>
 #include <commoncontrols.h>
@@ -13,22 +13,22 @@ static HICON GetShellIcon(SHSTOCKICONID id, int size = 40)
     return sii.hIcon;
 };
 
-// PagePrinter dialog
+// PageBook dialog
 
-IMPLEMENT_DYNAMIC(PagePrinter, CDialogEx)
+IMPLEMENT_DYNAMIC(PageBook, CDialogEx)
 
-PagePrinter::PagePrinter(CWnd* pParent /*=nullptr*/)
+PageBook::PageBook(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_PAGE_BOOK, pParent)
 {
    
 }
 
-PagePrinter::~PagePrinter()
+PageBook::~PageBook()
 {
 }
 
 
-void PagePrinter::OnSize(UINT nType, int cx, int cy)
+void PageBook::OnSize(UINT nType, int cx, int cy)
 {
     CDialog::OnSize(nType, cx, cy);
 
@@ -45,12 +45,12 @@ void PagePrinter::OnSize(UINT nType, int cx, int cy)
     m_pagination.MoveWindow(0, cy - PAGINATION_H, cx, PAGINATION_H);
 }
 
-void PagePrinter::DoDataExchange(CDataExchange* pDX)
+void PageBook::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
-void PagePrinter::RefreshTotalCount()
+void PageBook::RefreshTotalCount()
 {
     // TODO: đổi thành m_printerRepo->Count() khi có repository
     m_nTotalRecords = m_listCtrl.GetItemCount();
@@ -58,7 +58,7 @@ void PagePrinter::RefreshTotalCount()
     int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
-void PagePrinter::LoadPage(int nPage)
+void PageBook::LoadPage(int nPage)
 {
     m_nCurrentPage = nPage;
 
@@ -68,7 +68,7 @@ void PagePrinter::LoadPage(int nPage)
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
 
-LRESULT PagePrinter::OnPageChanged(WPARAM wParam, LPARAM lParam)
+LRESULT PageBook::OnPageChanged(WPARAM wParam, LPARAM lParam)
 {
     int nPage = (int)wParam;
     LoadPage(nPage);
@@ -76,11 +76,11 @@ LRESULT PagePrinter::OnPageChanged(WPARAM wParam, LPARAM lParam)
 }
 
 
-BEGIN_MESSAGE_MAP(PagePrinter, CDialogEx)
-	ON_MESSAGE(WM_EDIT_ITEM, &PagePrinter::OnEditItem)
-	ON_MESSAGE(WM_DELETE_ITEM, &PagePrinter::OnDeleteItem)
-    ON_MESSAGE(WM_PAGE_CHANGED, &PagePrinter::OnPageChanged)
 
+BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
+	ON_MESSAGE(WM_EDIT_ITEM, &PageBook::OnEditItem)
+	ON_MESSAGE(WM_DELETE_ITEM, &PageBook::OnDeleteItem)
+    ON_MESSAGE(WM_PAGE_CHANGED, &PageBook::OnPageChanged)
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
@@ -88,7 +88,7 @@ BEGIN_MESSAGE_MAP(PagePrinter, CDialogEx)
 END_MESSAGE_MAP()
 
 
-BOOL PagePrinter::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+BOOL PageBook::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
     // Nếu con trỏ đang ở trên toolbar
     if (pWnd->GetSafeHwnd() == m_wndToolBar.GetSafeHwnd())
@@ -101,7 +101,7 @@ BOOL PagePrinter::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
     return CDialogEx::OnSetCursor(pWnd, nHitTest, message);
 }
 
-BOOL PagePrinter::OnInitDialog()
+BOOL PageBook::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
@@ -113,7 +113,7 @@ BOOL PagePrinter::OnInitDialog()
     const int PAGINATION_H = 44;
 
     // ── Toolbar ───────────────────────────────────────────────────
-    m_wndToolBar.Create(this, IDC_TOOLBAR_PRINTER,
+    m_wndToolBar.Create(this, IDC_TOOLBAR_BOOK,
         CRect(0, 0, clientRect.Width(), TOOLBAR_H));
 
     m_imageList.Create(40, 40, ILC_COLOR32 | ILC_MASK, 4, 4);
@@ -123,7 +123,7 @@ BOOL PagePrinter::OnInitDialog()
         WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT,
         CRect(0, TOOLBAR_H, clientRect.Width(),
             clientRect.Height() - PAGINATION_H),
-        this, IDC_LIST_PRINTER
+        this, IDC_LIST_BOOK
     );
     m_listCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 
@@ -139,7 +139,7 @@ BOOL PagePrinter::OnInitDialog()
     return TRUE;
 }
 
-HBRUSH PagePrinter::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+HBRUSH PageBook::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
     HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
@@ -152,7 +152,7 @@ HBRUSH PagePrinter::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     return hbr;
 }
 
-BOOL PagePrinter::OnEraseBkgnd(CDC* pDC)
+BOOL PageBook::OnEraseBkgnd(CDC* pDC)
 {
     CRect rc;
     GetClientRect(&rc);
@@ -160,7 +160,7 @@ BOOL PagePrinter::OnEraseBkgnd(CDC* pDC)
     return TRUE;
 }
 
-void PagePrinter::AddSampleData()
+void PageBook::AddSampleData()
 {
     m_listCtrl.InsertColumn(COL_NAME, _T("Printer Name"), LVCFMT_LEFT, 200);
     m_listCtrl.InsertColumn(COL_STATUS, _T("Status"), LVCFMT_LEFT, 120);
@@ -181,7 +181,7 @@ void PagePrinter::AddSampleData()
     m_nTotalRecords = m_listCtrl.GetItemCount();
 }
 
-LRESULT PagePrinter::OnEditItem(WPARAM wParam, LPARAM lParam)
+LRESULT PageBook::OnEditItem(WPARAM wParam, LPARAM lParam)
 {
     int nRow = (int)wParam;
     CString strName = m_listCtrl.GetItemText(nRow, COL_NAME);
@@ -191,7 +191,7 @@ LRESULT PagePrinter::OnEditItem(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-LRESULT PagePrinter::OnDeleteItem(WPARAM wParam, LPARAM lParam)
+LRESULT PageBook::OnDeleteItem(WPARAM wParam, LPARAM lParam)
 {
     int nRow = (int)wParam;
     CString strName = m_listCtrl.GetItemText(nRow, COL_NAME);
@@ -205,4 +205,4 @@ LRESULT PagePrinter::OnDeleteItem(WPARAM wParam, LPARAM lParam)
 }
 
 
-// PagePrinter message handlers
+// PageBook message handlers

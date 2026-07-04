@@ -1,0 +1,198 @@
+MINI PROJECT MFC – BOOK MANAGEMENT SYSTEM
+
+1. MỤC TIÊU
+
+Xây dựng ứng dụng desktop bằng MFC (Microsoft Foundation Classes) sử dụng:
+- SDI (Single Document Interface)
+- CFormView
+- CTabCtrl
+- ODBC Database
+- CDatabase / CRecordset
+- Repository Pattern
+- Service Layer
+- Import / Export CSV
+
+Mục đích:
+- Quản lý thông tin sách.
+- Import dữ liệu từ file vào Database.
+- Export dữ liệu từ Database ra file.
+- Áp dụng kiến trúc phần mềm thực tế trong dự án MFC.
+
+2. YÊU CẦU CHỨC NĂNG
+
+Ứng dụng gồm 2 tab:
+
+TAB 1 – BOOK MANAGEMENT
+
+2.1 Thêm sách
+- Người dùng nhập:
+  + Book Name
+  + Price
+  + Quantity
+- Nhấn nút Add để lưu vào Database.
+
+Validation:
+- Book Name không được rỗng.
+- Price > 0.
+- Quantity >= 0.
+- Thông báo lỗi nếu dữ liệu không hợp lệ.
+
+2.2 Cập nhật sách
+- Chọn 1 dòng trên danh sách.
+- Thông tin được đổ lên form.
+- Sửa dữ liệu và nhấn Update.
+- Dữ liệu được cập nhật vào Database.
+
+2.3 Xóa sách
+- Chọn một dòng.
+- Nhấn Delete.
+- Hiển thị xác nhận:
+  Are you sure you want to delete this book?
+- Chọn Yes để xóa dữ liệu khỏi Database.
+
+2.4 Xem danh sách sách
+- Hiển thị bằng CListCtrl.
+- Các cột:
+  + ID
+  + Name
+  + Price
+  + Quantity
+  + Created Date
+- Danh sách tự động refresh sau Add/Update/Delete.
+
+2.5 Clear Form
+- Xóa toàn bộ dữ liệu đang nhập trên form.
+
+TAB 2 – IMPORT / EXPORT
+
+2.6 Browse File
+- Nhấn Browse.
+- Mở hộp thoại chọn file CSV.
+- Hiển thị đường dẫn file đã chọn.
+
+2.7 Import CSV
+- Đọc dữ liệu từ file CSV.
+Ví dụ:
+NAME,PRICE,QTY
+C++,100,10
+MFC,200,20
+Win32,150,5
+
+- Parse file.
+- Validate dữ liệu.
+- Insert vào Database.
+- Thông báo Import completed successfully.
+
+2.8 Export CSV
+- Lấy dữ liệu từ Database.
+- Xuất thành file books.csv.
+Ví dụ:
+ID,NAME,PRICE,QTY
+1,C++,100,10
+2,MFC,200,20
+3,Win32,150,5
+
+- Thông báo Export completed successfully.
+
+3. YÊU CẦU DATABASE
+
+CREATE TABLE BOOK
+(
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    NAME NVARCHAR(100) NOT NULL,
+    PRICE FLOAT NOT NULL,
+    QTY INT NOT NULL,
+    CREATED_DATE DATETIME DEFAULT GETDATE()
+);
+
+4. YÊU CẦU GIAO DIỆN
+
+TAB 1
+- Book Name
+- Price
+- Quantity
+- Add / Update / Delete / Clear
+- Danh sách sách bằng CListCtrl
+
+TAB 2
+- File Path
+- Browse
+- Import
+- Export
+
+5. YÊU CẦU KỸ THUẬT
+
+MFC Controls:
+- CFormView
+- CTabCtrl
+- CEdit
+- CButton
+- CListCtrl
+
+Database:
+- CDatabase
+- CRecordset
+- ODBC
+
+CRUD:
+- Create
+- Read
+- Update
+- Delete
+
+Exception Handling:
+TRY
+{
+}
+CATCH(CDBException, e)
+{
+}
+END_CATCH
+
+6. KIẾN TRÚC LỚP
+
+UI Layer
+- CMainFormView
+- CBookTab
+- CImportExportTab
+
+Service Layer
+- CBookService
+- CImportExportService
+
+Repository Layer
+- CBookRepository
+
+Database Layer
+- CDatabaseManager
+
+Model
+- Book
+
+7. YÊU CẦU NÂNG CAO (BONUS)
+
+Search Book
+- Tìm theo Book Name.
+
+Sort
+- Name ASC/DESC
+- Price ASC/DESC
+
+Transaction Import
+- BeginTrans()
+- CommitTrans()
+- Rollback()
+
+Multi-thread Import
+- Import file lớn (10,000+ records).
+- Sử dụng AfxBeginThread() để tránh treo UI.
+
+8. KẾT QUẢ MONG ĐỢI
+
+✅ Quản lý sách (Add/Update/Delete/List)
+✅ Kết nối Database bằng ODBC
+✅ Import dữ liệu CSV vào Database
+✅ Export dữ liệu Database ra CSV
+✅ Áp dụng kiến trúc Repository + Service
+✅ Sử dụng các control MFC phổ biến
+✅ Thể hiện đầy đủ quy trình phát triển một ứng dụng MFC thực tế quy mô nhỏ.

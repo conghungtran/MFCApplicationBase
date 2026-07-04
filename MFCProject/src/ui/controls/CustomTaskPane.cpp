@@ -32,9 +32,9 @@ int CSidePanelPane::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CSidePanelPane::CreateButtons()
 {
     // --- Group: Printer Actions ---
-    m_btnPagePrinter.Create(_T("Printer"),
+    m_btnPagePrinter.Create(_T("Book"),
         WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
-        CRect(12, 50, 188, 82), this, ID_PAGE_PRINTER);
+        CRect(12, 50, 188, 82), this, ID_PAGE_BOOK);
     
     m_btnPagePrinter.SetFont(&m_font);
     SetButtonColors(m_btnPagePrinter);
@@ -46,7 +46,7 @@ void CSidePanelPane::CreateButtons()
     );
 
     SHSTOCKICONINFO sii = { sizeof(sii) };
-    SHGetStockIconInfo(SIID_DOCASSOC, SHGSI_ICON | SHGSI_SMALLICON, &sii);
+    SHGetStockIconInfo(SIID_FOLDER, SHGSI_ICON | SHGSI_SMALLICON, &sii);
     m_btnPagePrinter.SetIcon(sii.hIcon);
 
     m_btnPageTicket.Create(_T("Ticket"),
@@ -156,7 +156,7 @@ void CSidePanelPane::OnPaint()
     CFont* pOld = dc.SelectObject(&m_font);
 
     CRect rcLabel1(12, 20, rcClient.right - 12, 44);
-    dc.DrawText(_T("PRINTER ACTIONS"), rcLabel1, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+    dc.DrawText(_T("BOOK ACTIONS"), rcLabel1, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
 
     // Vẽ label "Maintenance"
     CRect rcLabel2(12, 152, rcClient.right - 12, 174);

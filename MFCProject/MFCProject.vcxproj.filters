@@ -48,7 +48,7 @@
     <ClInclude Include="src\ui\views\MFCProjectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\pages\PagePrinter.h">
+    <ClInclude Include="src\ui\pages\PageBook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\pages\PageTicket.h">
@@ -113,7 +113,7 @@
     <ClCompile Include="src\ui\views\MFCProjectView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ui\pages\PagePrinter.cpp">
+    <ClCompile Include="src\ui\pages\PageBook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\pages\PageTicket.cpp">

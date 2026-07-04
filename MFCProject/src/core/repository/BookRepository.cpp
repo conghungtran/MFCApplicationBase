@@ -19,26 +19,27 @@ CString CBookRepository::EscapeSql(const CString& input)
 
 Book CBookRepository::ReadRow(CRecordset& rs)
 {
+    // GetFieldValue() của CRecordset "trần" (không DoFieldExchange) chỉ có overload
+    // nhận CString&, CDBVariant& hoặc CByteArray& - KHÔNG có overload cho long/double/
+    // COleDateTime trực tiếp. Vì vậy lấy tất cả ra CString rồi tự convert cho chắc chắn,
+    // không phụ thuộc kiểu dữ liệu nội bộ mà driver ODBC trả về.
     Book book;
     CString strVal;
-    long    lVal;
-    double  dVal;
-    COleDateTime dtVal;
 
-    rs.GetFieldValue(_T("ID"), lVal);
-    book.ID = lVal;
+    rs.GetFieldValue(_T("ID"), strVal);
+    book.ID = _ttol(strVal);
 
     rs.GetFieldValue(_T("NAME"), strVal);
     book.Name = strVal;
 
-    rs.GetFieldValue(_T("PRICE"), dVal);
-    book.Price = dVal;
+    rs.GetFieldValue(_T("PRICE"), strVal);
+    book.Price = _ttof(strVal);
 
-    rs.GetFieldValue(_T("QTY"), lVal);
-    book.Qty = (int)lVal;
+    rs.GetFieldValue(_T("QTY"), strVal);
+    book.Qty = _ttoi(strVal);
 
-    rs.GetFieldValue(_T("CREATED_DATE"), dtVal);
-    book.CreatedDate = dtVal;
+    rs.GetFieldValue(_T("CREATED_DATE"), strVal);
+    book.CreatedDate.ParseDateTime(strVal);
 
     return book;
 }
@@ -85,13 +86,15 @@ bool CBookRepository::Add(Book& book)
 
         // MySQL: lấy ID vừa insert bằng LAST_INSERT_ID()
         // (SQL Server dùng @@IDENTITY, SQLite dùng sqlite3_last_insert_rowid)
+        // Lưu ý: GetFieldValue() không có overload nhận long& - phải lấy ra
+        // CString rồi tự convert (giống ReadRow()).
         CRecordset rs(&db);
         rs.Open(CRecordset::forwardOnly, _T("SELECT LAST_INSERT_ID() AS NEWID"), CRecordset::readOnly);
         if (!rs.IsEOF())
         {
-            long newId = 0;
-            rs.GetFieldValue(_T("NEWID"), newId);
-            book.ID = newId;
+            CString strNewId;
+            rs.GetFieldValue(_T("NEWID"), strNewId);
+            book.ID = _ttol(strNewId);
         }
         rs.Close();
 

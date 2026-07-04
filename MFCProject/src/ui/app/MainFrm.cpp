@@ -33,7 +33,7 @@ const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_COMMAND(ID_PAGE_PRINTER, &CMainFrame::OnPagePrinter)
+	ON_COMMAND(ID_PAGE_BOOK, &CMainFrame::OnPagePrinter)
 	ON_COMMAND(ID_PAGE_TICKET, &CMainFrame::OnPageTicket)
 	ON_COMMAND(ID_PAGE_FIRMWARE, &CMainFrame::OnPageFirmware)
 
@@ -232,7 +232,7 @@ void CMainFrame::ReplaceToolbarWithShellIcons()
 		SIID_DOCNOASSOC,  // ID_FILE_NEW
 		SIID_FOLDER,      // ID_FILE_OPEN
 		SIID_STACK,       // ID_FILE_SAVE
-		SIID_PRINTER,     // ID_FILE_PRINT
+		SIID_AUTOLIST,     // ID_FILE_PRINT
 		SIID_INFO,        // ID_APP_ABOUT
 		SIID_WORLD,
 		SIID_DRIVECD,
@@ -294,7 +294,7 @@ BOOL CMainFrame::CreateTaskPane()
 		return FALSE;
 	}
 
-	TRACE1("ID_PRINTER_ADD = %d\n", ID_PAGE_PRINTER);
+	TRACE1("ID_BOOK_ADD = %d\n", ID_PAGE_BOOK);
 	m_wndTasksPane.SetActiveInGroup(0);
 
 	// Cho phép dock
@@ -314,21 +314,21 @@ BOOL CMainFrame::CreateTaskPane()
 	//	WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 	//	CRect(0, 0, 150, 30),
 	//	&m_wndTasksPane,
-	//	ID_PRINTER_ADD);
+	//	ID_BOOK_ADD);
 
 	// Group Bot
 	int nGroupBot = m_wndTasksPane.AddGroup(_T("Bot Actions"), 1, 0);
 	m_wndTasksPane.AddTask(nGroupBot, _T("Logout"),
 		0, 0);
 
-	//int nTask = m_wndTasksPane.AddTask(nGroup, _T("Add Printer"), -1, ID_PRINTER_ADD);
+	//int nTask = m_wndTasksPane.AddTask(nGroup, _T("Add Printer"), -1, ID_BOOK_ADD);
 	//TRACE1("nTask = %d\n", nTask);    // phải >= 0
 
 
 	//m_wndTasksPane.AddTask(nGroup, _T("Remove Printer"),
-	//	0, 0, ID_PRINTER_REMOVE);
+	//	0, 0, ID_BOOK_REMOVE);
 	//m_wndTasksPane.AddTask(nGroup, _T("Print MFC Page"),
-	//	0, 0, ID_PRINTER_TEST);
+	//	0, 0, ID_BOOK_TEST);
 
 	//int nGroup2 = m_wndTasksPane.AddGroup(_T("Maintenance"));
 	//m_wndTasksPane.AddTask(nGroup2, _T("Create Ticket"),

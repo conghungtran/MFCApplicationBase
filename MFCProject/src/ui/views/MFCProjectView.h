@@ -5,7 +5,7 @@
 #pragma once
 #include "CCustomButton.h"
 #include "CCustomEdit.h"
-#include "PagePrinter.h"
+#include "PageBook.h"
 #include "PageTicket.h"
 #include "MFCProjectDoc.h"
 #include "PageFirmware.h"
@@ -25,7 +25,7 @@ public:
 public:
 	CMFCProjectDoc* GetDocument() const;
 
-	PagePrinter		m_pagePrinter;
+	PageBook		m_pagePrinter;
 	PageTicket		m_pageTicket;
 	PageFirmware    m_pageFirmware;
 	CDialog* m_pCurrentPage;

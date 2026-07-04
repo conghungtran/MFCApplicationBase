@@ -28,26 +28,25 @@
 #define IDI_ICON_ADD1                   332
 #define IDI_ICON_ADD                    400
 #define IDI_ICON_DELETE                 401
-#define LR_DEFAULTCOLOR                 402
 #define IDI_ICON_REFRESH                403
-#define ID_ADD_PRINTER                  405
-#define ID_DELETE_PRINTER               406
+#define ID_ADD_BOOK                  405
+#define ID_DELETE_BOOK               406
 #define ID_REFRESH                      407
 #define IDC_BUTTON_DRAWER               1000
 #define IDC_BUTTON1                     1001
 #define ID_VIEW_CLASSVIEW               1002
 #define ID_VIEW_TASKS_PANE              1003
 #define IDC_EDIT_SEARCH                 1004
-#define ID_FIND_PRINTER                 1005
+#define ID_FIND_BOOK                 1005
 #define IDC_MFCEDITBROWSE1              1008
-#define IDC_LIST_PRINTER                1009
-#define ID_PRINTER_REMOVE               2003
+#define IDC_LIST_BOOK                1009
+#define ID_BOOK_REMOVE               2003
 #define ID_TICKET_CREATE                2004
 #define ID_VIEW_SIDE_PANE               2005
 #define ID_SETTINGS                     2006
 #define ID_LOGOUT                       2007
-#define IDC_TOOLBAR_PRINTER             2302
-#define ID_PAGE_PRINTER                 3001
+#define IDC_TOOLBAR_BOOK             2302
+#define ID_PAGE_BOOK                 3001
 #define ID_PAGE_TICKET                  3002
 #define ID_PAGE_FIRMWARE                3003
 #define WM_SEARCH                       3181
@@ -56,12 +55,13 @@
 
 
 #define ID_SEARCH_CTRL                      3183
-#define ID_BTN_ADD                      3184
-#define ID_BTN_DELETE                      3184
+#define ID_BTN_ADD                      3185
+#define ID_BTN_DELETE                      3186
 
-#define ID_BTN_REFRESH                      3185
-#define ID_PAGINATION                      3187
-#define WM_PAGE_CHANGED                      3188
+#define ID_BTN_REFRESH                      3187
+
+#define ID_PAGINATION                      3188
+#define WM_PAGE_CHANGED                      3189
 
 
 
