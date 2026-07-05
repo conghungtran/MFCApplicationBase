@@ -4,6 +4,7 @@
 #include "Resource.h"
 #include <iostream>
 #include <commoncontrols.h>
+#include "CAddBookDialog.h"
 #pragma comment(lib, "comctl32.lib")
 static HICON GetShellIcon(SHSTOCKICONID id, int size = 40)
 {
@@ -63,7 +64,7 @@ void PageBook::LoadPage(int nPage)
     m_nCurrentPage = nPage;
 
     // TODO: đổi thành repo->GetPaged(offset, m_nPageSize) khi có repository
-    // Hiện tại data đã load hết trong AddSampleData() nên chỉ update pagination UI
+    // Hiện tại data đã load hết trong InitTable() nên chỉ update pagination UI
     int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
@@ -81,6 +82,8 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
 	ON_MESSAGE(WM_EDIT_ITEM, &PageBook::OnEditItem)
 	ON_MESSAGE(WM_DELETE_ITEM, &PageBook::OnDeleteItem)
     ON_MESSAGE(WM_PAGE_CHANGED, &PageBook::OnPageChanged)
+
+    ON_MESSAGE(WM_ADD_BOOK, &PageBook::OnAddBook)
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
@@ -99,6 +102,49 @@ BOOL PageBook::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
     // Nếu không phải toolbar, gọi base class
     return CDialogEx::OnSetCursor(pWnd, nHitTest, message);
+}
+
+LRESULT PageBook::OnAddBook(WPARAM, LPARAM)
+{
+
+    CAddBookDialog dlg(this);
+    if (dlg.DoModal() == IDOK)
+    {
+        Book book = dlg.GetBook();
+        CString errorMsg;
+        std::cout << book.Name << std::endl;
+        std::cout << book.Price << std::endl;
+        std::cout << book.Qty << std::endl;
+        // Gọi qua Service (không gọi thẳng Repository) - đúng kiến trúc UI -> Service -> Repository
+        if (m_bookService->AddBook(book, errorMsg))
+        {
+            AddBookToListCtrl(book);   // book.ID và book.CreatedDate đã có giá trị thật từ DB
+        }
+        else
+        {
+            AfxMessageBox(errorMsg);
+        }
+    }
+    return 0;
+}
+
+void PageBook::AddBookToListCtrl(const Book& book)
+{
+    CString idStr;
+    idStr.Format(_T("%ld"), book.ID);
+
+    int nIndex = m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), idStr);
+    m_listCtrl.SetItemText(nIndex, 1, book.Name);
+
+    CString priceStr;
+    priceStr.Format(_T("%.2f"), book.Price);
+    m_listCtrl.SetItemText(nIndex, 2, priceStr);
+
+    CString qtyStr;
+    qtyStr.Format(_T("%d"), book.Qty);
+    m_listCtrl.SetItemText(nIndex, 3, qtyStr);
+
+    m_listCtrl.SetItemText(nIndex, 4, book.CreatedDate.Format(_T("%Y-%m-%d %H:%M:%S")));
 }
 
 BOOL PageBook::OnInitDialog()
@@ -132,7 +178,8 @@ BOOL PageBook::OnInitDialog()
         CRect(0, clientRect.Height() - PAGINATION_H,
             clientRect.Width(), clientRect.Height()));
 
-    AddSampleData();
+    InitTable();
+    LoadData();
     RefreshTotalCount();
     LoadPage(1);
 
@@ -160,11 +207,18 @@ BOOL PageBook::OnEraseBkgnd(CDC* pDC)
     return TRUE;
 }
 
-void PageBook::AddSampleData()
+void PageBook::InitTable()
 {
-    m_listCtrl.InsertColumn(COL_NAME, _T("Printer Name"), LVCFMT_LEFT, 200);
-    m_listCtrl.InsertColumn(COL_STATUS, _T("Status"), LVCFMT_LEFT, 120);
-    m_listCtrl.InsertColumn(COL_ACTION, _T("Action"), LVCFMT_LEFT, 150);
+    m_listCtrl.InsertColumn(COL_NAME, _T("ID"), LVCFMT_CENTER, 100);
+    m_listCtrl.InsertColumn(COL_STATUS, _T("Name"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_ACTION, _T("Price"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_ACTION, _T("Quantity"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_ACTION, _T("Created Date"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_ACTION, _T("Action"), LVCFMT_CENTER, 200);
+
+}
+
+void PageBook :: LoadData() {
 
     // Thêm 25 dòng để test pagination (page size = 20 → 2 trang)
     CString name, status;

@@ -25,7 +25,7 @@ public:
 public:
 	CMFCProjectDoc* GetDocument() const;
 
-	PageBook		m_pagePrinter;
+	PageBook		m_pageBook;
 	PageTicket		m_pageTicket;
 	PageFirmware    m_pageFirmware;
 	CDialog* m_pCurrentPage;
@@ -66,7 +66,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
-	CCustomButton m_btnAddPrinter;
+	CCustomButton m_btnAddBook;
 	CCustomEdit m_editModel;
 };
 

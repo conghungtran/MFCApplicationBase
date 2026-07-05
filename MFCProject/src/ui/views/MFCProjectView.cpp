@@ -16,6 +16,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include "BookRepository.h"
 
 // MFCProjectView
 
@@ -47,7 +48,7 @@ MFCProjectView::~MFCProjectView()
 void MFCProjectView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
-	//DDX_Control(pDX, IDC_BUTTON1, m_btnAddPrinter);
+	//DDX_Control(pDX, IDC_BUTTON1, m_btnAddBook);
 	//DDX_Control(pDX, IDC_EDIT1, m_editModel);
 }
 
@@ -65,7 +66,7 @@ void MFCProjectView::OnInitialUpdate()
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
 
-	//m_btnAddPrinter.SetColors(
+	//m_btnAddBook.SetColors(
 	//	RGB(24, 95, 165),   // normal
 	//	RGB(55, 138, 221),   // hover
 	//	RGB(15, 70, 130),   // pressed
@@ -79,8 +80,14 @@ void MFCProjectView::OnInitialUpdate()
 	GetClientRect(&rect);
 
 	// Tạo các page — parent là View (this)
-	m_pagePrinter.Create(IDD_PAGE_BOOK, this);
-	m_pagePrinter.MoveWindow(rect);
+	m_pageBook.Create(IDD_PAGE_BOOK, this);
+	m_pageBook.MoveWindow(rect);
+
+	auto repository = std::make_shared<CBookRepository>();
+	auto bookService = std::make_shared<CBookService>(repository);
+	m_pageBook.SetBookService(bookService);
+
+
 
 	m_pageTicket.Create(IDD_PAGE_TICKET, this);
 	m_pageTicket.MoveWindow(rect);
@@ -91,7 +98,7 @@ void MFCProjectView::OnInitialUpdate()
 
 	// Hiện trang mặc định
 	m_pCurrentPage = nullptr;
-	SwitchPage(&m_pagePrinter);
+	SwitchPage(&m_pageBook);
 
 }
 
@@ -101,8 +108,8 @@ void MFCProjectView::OnSize(UINT nType, int cx, int cy)
 
 	CRect rect(0, 0, cx, cy);
 
-	if (m_pagePrinter.GetSafeHwnd())
-		m_pagePrinter.MoveWindow(rect);
+	if (m_pageBook.GetSafeHwnd())
+		m_pageBook.MoveWindow(rect);
 
 	if (m_pageTicket.GetSafeHwnd())
 		m_pageTicket.MoveWindow(rect);
@@ -196,5 +203,5 @@ CMFCProjectDoc* MFCProjectView::GetDocument() const // non-debug version is inli
 void MFCProjectView::OnBnClickedButton1()
 {
 	TRACE0("View called!\n");  // xem trong Output window của VS
-	AfxMessageBox(_T("View Printer!"));
+	AfxMessageBox(_T("View Book!"));
 }

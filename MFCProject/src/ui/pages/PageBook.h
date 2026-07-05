@@ -4,7 +4,9 @@
 #include "CCustomButton.h"
 #include "BookPageToolBar.h"
 #include "CPaginationBar.h"
-
+#include "Book.h"
+#include <memory>
+#include "BookService.h"
 
 // CPageBook dialog
 
@@ -16,12 +18,15 @@ public:
 	PageBook(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~PageBook();
 	BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	void SetBookService(std::shared_ptr<CBookService> service) { m_bookService = service; }
 
 	
 	BOOL InitToolBar();
 
 	void InitControlList();
-	void AddSampleData();
+	void InitTable();
+	void LoadData();
+
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_PAGE_PRINTER };
@@ -32,6 +37,8 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg LRESULT OnEditItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnDeleteItem(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnAddBook(WPARAM wParam, LPARAM lParam);
+	void AddBookToListCtrl(const Book& book);
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 
@@ -61,4 +68,6 @@ protected:
 	afx_msg LRESULT OnPageChanged(WPARAM wParam, LPARAM lParam);
 	void LoadPage(int nPage);
 	void RefreshTotalCount();
+
+	std::shared_ptr<CBookService> m_bookService;
 };

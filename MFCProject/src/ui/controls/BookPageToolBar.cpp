@@ -11,6 +11,7 @@ BEGIN_MESSAGE_MAP(BookPageToolBar, CWnd)
     ON_WM_CTLCOLOR()
     ON_WM_PAINT()
     ON_WM_ERASEBKGND()
+    ON_BN_CLICKED(ID_BTN_ADD, &BookPageToolBar::OnAddClicked)
     ON_MESSAGE(WM_SEARCH, &BookPageToolBar::OnSearch)
 END_MESSAGE_MAP()
 
@@ -24,6 +25,15 @@ BOOL BookPageToolBar::Create(CWnd* pParent, UINT nID, const CRect& rect)
     return CWnd::Create(cls, nullptr,
         WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN,
         rect, pParent, nID);
+}
+
+void BookPageToolBar::OnAddClicked()
+{
+    // Toolbar không tự mở dialog - chỉ báo lên Parent
+    // (Parent mới là nơi có CListCtrl + BookService để xử lý)
+    
+    if (GetParent())
+        GetParent()->PostMessage(WM_ADD_BOOK, 0, 0);
 }
 
 int BookPageToolBar::OnCreate(LPCREATESTRUCT lpcs)

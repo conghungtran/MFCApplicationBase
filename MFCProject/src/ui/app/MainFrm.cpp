@@ -82,7 +82,7 @@ void CMainFrame::OnPagePrinter()
 	MFCProjectView* pView = (MFCProjectView*)pFrame->GetActiveView();
 
 	if (pView)
-		pView->SwitchPage(&pView->m_pagePrinter);
+		pView->SwitchPage(&pView->m_pageBook);
 
 }
 
