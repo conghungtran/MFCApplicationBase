@@ -20,7 +20,7 @@
 #define IDD_DIALOG_DRAWER               310
 #define IDD_PAGE_BOOK                   315
 #define IDD_PAGE_TICKET                 316
-#define IDD_PAGE_FIRMWARE               317
+#define IDD_PAGE_FUNCTION               317
 #define IDI_ICON_DELETE1                325
 #define IDI_ICON_REFRESH1               326
 #define IDB_PNG1                        327

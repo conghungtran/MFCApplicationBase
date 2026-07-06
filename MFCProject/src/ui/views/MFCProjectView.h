@@ -8,7 +8,7 @@
 #include "PageBook.h"
 #include "PageTicket.h"
 #include "MFCProjectDoc.h"
-#include "PageFirmware.h"
+#include "PageFunction.h"
 
 class MFCProjectView : public CFormView
 {
@@ -27,7 +27,7 @@ public:
 
 	PageBook		m_pageBook;
 	PageTicket		m_pageTicket;
-	PageFirmware    m_pageFirmware;
+	PageFunction    m_pageFunction;
 	CDialog* m_pCurrentPage;
 
 // Operations

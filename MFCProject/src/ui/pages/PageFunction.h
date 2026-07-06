@@ -2,15 +2,15 @@
 #include "afxdialogex.h"
 
 
-// PageFirmware dialog
+// PageFunction dialog
 
-class PageFirmware : public CDialogEx
+class PageFunction : public CDialogEx
 {
-	DECLARE_DYNAMIC(PageFirmware)
+	DECLARE_DYNAMIC(PageFunction)
 
 public:
-	PageFirmware(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~PageFirmware();
+	PageFunction(CWnd* pParent = nullptr);   // standard constructor
+	virtual ~PageFunction();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

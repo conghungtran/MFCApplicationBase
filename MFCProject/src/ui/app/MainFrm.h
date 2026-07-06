@@ -54,7 +54,7 @@ protected:
 
 	afx_msg void OnPagePrinter();
 	afx_msg void OnPageTicket();
-	afx_msg void OnPageFirmware();
+	afx_msg void OnPageFunction();
 
 
 

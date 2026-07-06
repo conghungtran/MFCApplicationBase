@@ -60,15 +60,15 @@ void CSidePanelPane::CreateButtons()
     SetButtonColors(m_btnPageTicket);
 
     // --- Group: Maintenance ---
-    m_btnPageFirmware.Create(_T("Firmware"),
+    m_btnPageFunction.Create(_T("Function"),
         WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
-        CRect(12, 180, 188, 212), this, ID_PAGE_FIRMWARE);
-    m_btnPageFirmware.SetFont(&m_font);
-    SetButtonColors(m_btnPageFirmware);
+        CRect(12, 180, 188, 212), this, IDD_PAGE_FUNCTION);
+    m_btnPageFunction.SetFont(&m_font);
+    SetButtonColors(m_btnPageFunction);
 
-    SHSTOCKICONINFO sii_firmware = { sizeof(sii_firmware) };
-    SHGetStockIconInfo(SIID_WORLD, SHGSI_ICON | SHGSI_SMALLICON, &sii_firmware);
-    m_btnPageFirmware.SetIcon(sii_firmware.hIcon);
+    SHSTOCKICONINFO sii_function = { sizeof(sii_function) };
+    SHGetStockIconInfo(SIID_WORLD, SHGSI_ICON | SHGSI_SMALLICON, &sii_function);
+    m_btnPageFunction.SetIcon(sii_function.hIcon);
 
     // --- Bottom button: Settings ---
     // Tạo ở vị trí tạm, OnSize sẽ đặt đúng vị trí
@@ -115,7 +115,7 @@ void CSidePanelPane::OnSize(UINT nType, int cx, int cy)
         int w = cx - 24;  // margin 12px mỗi bên
         m_btnPagePrinter.SetWindowPos(nullptr, 12, 50, w, 32, SWP_NOZORDER);
         m_btnPageTicket.SetWindowPos(nullptr, 12, 94, w, 32, SWP_NOZORDER);
-        m_btnPageFirmware.SetWindowPos(nullptr, 12, 180, w, 32, SWP_NOZORDER);
+        m_btnPageFunction.SetWindowPos(nullptr, 12, 180, w, 32, SWP_NOZORDER);
     }
 
     const int btnHeight = 32;
@@ -160,7 +160,7 @@ void CSidePanelPane::OnPaint()
 
     // Vẽ label "Maintenance"
     CRect rcLabel2(12, 152, rcClient.right - 12, 174);
-    dc.DrawText(_T("MAINTENANCE"), rcLabel2, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+    dc.DrawText(_T("BOOK FUNCTION"), rcLabel2, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
 
     // Vẽ đường kẻ phân cách
     CPen pen(PS_SOLID, 1, RGB(220, 220, 220));

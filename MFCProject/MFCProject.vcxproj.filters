@@ -54,7 +54,7 @@
     <ClInclude Include="src\ui\pages\PageTicket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\pages\PageFirmware.h">
+    <ClInclude Include="src\ui\pages\PageFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h">
@@ -122,7 +122,7 @@
     <ClCompile Include="src\ui\pages\PageTicket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ui\pages\PageFirmware.cpp">
+    <ClCompile Include="src\ui\pages\PageFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp">
