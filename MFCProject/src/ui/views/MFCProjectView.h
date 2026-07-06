@@ -6,9 +6,9 @@
 #include "CCustomButton.h"
 #include "CCustomEdit.h"
 #include "PageBook.h"
-#include "PageTicket.h"
+//#include "PageTicket.h"
 #include "MFCProjectDoc.h"
-#include "PageFirmware.h"
+#include "PageFunction.h"
 
 class MFCProjectView : public CFormView
 {
@@ -26,8 +26,8 @@ public:
 	CMFCProjectDoc* GetDocument() const;
 
 	PageBook		m_pageBook;
-	PageTicket		m_pageTicket;
-	PageFirmware    m_pageFirmware;
+	//PageTicket		m_pageTicket;
+	PageFunction    m_pageFunction;
 	CDialog* m_pCurrentPage;
 
 // Operations

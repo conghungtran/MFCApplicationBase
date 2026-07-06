@@ -211,7 +211,7 @@
     <ClInclude Include="src\ui\controls\BookPageToolBar.h" />
     <ClInclude Include="src\ui\controls\CSearchCtrl.h" />
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h" />
-    <ClInclude Include="src\ui\pages\PageFirmware.h" />
+    <ClInclude Include="src\ui\pages\PageFunction.h" />
     <ClInclude Include="src\ui\pages\PageTicket.h" />
     <ClInclude Include="src\ui\pages\PageBook.h" />
     <ClInclude Include="src\pch\targetver.h" />
@@ -236,7 +236,7 @@
     <ClCompile Include="src\ui\controls\BookPageToolBar.cpp" />
     <ClCompile Include="src\ui\controls\CSearchCtrl.cpp" />
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp" />
-    <ClCompile Include="src\ui\pages\PageFirmware.cpp" />
+    <ClCompile Include="src\ui\pages\PageFunction.cpp" />
     <ClCompile Include="src\ui\pages\PageTicket.cpp" />
     <ClCompile Include="src\ui\pages\PageBook.cpp" />
     <ClCompile Include="src\ui\app\MFCProject.cpp" />

@@ -42,7 +42,7 @@ protected:
 	afx_msg void OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
 
 
-	afx_msg LRESULT OnBnClickedBtnDelete(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnBnClickedBtnClear(WPARAM wParam, LPARAM lParam);
 	void AddBookToListCtrl(const Book& book);
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -56,7 +56,6 @@ public:
 
 	CCustomButton m_btnAdd;
 	CCustomButton m_btnDelete;
-	CCustomButton m_btnRefresh;
 
 
 protected:

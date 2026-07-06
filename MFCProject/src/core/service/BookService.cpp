@@ -72,6 +72,18 @@ bool CBookService::DeleteBook(long id, CString& errorMsg)
     return true;
 }
 
+bool CBookService::DeleteAllBook(CString& errorMsg)
+{
+
+    if (!m_repository->DeleteAll())
+    {
+        errorMsg = _T("Không thể xóa sách.");
+        return false;
+    }
+    return true;
+}
+
+
 std::vector<Book> CBookService::GetAllBooks()
 {
     return m_repository->GetAll();

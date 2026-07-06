@@ -13,7 +13,6 @@ public:
 protected:
     CCustomButton  m_btnAdd;
     CCustomButton  m_btnDelete;
-    CCustomButton  m_btnRefresh;
     CSearchCtrl    m_searchCtrl;
 
     afx_msg int  OnCreate(LPCREATESTRUCT lpcs);

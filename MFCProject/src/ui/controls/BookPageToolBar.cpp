@@ -39,9 +39,6 @@ void BookPageToolBar::OnAddClicked()
 
 void BookPageToolBar::OnDeleteClicked()
 {
-    // Toolbar không tự mở dialog - chỉ báo lên Parent
-    // (Parent mới là nơi có CListCtrl + BookService để xử lý)
-
     if (GetParent())
         GetParent()->PostMessage(WM_DELETE_BOOK, 0, 0);
 }
@@ -78,8 +75,7 @@ void BookPageToolBar::CreateButtons()
         };
 
     MakeBtn(m_btnAdd, ID_BTN_ADD, SIID_STACK, L"Add");
-    MakeBtn(m_btnDelete, ID_BTN_DELETE, SIID_DELETE, L"Delete");
-    MakeBtn(m_btnRefresh, ID_BTN_IMPORT, SIID_FOLDER, L"Import");
+    MakeBtn(m_btnDelete, ID_BTN_DELETE, SIID_DELETE, L"Clear");
 }
 
 void BookPageToolBar::RepositionControls()
@@ -103,7 +99,6 @@ void BookPageToolBar::RepositionControls()
     int xLeft = PAD;
     m_btnAdd.MoveWindow(xLeft, y, BTN_W, BTN_H);     xLeft += BTN_W + GAP;
     m_btnDelete.MoveWindow(xLeft, y, BTN_W, BTN_H);  xLeft += BTN_W + GAP;
-    m_btnRefresh.MoveWindow(xLeft, y, BTN_W, BTN_H); xLeft += BTN_W + GAP * 2;
 
     // CENTER/RIGHT: Search chiếm phần còn lại
     int searchW = rc.right - PAD - xLeft;

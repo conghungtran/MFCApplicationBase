@@ -14,6 +14,7 @@ public:
     virtual bool Add(Book& book) override;
     virtual bool Update(const Book& book) override;
     virtual bool Delete(long id) override;
+    virtual bool DeleteAll() override;
 
     virtual std::vector<Book> GetAll() override;
     virtual std::vector<Book> Search(const CString& keyword) override;

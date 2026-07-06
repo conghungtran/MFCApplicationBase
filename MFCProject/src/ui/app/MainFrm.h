@@ -53,8 +53,8 @@ protected:
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 
 	afx_msg void OnPagePrinter();
-	afx_msg void OnPageTicket();
-	afx_msg void OnPageFirmware();
+	//afx_msg void OnPageTicket();
+	afx_msg void OnPageFunction();
 
 
 
