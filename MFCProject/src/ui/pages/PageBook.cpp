@@ -85,7 +85,7 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
     ON_MESSAGE(WM_PAGE_CHANGED, &PageBook::OnPageChanged)
 
     ON_MESSAGE(WM_ADD_BOOK, &PageBook::OnAddBook)
-    ON_MESSAGE(WM_DELETE_BOOK, &PageBook::OnBnClickedBtnDelete)
+    ON_MESSAGE(WM_DELETE_BOOK, &PageBook::OnBnClickedBtnClear)
     ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BOOK, &PageBook::OnLvnColumnClick)
 
     ON_WM_SIZE()
@@ -158,14 +158,30 @@ void PageBook::UpdateSortArrow(int nSortedCol, bool bAscending)
     }
 }
 
-LRESULT PageBook::OnBnClickedBtnDelete(WPARAM, LPARAM)
-
+LRESULT PageBook::OnBnClickedBtnClear(WPARAM, LPARAM)
 {
 
 
-    std::cout << "Deleted \n";
+    if (MessageBox(_T("Are you sure you want to delete ALL book data?\nThis action cannot be undone."),
+        _T("Confirm deletion"), MB_YESNO | MB_ICONWARNING) != IDYES)
+    {
+        return 0;
+    }
+
+    CString errorMsg;
+    if (m_bookService->DeleteAllBook(errorMsg))
+    {
+        // Chỉ xóa khỏi CListCtrl SAU KHI Database xóa thành công
+        m_listCtrl.DeleteAllItems();
+    }
+    else
+    {
+        AfxMessageBox(errorMsg);
+    }
+
     return 0;
 }
+
 
 
 BOOL PageBook::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)

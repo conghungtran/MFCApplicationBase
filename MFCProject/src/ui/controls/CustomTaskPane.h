@@ -11,7 +11,7 @@ public:
 
 protected:
     CCustomButton m_btnPagePrinter;
-    CCustomButton m_btnPageTicket;
+    //CCustomButton m_btnPageTicket;
     CCustomButton m_btnPageFunction;
 
     CCustomButton m_btnSettings;

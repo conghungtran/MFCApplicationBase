@@ -137,6 +137,30 @@ bool CBookRepository::Update(const Book& book)
         return success;
 }
 
+bool CBookRepository::DeleteAll()
+{
+    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
+    bool success = false;
+
+    TRY
+    {
+        CString sql;
+        sql.Format(_T("DELETE FROM BOOK"));
+        db.ExecuteSQL(sql);
+        success = true;
+    }
+        CATCH(CDBException, e)
+    {
+        CString msg;
+        msg.Format(_T("Clear books failed: %s"), e->m_strError);
+        AfxMessageBox(msg);
+        success = false;
+    }
+    END_CATCH
+
+        return success;
+}
+
 bool CBookRepository::Delete(long id)
 {
     CDatabase& db = CDatabaseManager::Instance().GetDatabase();

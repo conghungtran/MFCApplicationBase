@@ -49,15 +49,15 @@ void CSidePanelPane::CreateButtons()
     SHGetStockIconInfo(SIID_FOLDER, SHGSI_ICON | SHGSI_SMALLICON, &sii);
     m_btnPagePrinter.SetIcon(sii.hIcon);
 
-    m_btnPageTicket.Create(_T("Ticket"),
-        WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
-        CRect(12, 94, 188, 126), this, ID_PAGE_TICKET);
-    m_btnPageTicket.SetFont(&m_font);
+    //m_btnPageTicket.Create(_T("Ticket"),
+    //    WS_CHILD | WS_VISIBLE | BS_OWNERDRAW,
+    //    CRect(12, 94, 188, 126), this, ID_PAGE_TICKET);
+    //m_btnPageTicket.SetFont(&m_font);
 
-    SHSTOCKICONINFO sii_ticket = { sizeof(sii_ticket) };
-    SHGetStockIconInfo(SIID_USERS, SHGSI_ICON | SHGSI_SMALLICON, &sii_ticket);
-    m_btnPageTicket.SetIcon(sii_ticket.hIcon);
-    SetButtonColors(m_btnPageTicket);
+    //SHSTOCKICONINFO sii_ticket = { sizeof(sii_ticket) };
+    //SHGetStockIconInfo(SIID_USERS, SHGSI_ICON | SHGSI_SMALLICON, &sii_ticket);
+    //m_btnPageTicket.SetIcon(sii_ticket.hIcon);
+    //SetButtonColors(m_btnPageTicket);
 
     // --- Group: Maintenance ---
     m_btnPageFunction.Create(_T("Function"),
@@ -114,7 +114,7 @@ void CSidePanelPane::OnSize(UINT nType, int cx, int cy)
     {
         int w = cx - 24;  // margin 12px mỗi bên
         m_btnPagePrinter.SetWindowPos(nullptr, 12, 50, w, 32, SWP_NOZORDER);
-        m_btnPageTicket.SetWindowPos(nullptr, 12, 94, w, 32, SWP_NOZORDER);
+        //m_btnPageTicket.SetWindowPos(nullptr, 12, 94, w, 32, SWP_NOZORDER);
         m_btnPageFunction.SetWindowPos(nullptr, 12, 180, w, 32, SWP_NOZORDER);
     }
 

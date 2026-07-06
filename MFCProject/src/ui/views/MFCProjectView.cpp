@@ -90,8 +90,8 @@ void MFCProjectView::OnInitialUpdate()
 
 
 
-	m_pageTicket.Create(IDD_PAGE_TICKET, this);
-	m_pageTicket.MoveWindow(rect);
+	//m_pageTicket.Create(IDD_PAGE_TICKET, this);
+	//m_pageTicket.MoveWindow(rect);
 
 	m_pageFunction.Create(IDD_PAGE_FUNCTION, this);
 	m_pageFunction.MoveWindow(rect);
@@ -112,8 +112,8 @@ void MFCProjectView::OnSize(UINT nType, int cx, int cy)
 	if (m_pageBook.GetSafeHwnd())
 		m_pageBook.MoveWindow(rect);
 
-	if (m_pageTicket.GetSafeHwnd())
-		m_pageTicket.MoveWindow(rect);
+	//if (m_pageTicket.GetSafeHwnd())
+	//	m_pageTicket.MoveWindow(rect);
 
 	if (m_pageFunction.GetSafeHwnd())
 		m_pageFunction.MoveWindow(rect);

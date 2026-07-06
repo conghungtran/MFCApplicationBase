@@ -34,7 +34,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
 	ON_COMMAND(ID_PAGE_BOOK, &CMainFrame::OnPagePrinter)
-	ON_COMMAND(ID_PAGE_TICKET, &CMainFrame::OnPageTicket)
+	//ON_COMMAND(ID_PAGE_TICKET, &CMainFrame::OnPageTicket)
 	ON_COMMAND(IDD_PAGE_FUNCTION, &CMainFrame::OnPageFunction)
 
 
@@ -96,15 +96,15 @@ CMainFrame::~CMainFrame()
 {
 }
 
-void CMainFrame::OnPageTicket() { 
-	//AfxMessageBox(_T("Remove Printer")); 
-
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	MFCProjectView* pView = (MFCProjectView*)pFrame->GetActiveView();
-
-	if (pView)
-		pView->SwitchPage(&pView->m_pageTicket);
-}
+//void CMainFrame::OnPageTicket() { 
+//	//AfxMessageBox(_T("Remove Printer")); 
+//
+//	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+//	MFCProjectView* pView = (MFCProjectView*)pFrame->GetActiveView();
+//
+//	if (pView)
+//		pView->SwitchPage(&pView->m_pageTicket);
+//}
 void CMainFrame::OnPageFunction()
 {
 

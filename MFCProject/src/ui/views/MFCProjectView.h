@@ -6,7 +6,7 @@
 #include "CCustomButton.h"
 #include "CCustomEdit.h"
 #include "PageBook.h"
-#include "PageTicket.h"
+//#include "PageTicket.h"
 #include "MFCProjectDoc.h"
 #include "PageFunction.h"
 
@@ -26,7 +26,7 @@ public:
 	CMFCProjectDoc* GetDocument() const;
 
 	PageBook		m_pageBook;
-	PageTicket		m_pageTicket;
+	//PageTicket		m_pageTicket;
 	PageFunction    m_pageFunction;
 	CDialog* m_pCurrentPage;
 

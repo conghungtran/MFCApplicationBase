@@ -14,6 +14,7 @@ public:
     bool AddBook(Book& book, CString& errorMsg);
     bool UpdateBook(const Book& book, CString& errorMsg);
     bool DeleteBook(long id, CString& errorMsg);
+    bool DeleteAllBook(CString& errorMsg);
 
     std::vector<Book> GetAllBooks();
     std::vector<Book> SearchBooks(const CString& keyword);
