@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <vector>
-#include "../Repository/IBookRepository.h"
+#include "IBookRepository.h"
 
 struct ImportResult
 {

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ImportExportService.h"
-#include "../Database/DatabaseManager.h"
+#include "DatabaseManager.h"
 
 CImportExportService::CImportExportService(std::shared_ptr<IBookRepository> repository)
     : m_repository(repository)

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "BookRepository.h"
-#include "../Database/DatabaseManager.h"
+#include "DatabaseManager.h"
 
 CBookRepository::CBookRepository()
 {
