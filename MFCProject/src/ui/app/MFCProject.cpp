@@ -93,7 +93,6 @@ BOOL CMFCProjectApp::InitInstance()
 		std::cout << "Can not connect \n";
 		return FALSE;
 	}
-	//alo
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
