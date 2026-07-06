@@ -1,3 +1,5 @@
+use book;
+
 INSERT INTO BOOK (NAME, PRICE, QTY, CREATED_DATE)
 VALUES ('C++ Primer', 45.99, 10, '2026-01-15 09:30:00');
 
