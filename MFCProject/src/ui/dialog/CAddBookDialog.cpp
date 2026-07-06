@@ -42,6 +42,7 @@ void CAddBookDialog::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_EDIT_BOOK_NAME, m_edit_bookname);
     DDX_Control(pDX, IDC_EDIT_BOOK_PRICE, m_edit_bookprice);
     DDX_Control(pDX, IDC_EDIT_BOOK_QUANTITY, m_edit_bookquatity);
+    DDX_Control(pDX, IDC_BUTTON_CLEAR, m_btn_clear_form);
 
     DDX_Text(pDX, IDC_EDIT_BOOK_NAME, cstr_Name);
     DDX_Text(pDX, IDC_EDIT_BOOK_PRICE, cstr_Price);
@@ -49,7 +50,19 @@ void CAddBookDialog::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAddBookDialog, CDialogEx)
+    ON_BN_CLICKED(IDC_BUTTON_CLEAR, &CAddBookDialog::OnBnClickedBtnClearForm)
 END_MESSAGE_MAP()
+
+void CAddBookDialog::OnBnClickedBtnClearForm()
+{
+    cstr_Name.Empty();
+    cstr_Price = 0.0;
+    cstr_Quantity = 0;
+
+    UpdateData(FALSE);   // đẩy giá trị vừa reset lên lại các CEdit trên UI
+
+    m_edit_bookname.SetFocus();   // đưa focus về ô đầu tiên cho tiện gõ lại
+}
 
 void CAddBookDialog::OnOK()
 {
@@ -62,21 +75,21 @@ void CAddBookDialog::OnOK()
     cstr_Name.Trim();
     if (cstr_Name.IsEmpty())
     {
-        AfxMessageBox(_T("Book Name không được để trống."));
+        AfxMessageBox(_T("Book Name is not empty."));
         m_edit_bookname.SetFocus();
         return;
     }
 
     if (cstr_Price <= 0)
     {
-        AfxMessageBox(_T("Price phải lớn hơn 0."));
+        AfxMessageBox(_T("Price must be > 0."));
         m_edit_bookprice.SetFocus();
         return;
     }
 
     if (cstr_Quantity < 0)
     {
-        AfxMessageBox(_T("Quantity không được âm."));
+        AfxMessageBox(_T("Quantity must be > 0."));
         m_edit_bookquatity.SetFocus();
         return;
     }

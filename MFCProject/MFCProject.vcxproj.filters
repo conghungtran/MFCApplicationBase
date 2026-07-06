@@ -154,11 +154,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\ui\resources\MFCProject.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="src\ui\resources\res\userimages.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -195,5 +190,10 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="src\ui\resources\MFCProject.aps" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\ui\resources\MFCProject.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

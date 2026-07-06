@@ -44,7 +44,7 @@
 #define IDC_EDIT_BOOK_NAME              1010
 #define IDC_EDIT_BOOK_PRICE             1011
 #define IDC_EDIT_BOOK_QUANTITY          1012
-#define IDC_BUTTON3                     1015
+#define IDC_BUTTON_CLEAR                1016
 #define ID_BOOK_REMOVE                  2003
 #define ID_TICKET_CREATE                2004
 #define ID_VIEW_SIDE_PANE               2005
@@ -71,7 +71,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        335
 #define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

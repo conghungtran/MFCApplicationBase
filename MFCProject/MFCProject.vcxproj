@@ -254,9 +254,6 @@
     <ClCompile Include="src\ui\views\MFCProjectView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\ui\resources\MFCProject.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="src\ui\resources\res\icon1.ico" />
     <Image Include="src\ui\resources\res\icon2.ico" />
     <Image Include="src\ui\resources\res\icon3.ico" />
@@ -271,6 +268,9 @@
   <ItemGroup>
     <None Include="src\ui\resources\MFCProject.aps" />
     <None Include="src\ui\resources\res\MFCProject.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\ui\resources\MFCProject.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

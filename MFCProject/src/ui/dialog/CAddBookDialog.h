@@ -20,13 +20,15 @@ protected:
     virtual BOOL OnInitDialog() override;
     virtual void DoDataExchange(CDataExchange* pDX) override;
     virtual void OnOK() override;
-
+    afx_msg void OnBnClickedBtnClearForm();
     DECLARE_MESSAGE_MAP()
 
 private:
     CEdit m_edit_bookname;
     CEdit m_edit_bookprice;
     CEdit m_edit_bookquatity;
+    CButton m_btn_clear_form;
+
 
     CString cstr_Name;
     double  cstr_Price;
