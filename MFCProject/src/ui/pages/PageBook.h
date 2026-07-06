@@ -26,6 +26,7 @@ public:
 	void InitControlList();
 	void InitTable();
 	void LoadData();
+	void UpdateSortArrow(int nSortedCol, bool bAscending);
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -38,6 +39,7 @@ protected:
 	afx_msg LRESULT OnEditItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnDeleteItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddBook(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
 
 
 	afx_msg LRESULT OnBnClickedBtnDelete(WPARAM wParam, LPARAM lParam);
@@ -56,6 +58,7 @@ public:
 	CCustomButton m_btnDelete;
 	CCustomButton m_btnRefresh;
 
+
 protected:
 	CBrush m_brushWhite;
 
@@ -73,4 +76,10 @@ protected:
 	void RefreshTotalCount();
 
 	std::shared_ptr<CBookService> m_bookService;
+
+
+private:
+	int  m_nSortColumn = -1;      // cột đang sort, -1 = chưa sort
+	bool m_bSortAscending = true; // chiều sort hiện tại
+
 };

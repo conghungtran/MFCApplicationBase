@@ -85,13 +85,78 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
     ON_MESSAGE(WM_PAGE_CHANGED, &PageBook::OnPageChanged)
 
     ON_MESSAGE(WM_ADD_BOOK, &PageBook::OnAddBook)
-
     ON_MESSAGE(WM_DELETE_BOOK, &PageBook::OnBnClickedBtnDelete)
+    ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BOOK, &PageBook::OnLvnColumnClick)
+
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
+
+void PageBook::OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+    int nClickedCol = pNMLV->iSubItem;
+
+    // BookService::GetSortedBooks() chỉ whitelist 2 cột NAME/PRICE (chống SQL injection
+    // qua tên cột) - các cột khác (ID, Qty, Created Date, Action) không hỗ trợ sort qua click
+    CString sortColumn;
+    switch (nClickedCol)
+    {
+    case COL_NAME:  sortColumn = _T("NAME");  break;
+    case COL_PRICE: sortColumn = _T("PRICE"); break;
+    default:
+        *pResult = 0;
+        return;
+    }
+
+    // Click lại đúng cột đang sort -> đảo chiều ASC/DESC
+    // Click sang cột khác -> reset về ASC
+    if (m_nSortColumn == nClickedCol)
+        m_bSortAscending = !m_bSortAscending;
+    else
+    {
+        m_nSortColumn = nClickedCol;
+        m_bSortAscending = true;
+    }
+
+    std::vector<Book> books = m_bookService->GetSortedBooks(sortColumn, m_bSortAscending);
+
+    m_listCtrl.DeleteAllItems();
+    for (const auto& book : books)
+    {
+        AddBookToListCtrl(book);   // hàm insert 1 row bạn đã có sẵn từ LoadData()
+    }
+
+    UpdateSortArrow(nClickedCol, m_bSortAscending);   // optional - xem bước 4
+
+    *pResult = 0;
+}
+
+void PageBook::UpdateSortArrow(int nSortedCol, bool bAscending)
+{
+    CHeaderCtrl* pHeader = m_listCtrl.GetHeaderCtrl();
+    if (!pHeader)
+        return;
+
+    int nCount = pHeader->GetItemCount();
+    for (int i = 0; i < nCount; ++i)
+    {
+        HDITEM hdItem = {};
+        hdItem.mask = HDI_FORMAT;
+        pHeader->GetItem(i, &hdItem);
+
+        // Xóa cờ mũi tên cũ (nếu có) ở tất cả cột
+        hdItem.fmt &= ~(HDF_SORTUP | HDF_SORTDOWN);
+
+        // Chỉ gắn mũi tên cho đúng cột đang được sort
+        if (i == nSortedCol)
+            hdItem.fmt |= bAscending ? HDF_SORTUP : HDF_SORTDOWN;
+
+        pHeader->SetItem(i, &hdItem);
+    }
+}
 
 LRESULT PageBook::OnBnClickedBtnDelete(WPARAM, LPARAM)
 
