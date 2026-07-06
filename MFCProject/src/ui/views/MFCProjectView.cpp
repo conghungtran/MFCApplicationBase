@@ -78,14 +78,15 @@ void MFCProjectView::OnInitialUpdate()
 
 	CRect rect;
 	GetClientRect(&rect);
+	auto repository = std::make_shared<CBookRepository>();
+	auto bookService = std::make_shared<CBookService>(repository);
+	m_pageBook.SetBookService(bookService);
 
 	// Tạo các page — parent là View (this)
 	m_pageBook.Create(IDD_PAGE_BOOK, this);
 	m_pageBook.MoveWindow(rect);
 
-	auto repository = std::make_shared<CBookRepository>();
-	auto bookService = std::make_shared<CBookService>(repository);
-	m_pageBook.SetBookService(bookService);
+	
 
 
 

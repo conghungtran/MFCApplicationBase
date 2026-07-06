@@ -12,6 +12,7 @@ BEGIN_MESSAGE_MAP(BookPageToolBar, CWnd)
     ON_WM_PAINT()
     ON_WM_ERASEBKGND()
     ON_BN_CLICKED(ID_BTN_ADD, &BookPageToolBar::OnAddClicked)
+    ON_BN_CLICKED(ID_BTN_DELETE, &BookPageToolBar::OnDeleteClicked)
     ON_MESSAGE(WM_SEARCH, &BookPageToolBar::OnSearch)
 END_MESSAGE_MAP()
 
@@ -34,6 +35,15 @@ void BookPageToolBar::OnAddClicked()
     
     if (GetParent())
         GetParent()->PostMessage(WM_ADD_BOOK, 0, 0);
+}
+
+void BookPageToolBar::OnDeleteClicked()
+{
+    // Toolbar không tự mở dialog - chỉ báo lên Parent
+    // (Parent mới là nơi có CListCtrl + BookService để xử lý)
+
+    if (GetParent())
+        GetParent()->PostMessage(WM_DELETE_BOOK, 0, 0);
 }
 
 int BookPageToolBar::OnCreate(LPCREATESTRUCT lpcs)
@@ -69,7 +79,7 @@ void BookPageToolBar::CreateButtons()
 
     MakeBtn(m_btnAdd, ID_BTN_ADD, SIID_STACK, L"Add");
     MakeBtn(m_btnDelete, ID_BTN_DELETE, SIID_DELETE, L"Delete");
-    MakeBtn(m_btnRefresh, ID_BTN_REFRESH, SIID_USERS, L"Refresh");
+    MakeBtn(m_btnRefresh, ID_BTN_IMPORT, SIID_FOLDER, L"Import");
 }
 
 void BookPageToolBar::RepositionControls()

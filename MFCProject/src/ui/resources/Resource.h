@@ -58,10 +58,12 @@
 #define ID_SEARCH_CTRL                  3183
 #define ID_BTN_ADD                      3185
 #define ID_BTN_DELETE                   3186
-#define ID_BTN_REFRESH                  3187
+#define ID_BTN_IMPORT					3187
 #define ID_PAGINATION                   3188
 #define WM_PAGE_CHANGED                 3189
+
 #define WM_ADD_BOOK                     3190
+#define WM_DELETE_BOOK                  3191
 
 // Next default values for new objects
 // 

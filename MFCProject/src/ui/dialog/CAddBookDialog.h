@@ -2,39 +2,35 @@
 #include "afxdialogex.h"
 #include "Book.h"
 
-
-// CAddBookDialog dialog
-
+// (đúng theo Resource View của bạn, đổi tên ID nếu khác)
 class CAddBookDialog : public CDialogEx
 {
-	DECLARE_DYNAMIC(CAddBookDialog)
-
 public:
-	CAddBookDialog(CWnd* pParent = nullptr);   // standard constructor
-	virtual ~CAddBookDialog();
+    CAddBookDialog(CWnd* pParent = nullptr);
 
-// Dialog Data
-#ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DIALOG_BOOK_FORM };
-#endif
+    // Gọi TRƯỚC DoModal() để pre-fill dữ liệu - dùng cho chức năng Edit.
+    // Không gọi hàm này -> dialog ở mode Add bình thường (rỗng, ID = 0).
+    void SetBook(const Book& book);
+
+    // Gọi sau khi DoModal() trả về IDOK để lấy dữ liệu đã nhập.
+    // book.ID giữ nguyên giá trị đã set qua SetBook() (0 nếu là Add).
+    Book GetBook() const;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual void OnOK() override;
+    virtual BOOL OnInitDialog() override;
+    virtual void DoDataExchange(CDataExchange* pDX) override;
+    virtual void OnOK() override;
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
-public:
-	Book GetBook() const;
+private:
+    CEdit m_edit_bookname;
+    CEdit m_edit_bookprice;
+    CEdit m_edit_bookquatity;
 
-public:
-	CEdit m_edit_bookname;
-	CEdit m_edit_bookprice;
-	CEdit m_edit_bookquatity;
+    CString cstr_Name;
+    double  cstr_Price;
+    int     cstr_Quantity;
 
-public:
-	CString cstr_Name;
-	double cstr_Price;
-	int cstr_Quantity;
-
+    long    m_bookId = 0;   // 0 = Add mode, >0 = Edit mode (giữ ID gốc)
 };

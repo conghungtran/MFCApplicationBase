@@ -5,6 +5,7 @@
 #include <iostream>
 #include <commoncontrols.h>
 #include "CAddBookDialog.h"
+#include <algorithm>
 #pragma comment(lib, "comctl32.lib")
 static HICON GetShellIcon(SHSTOCKICONID id, int size = 40)
 {
@@ -84,11 +85,22 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
     ON_MESSAGE(WM_PAGE_CHANGED, &PageBook::OnPageChanged)
 
     ON_MESSAGE(WM_ADD_BOOK, &PageBook::OnAddBook)
+
+    ON_MESSAGE(WM_DELETE_BOOK, &PageBook::OnBnClickedBtnDelete)
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
+
+LRESULT PageBook::OnBnClickedBtnDelete(WPARAM, LPARAM)
+
+{
+
+
+    std::cout << "Deleted \n";
+    return 0;
+}
 
 
 BOOL PageBook::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
@@ -112,9 +124,6 @@ LRESULT PageBook::OnAddBook(WPARAM, LPARAM)
     {
         Book book = dlg.GetBook();
         CString errorMsg;
-        std::cout << book.Name << std::endl;
-        std::cout << book.Price << std::endl;
-        std::cout << book.Qty << std::endl;
         // Gọi qua Service (không gọi thẳng Repository) - đúng kiến trúc UI -> Service -> Repository
         if (m_bookService->AddBook(book, errorMsg))
         {
@@ -204,44 +213,98 @@ BOOL PageBook::OnEraseBkgnd(CDC* pDC)
     CRect rc;
     GetClientRect(&rc);
     pDC->FillSolidRect(&rc, RGB(255, 255, 255));
-    return TRUE;
+    return TRUE;  
 }
 
 void PageBook::InitTable()
 {
-    m_listCtrl.InsertColumn(COL_NAME, _T("ID"), LVCFMT_CENTER, 100);
-    m_listCtrl.InsertColumn(COL_STATUS, _T("Name"), LVCFMT_CENTER, 150);
-    m_listCtrl.InsertColumn(COL_ACTION, _T("Price"), LVCFMT_CENTER, 150);
-    m_listCtrl.InsertColumn(COL_ACTION, _T("Quantity"), LVCFMT_CENTER, 150);
-    m_listCtrl.InsertColumn(COL_ACTION, _T("Created Date"), LVCFMT_CENTER, 150);
-    m_listCtrl.InsertColumn(COL_ACTION, _T("Action"), LVCFMT_CENTER, 200);
+    m_listCtrl.InsertColumn(COL_ID, _T("ID"), LVCFMT_CENTER, 100);
+    m_listCtrl.InsertColumn(COL_NAME, _T("Name"), LVCFMT_LEFT, 150);
+    m_listCtrl.InsertColumn(COL_PRICE, _T("Price"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_QUANTITY, _T("Quantity"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_CREATED_DATE, _T("Created Date"), LVCFMT_CENTER, 150);
+    m_listCtrl.InsertColumn(COL_ACTION, _T("Action"), LVCFMT_LEFT, 200);
 
 }
 
-void PageBook :: LoadData() {
+void PageBook::LoadData()
+{
+    m_listCtrl.DeleteAllItems();
 
-    // Thêm 25 dòng để test pagination (page size = 20 → 2 trang)
-    CString name, status;
-    for (int i = 0; i < 25; ++i)
+    if (!m_bookService)
     {
-        name.Format(_T("Printer %02d"), i + 1);
-        status = (i % 3 == 0) ? _T("Offline") : _T("Online");
-
-        int idx = m_listCtrl.InsertItem(i, name);
-        m_listCtrl.SetItemText(idx, COL_STATUS, status);
+        AfxMessageBox(_T("BookService is not initialize."));
+        return;
     }
 
-    // Cập nhật total sau khi add data
+    std::vector<Book> books = m_bookService->GetAllBooks();
+
+    for (size_t i = 0; i < books.size(); ++i)
+    {
+        const Book& book = books[i];
+
+        CString idStr;
+        idStr.Format(_T("%ld"), book.ID);
+        int idx = m_listCtrl.InsertItem((int)i, idStr);   // cột ID (chỉ số 0) truyền lúc InsertItem
+
+        m_listCtrl.SetItemText(idx, COL_NAME, book.Name);
+
+        CString priceStr;
+        priceStr.Format(_T("%.2f"), book.Price);
+        m_listCtrl.SetItemText(idx, COL_PRICE, priceStr);
+
+        CString qtyStr;
+        qtyStr.Format(_T("%d"), book.Qty);
+        m_listCtrl.SetItemText(idx, COL_QUANTITY, qtyStr);
+
+        m_listCtrl.SetItemText(idx, COL_CREATED_DATE, book.CreatedDate.Format(_T("%Y-%m-%d %H:%M:%S")));
+
+        // COL_ACTION: để trống ở đây - nếu bạn có nút Edit/Delete riêng trong từng dòng,
+        // thường xử lý bằng owner-draw hoặc custom control chèn vào, không set text thường
+    }
+
+    // Cập nhật total sau khi load xong - dùng cho CPaginationBar bạn đã có
     m_nTotalRecords = m_listCtrl.GetItemCount();
 }
 
 LRESULT PageBook::OnEditItem(WPARAM wParam, LPARAM lParam)
 {
     int nRow = (int)wParam;
-    CString strName = m_listCtrl.GetItemText(nRow, COL_NAME);
 
-    // Mở dialog Edit
-    AfxMessageBox(_T("Edit: ") + strName);
+    // Lấy dữ liệu hiện tại của dòng này để pre-fill lên dialog
+    Book book;
+    book.ID = _ttol(m_listCtrl.GetItemText(nRow, COL_ID));
+    book.Name = m_listCtrl.GetItemText(nRow, COL_NAME);
+    book.Price = _ttof(m_listCtrl.GetItemText(nRow, COL_PRICE));
+    book.Qty = _ttoi(m_listCtrl.GetItemText(nRow, COL_QUANTITY));
+
+    CAddBookDialog dlg(this);
+    dlg.SetBook(book);   // mode Edit - dialog hiện sẵn dữ liệu, tiêu đề đổi thành "Edit Book"
+
+    if (dlg.DoModal() != IDOK)
+        return 0;
+
+    Book updated = dlg.GetBook();   // updated.ID đã tự giữ đúng book.ID nhờ SetBook()
+
+    CString errorMsg;
+    if (m_bookService->UpdateBook(updated, errorMsg))
+    {
+        // Cập nhật lại đúng dòng trên CListCtrl, không cần LoadData() lại toàn bộ
+        m_listCtrl.SetItemText(nRow, COL_NAME, updated.Name);
+
+        CString priceStr;
+        priceStr.Format(_T("%.2f"), updated.Price);
+        m_listCtrl.SetItemText(nRow, COL_PRICE, priceStr);
+
+        CString qtyStr;
+        qtyStr.Format(_T("%d"), updated.Qty);
+        m_listCtrl.SetItemText(nRow, COL_QUANTITY, qtyStr);
+    }
+    else
+    {
+        AfxMessageBox(errorMsg);
+    }
+
     return 0;
 }
 
@@ -249,12 +312,26 @@ LRESULT PageBook::OnDeleteItem(WPARAM wParam, LPARAM lParam)
 {
     int nRow = (int)wParam;
     CString strName = m_listCtrl.GetItemText(nRow, COL_NAME);
+    CString strId = m_listCtrl.GetItemText(nRow, COL_ID);
+    long id = _ttol(strId);   // convert CString -> long
 
     if (AfxMessageBox(_T("Delete ") + strName + _T("?"),
-        MB_YESNO | MB_ICONQUESTION) == IDYES)
+        MB_YESNO | MB_ICONQUESTION) != IDYES)
     {
+        return 0;
+    }
+
+    CString errorMsg;
+    if (m_bookService->DeleteBook(id, errorMsg))
+    {
+        // Chỉ xóa khỏi CListCtrl SAU KHI Database xóa thành công
         m_listCtrl.DeleteItem(nRow);
     }
+    else
+    {
+        AfxMessageBox(errorMsg);
+    }
+
     return 0;
 }
 

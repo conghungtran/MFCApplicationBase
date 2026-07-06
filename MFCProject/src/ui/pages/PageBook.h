@@ -38,6 +38,9 @@ protected:
 	afx_msg LRESULT OnEditItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnDeleteItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddBook(WPARAM wParam, LPARAM lParam);
+
+
+	afx_msg LRESULT OnBnClickedBtnDelete(WPARAM wParam, LPARAM lParam);
 	void AddBookToListCtrl(const Book& book);
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);

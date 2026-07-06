@@ -6,9 +6,12 @@
 #define WM_DELETE_ITEM (WM_USER + 101)
 
 // Column indices
-#define COL_NAME    0
-#define COL_STATUS  1
-#define COL_ACTION  2
+#define COL_ID    0
+#define COL_NAME  1
+#define COL_PRICE  2
+#define COL_QUANTITY  3
+#define COL_CREATED_DATE  4
+#define COL_ACTION  5
 
 class CCustomListCtrl : public CListCtrl
 {

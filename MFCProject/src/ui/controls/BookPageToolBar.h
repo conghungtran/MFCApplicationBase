@@ -22,6 +22,7 @@ protected:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg LRESULT OnSearch(WPARAM wParam, LPARAM lParam);
     afx_msg void OnAddClicked();
+    afx_msg void OnDeleteClicked();
 
     DECLARE_MESSAGE_MAP()
 
