@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: book-management-db
+        restart: unless-stopped
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - ./resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+            - ./resources/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+
+    phpmyadmin:
+        image: phpmyadmin:latest
+        container_name: book-management-admin
+        restart: unless-stopped
+        ports:
+            - "8080:80"
+        environment:
+            PMA_HOST: mysql
+            PMA_ARBITRARY: 1
+            UPLOAD_LIMIT: 100M
+        depends_on:
+            - mysql
+
+volumes:
+    mysql_data:
