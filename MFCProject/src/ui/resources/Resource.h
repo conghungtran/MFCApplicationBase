@@ -45,6 +45,7 @@
 #define IDC_EDIT_BOOK_PRICE             1011
 #define IDC_EDIT_BOOK_QUANTITY          1012
 #define IDC_BUTTON_CLEAR                1016
+#define IDC_BUTTON_IMPORT               1018
 #define ID_BOOK_REMOVE                  2003
 #define ID_TICKET_CREATE                2004
 #define ID_VIEW_SIDE_PANE               2005
@@ -60,10 +61,17 @@
 #define ID_BTN_ADD                      3185
 #define ID_BTN_DELETE                   3186
 #define ID_BTN_IMPORT                   3187
-#define ID_PAGINATION                   3188
-#define WM_PAGE_CHANGED                 3189
-#define WM_ADD_BOOK                     3190
-#define WM_DELETE_BOOK                  3191
+#define ID_BTN_EXPORT                   3188
+
+
+#define ID_PAGINATION                   3189
+#define WM_PAGE_CHANGED                 3190
+#define WM_ADD_BOOK                     3191
+#define WM_DELETE_BOOK                  3192
+
+#define WM_IMPORT_BOOK                  3193
+#define WM_EXPORT_BOOK                  3194
+
 
 // Next default values for new objects
 // 
@@ -71,7 +79,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        335
 #define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         1017
+#define _APS_NEXT_CONTROL_VALUE         1019
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif
