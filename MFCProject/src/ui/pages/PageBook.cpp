@@ -86,6 +86,8 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
 
     ON_MESSAGE(WM_ADD_BOOK, &PageBook::OnAddBook)
     ON_MESSAGE(WM_DELETE_BOOK, &PageBook::OnBnClickedBtnClear)
+    ON_MESSAGE(WM_IMPORT_BOOK, &PageBook::OnImportBook)
+    ON_MESSAGE(WM_EXPORT_BOOK, &PageBook::OnExportBook)
     ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BOOK, &PageBook::OnLvnColumnClick)
 
     ON_WM_SIZE()
@@ -217,6 +219,25 @@ LRESULT PageBook::OnAddBook(WPARAM, LPARAM)
     }
     return 0;
 }
+
+LRESULT PageBook::OnImportBook(WPARAM, LPARAM)
+{
+    std::cout << "Import \n";
+    LoadData();
+
+    
+    return 0;
+}
+
+
+LRESULT PageBook::OnExportBook(WPARAM, LPARAM)
+{
+
+    std::cout << "Export \n";
+
+    return 0;
+}
+
 
 void PageBook::AddBookToListCtrl(const Book& book)
 {
