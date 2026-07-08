@@ -2,7 +2,8 @@
 #include "BookRepository.h"
 #include "DatabaseManager.h"
 
-CBookRepository::CBookRepository()
+CBookRepository::CBookRepository(IDatabaseManager* pDbManager)
+    : m_pDbManager(pDbManager)
 {
 }
 
@@ -19,10 +20,6 @@ CString CBookRepository::EscapeSql(const CString& input)
 
 Book CBookRepository::ReadRow(CRecordset& rs)
 {
-    // GetFieldValue() của CRecordset "trần" (không DoFieldExchange) chỉ có overload
-    // nhận CString&, CDBVariant& hoặc CByteArray& - KHÔNG có overload cho long/double/
-    // COleDateTime trực tiếp. Vì vậy lấy tất cả ra CString rồi tự convert cho chắc chắn,
-    // không phụ thuộc kiểu dữ liệu nội bộ mà driver ODBC trả về.
     Book book;
     CString strVal;
 
@@ -47,10 +44,9 @@ Book CBookRepository::ReadRow(CRecordset& rs)
 std::vector<Book> CBookRepository::ExecuteQuery(const CString& sql)
 {
     std::vector<Book> result;
-    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
+	auto& db = m_pDbManager->GetDatabase();
 
-    TRY
-    {
+    try {
         CRecordset rs(&db);
         rs.Open(CRecordset::forwardOnly, sql, CRecordset::readOnly);
 
@@ -60,34 +56,28 @@ std::vector<Book> CBookRepository::ExecuteQuery(const CString& sql)
             rs.MoveNext();
         }
         rs.Close();
-    }
-        CATCH(CDBException, e)
-    {
+    } catch(CDBException* e) {
         CString msg;
         msg.Format(_T("Query failed: %s"), e->m_strError);
         AfxMessageBox(msg);
+        
+        e->Delete();
     }
-    END_CATCH
 
-        return result;
+    return result;
 }
 
 bool CBookRepository::Add(Book& book)
 {
-    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
     bool success = false;
+	auto& db = m_pDbManager->GetDatabase();
 
-    TRY
-    {
+    try {
         CString sql;
         sql.Format(_T("INSERT INTO BOOK (NAME, PRICE, QTY) VALUES ('%s', %f, %d)"),
             EscapeSql(book.Name), book.Price, book.Qty);
         db.ExecuteSQL(sql);
 
-        // MySQL: lấy ID vừa insert bằng LAST_INSERT_ID()
-        // (SQL Server dùng @@IDENTITY, SQLite dùng sqlite3_last_insert_rowid)
-        // Lưu ý: GetFieldValue() không có overload nhận long& - phải lấy ra
-        // CString rồi tự convert (giống ReadRow()).
         CRecordset rs(&db);
         rs.Open(CRecordset::forwardOnly, _T("SELECT LAST_INSERT_ID() AS NEWID"), CRecordset::readOnly);
         if (!rs.IsEOF())
@@ -99,90 +89,83 @@ bool CBookRepository::Add(Book& book)
         rs.Close();
 
         success = true;
-    }
-        CATCH(CDBException, e)
-    {
+    } catch (CDBException* e) {
         CString msg;
         msg.Format(_T("Add book failed: %s"), e->m_strError);
         AfxMessageBox(msg);
         success = false;
-    }
-    END_CATCH
 
-        return success;
+        e->Delete();
+    }
+
+    return success;
 }
 
 bool CBookRepository::Update(const Book& book)
 {
-    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
     bool success = false;
+	auto& db = m_pDbManager->GetDatabase();
 
-    TRY
-    {
+    try {
         CString sql;
         sql.Format(_T("UPDATE BOOK SET NAME='%s', PRICE=%f, QTY=%d WHERE ID=%ld"),
             EscapeSql(book.Name), book.Price, book.Qty, book.ID);
         db.ExecuteSQL(sql);
         success = true;
-    }
-        CATCH(CDBException, e)
-    {
+    } catch (CDBException* e) {
         CString msg;
         msg.Format(_T("Update book failed: %s"), e->m_strError);
         AfxMessageBox(msg);
         success = false;
-    }
-    END_CATCH
 
-        return success;
+        e->Delete();
+    }
+
+    return success;
 }
 
 bool CBookRepository::DeleteAll()
 {
-    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
     bool success = false;
+	auto& db = m_pDbManager->GetDatabase();
 
-    TRY
-    {
+    try {
         CString sql;
         sql.Format(_T("DELETE FROM BOOK"));
         db.ExecuteSQL(sql);
         success = true;
-    }
-        CATCH(CDBException, e)
-    {
+    } catch (CDBException* e) {
         CString msg;
         msg.Format(_T("Clear books failed: %s"), e->m_strError);
         AfxMessageBox(msg);
         success = false;
-    }
-    END_CATCH
 
-        return success;
+        e->Delete();
+    }
+
+    return success;
 }
 
 bool CBookRepository::Delete(long id)
 {
-    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
     bool success = false;
+	auto& db = m_pDbManager->GetDatabase();
 
-    TRY
-    {
+    try {
         CString sql;
         sql.Format(_T("DELETE FROM BOOK WHERE ID=%ld"), id);
         db.ExecuteSQL(sql);
         success = true;
-    }
-        CATCH(CDBException, e)
-    {
+    } catch (CDBException* e) {
         CString msg;
         msg.Format(_T("Delete book failed: %s"), e->m_strError);
         AfxMessageBox(msg);
         success = false;
-    }
-    END_CATCH
 
-        return success;
+        e->Delete();
+    }
+
+    return success;
 }
 
 std::vector<Book> CBookRepository::GetAll()
@@ -200,7 +183,6 @@ std::vector<Book> CBookRepository::Search(const CString& keyword)
 
 std::vector<Book> CBookRepository::GetSorted(const CString& column, bool ascending)
 {
-    // column nên whitelist ở Service layer (NAME / PRICE) để tránh SQL injection qua tên cột
     CString sql;
     sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK ORDER BY %s %s"),
         column, ascending ? _T("ASC") : _T("DESC"));
