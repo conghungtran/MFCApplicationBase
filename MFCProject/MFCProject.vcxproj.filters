@@ -51,9 +51,6 @@
     <ClInclude Include="src\ui\pages\PageBook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\pages\PageTicket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ui\pages\PageFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -67,9 +64,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\controls\CPaginationBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\model\Book.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\repository\BookRepository.h">
@@ -91,6 +85,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\config\AppConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config\DBConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\database\IDatabaseManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\model\Book.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -120,9 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\pages\PageBook.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ui\pages\PageTicket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\pages\PageFunction.cpp">
