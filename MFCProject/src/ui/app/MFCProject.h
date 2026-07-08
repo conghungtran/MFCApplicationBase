@@ -8,7 +8,8 @@
 #endif
 
 #include "resource.h"       // main symbols
-#include "DatabaseManager.h"
+#include "IDatabaseManager.h"
+#include <memory>
 
 
 // CMFCProjectApp:
@@ -18,10 +19,8 @@
 class CMFCProjectApp : public CWinAppEx
 {
 public:
-	CMFCProjectApp() noexcept;
-
-private:
-	
+	//CMFCProjectApp() noexcept;
+	CMFCProjectApp(std::unique_ptr<IDatabaseManager> pDatabaseManager) noexcept;
 
 // Overrides
 public:
@@ -37,6 +36,12 @@ public:
 
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+
+private:
+	std::unique_ptr<IDatabaseManager> m_pDatabaseManager;
+
+public:
+	IDatabaseManager* GetDatabaseManager();
 };
 
 extern CMFCProjectApp theApp;

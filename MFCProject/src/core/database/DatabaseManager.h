@@ -1,5 +1,6 @@
 #pragma once
-#include <afxdb.h>
+
+#include "pch.h"
 #include "DBConfig.h"
 #include "IDatabaseManager.h"
 
