@@ -1,0 +1,7 @@
+[Database]
+Driver=MySQL ODBC 9.7 Unicode Driver
+Server=localhost
+Port=3306
+Database=book
+UID=root
+PWD=
