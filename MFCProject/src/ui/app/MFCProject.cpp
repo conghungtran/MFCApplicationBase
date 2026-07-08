@@ -17,6 +17,7 @@
 #endif
 #include <iostream>
 #include <DatabaseManager.h>
+#include "AppConfig.h"
 
 
 // CMFCProjectApp
@@ -82,13 +83,15 @@ BOOL CMFCProjectApp::InitInstance()
 	std::cout << "Welcome to MFC: \n" << std::endl;
 
 
+	const auto& dbConfig = AppConfig::Instance().GetDBConfig();
+
 	if (!CDatabaseManager::Instance().ConnectDirect(
-		_T("MySQL ODBC 9.7 Unicode Driver"),  // đúng tên driver trong tab Drivers - copy chính xác
-		_T("localhost"),
-		_T("3306"),
-		_T("book"),
-		_T("root"),
-		_T("")))
+		dbConfig.driverName,
+		dbConfig.server,
+		dbConfig.port,
+		dbConfig.database,
+		dbConfig.user,
+		dbConfig.password))
 	{
 		std::cout << "Can not connect \n";
 		return FALSE;
