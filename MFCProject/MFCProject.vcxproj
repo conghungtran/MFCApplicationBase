@@ -201,9 +201,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\config\AppConfig.h" />
+    <ClInclude Include="src\config\DBConfig.h" />
+    <ClInclude Include="src\core\database\IDatabaseManager.h" />
+    <ClInclude Include="src\core\model\Book.h" />
     <ClInclude Include="src\ui\dialog\CAddBookDialog.h" />
     <ClInclude Include="src\core\database\DatabaseManager.h" />
-    <ClInclude Include="src\core\model\Book.h" />
     <ClInclude Include="src\core\repository\BookRepository.h" />
     <ClInclude Include="src\core\repository\IBookRepository.h" />
     <ClInclude Include="src\core\service\BookService.h" />

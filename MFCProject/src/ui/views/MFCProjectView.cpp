@@ -78,10 +78,10 @@ void MFCProjectView::OnInitialUpdate()
 
 	CRect rect;
 	GetClientRect(&rect);
-	auto repository = std::make_shared<CBookRepository>();
+	auto repository = std::make_shared<CBookRepository>(theApp.GetDatabaseManager());
 	auto bookService = std::make_shared<CBookService>(repository);
 
-	auto bookImportExportService = std::make_shared<CImportExportService>(repository);
+	auto bookImportExportService = std::make_shared<CImportExportService>(repository, theApp.GetDatabaseManager());
 
 	m_pageBook.SetBookService(bookService);
 	m_pageBook.SetImportExportService(bookImportExportService);

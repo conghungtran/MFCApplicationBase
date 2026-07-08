@@ -18,6 +18,7 @@
 #include <iostream>
 #include <DatabaseManager.h>
 #include "AppConfig.h"
+#include <memory>
 
 
 // CMFCProjectApp
@@ -34,7 +35,7 @@ END_MESSAGE_MAP()
 
 // CMFCProjectApp construction
 
-CMFCProjectApp::CMFCProjectApp() noexcept
+CMFCProjectApp::CMFCProjectApp(std::unique_ptr<IDatabaseManager> pDatabaseManager) noexcept
 {
 	m_bHiColorIcons = TRUE;
 
@@ -54,11 +55,12 @@ CMFCProjectApp::CMFCProjectApp() noexcept
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
+	m_pDatabaseManager = std::move(pDatabaseManager);
 }
 
 // The one and only CMFCProjectApp object
 
-CMFCProjectApp theApp;
+CMFCProjectApp theApp(std::make_unique<CDatabaseManager>());
 
 
 // CMFCProjectApp initialization
@@ -84,15 +86,7 @@ BOOL CMFCProjectApp::InitInstance()
 
 
 	const auto& dbConfig = AppConfig::Instance().GetDBConfig();
-
-	if (!CDatabaseManager::Instance().ConnectDirect(
-		dbConfig.driverName,
-		dbConfig.server,
-		dbConfig.port,
-		dbConfig.database,
-		dbConfig.user,
-		dbConfig.password))
-	{
+	if (!m_pDatabaseManager->Connect(dbConfig)) {
 		std::cout << "Can not connect \n";
 		return FALSE;
 	}
@@ -242,6 +236,11 @@ void CMFCProjectApp::LoadCustomState()
 
 void CMFCProjectApp::SaveCustomState()
 {
+}
+
+IDatabaseManager* CMFCProjectApp::GetDatabaseManager()
+{
+	return m_pDatabaseManager.get();
 }
 
 // CMFCProjectApp message handlers

@@ -1,14 +1,14 @@
 #pragma once
-#include "IBookRepository.h"
-#include <afxdb.h>
 
-// ==============================
-// Cài đặt Repository dùng CDatabase / CRecordset (ODBC) - cho MySQL
-// ==============================
+#include "pch.h"
+#include "IBookRepository.h"
+#include "IDatabaseManager.h"
+
+
 class CBookRepository : public IBookRepository
 {
 public:
-    CBookRepository();
+    CBookRepository(IDatabaseManager* pDbManager);
     virtual ~CBookRepository();
 
     virtual bool Add(Book& book) override;
@@ -23,5 +23,7 @@ public:
 private:
     Book ReadRow(CRecordset& rs);
     std::vector<Book> ExecuteQuery(const CString& sql);
-    static CString EscapeSql(const CString& input); // chống lỗi khi Name chứa dấu nháy đơn
+    static CString EscapeSql(const CString& input);
+
+	IDatabaseManager* m_pDbManager;
 };

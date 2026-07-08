@@ -1,9 +1,13 @@
 #include "pch.h"
 #include "ImportExportService.h"
-#include "DatabaseManager.h"
+#include "IDatabaseManager.h"
 
-CImportExportService::CImportExportService(std::shared_ptr<IBookRepository> repository)
-    : m_repository(repository)
+CImportExportService::CImportExportService(
+    std::shared_ptr<IBookRepository> repository,
+    IDatabaseManager* databaseManager
+)
+    : m_repository(repository),
+	m_databaseManager(*databaseManager)
 {
 }
 
@@ -35,7 +39,7 @@ ImportResult CImportExportService::ImportFromCSV(const CString& filePath)
         return result;
     }
 
-    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
+	auto& db = m_databaseManager.GetDatabase();
     CString line;
     bool firstLine = true;
 
