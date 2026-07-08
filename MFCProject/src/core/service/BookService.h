@@ -22,6 +22,9 @@ public:
     // sortColumn: "NAME" hoặc "PRICE" (whitelist để tránh SQL injection)
     std::vector<Book> GetSortedBooks(const CString& sortColumn, bool ascending);
 
+    // pageNumber bắt đầu từ 1. totalPages được tính ngược ra cho UI hiển thị "Trang 1/5"
+    std::vector<Book> GetBooksPage(int pageNumber, int pageSize, int& totalPages);
+
 private:
     bool Validate(const Book& book, CString& errorMsg);
 

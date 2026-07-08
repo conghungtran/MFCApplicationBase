@@ -104,3 +104,19 @@ std::vector<Book> CBookService::GetSortedBooks(const CString& sortColumn, bool a
 
     return m_repository->GetSorted(column, ascending);
 }
+
+std::vector<Book> CBookService::GetBooksPage(int pageNumber, int pageSize, int& totalPages)
+{
+    if (pageNumber < 1)
+        pageNumber = 1;
+    if (pageSize < 1)
+        pageSize = 20;   // mặc định 20 dòng/trang, khớp comment "page size = 20" bạn từng có
+
+    int totalRecords = m_repository->GetTotalCount();
+    totalPages = (totalRecords + pageSize - 1) / pageSize;   // làm tròn lên
+    if (totalPages < 1)
+        totalPages = 1;
+
+    int offset = (pageNumber - 1) * pageSize;
+    return m_repository->GetPaged(offset, pageSize);
+}

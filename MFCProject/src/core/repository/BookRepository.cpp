@@ -206,3 +206,43 @@ std::vector<Book> CBookRepository::GetSorted(const CString& column, bool ascendi
         column, ascending ? _T("ASC") : _T("DESC"));
     return ExecuteQuery(sql);
 }
+
+
+std::vector<Book> CBookRepository::GetPaged(int offset, int limit)
+{
+    // offset/limit là int (không phải chuỗi người dùng nhập trực tiếp) nên build
+    // bằng Format an toàn, không lo SQL injection như với NAME/keyword.
+    CString sql;
+    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK ORDER BY ID LIMIT %d OFFSET %d"),
+        limit, offset);
+    return ExecuteQuery(sql);
+}
+
+int CBookRepository::GetTotalCount()
+{
+    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
+    int total = 0;
+
+    TRY
+    {
+        CRecordset rs(&db);
+        rs.Open(CRecordset::forwardOnly, _T("SELECT COUNT(*) AS TOTAL FROM BOOK"), CRecordset::readOnly);
+
+        if (!rs.IsEOF())
+        {
+            CString strTotal;
+            rs.GetFieldValue(_T("TOTAL"), strTotal);   // GetFieldValue chỉ có overload CString - xem ghi chú trước
+            total = _ttoi(strTotal);
+        }
+        rs.Close();
+    }
+        CATCH(CDBException, e)
+    {
+        CString msg;
+        msg.Format(_T("Count query failed: %s"), e->m_strError);
+        AfxMessageBox(msg);
+    }
+    END_CATCH
+
+        return total;
+}

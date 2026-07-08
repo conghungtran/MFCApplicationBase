@@ -8,6 +8,7 @@
 #include <memory>
 #include "BookService.h"
 #include "ImportExportService.h"
+#include "AppMessages.h"
 
 // CPageBook dialog
 
@@ -31,8 +32,11 @@ public:
 
 	void InitControlList();
 	void InitTable();
-	void LoadData();
+	void LoadData(std::vector<Book> &books);
 	void UpdateSortArrow(int nSortedCol, bool bAscending);
+	LRESULT OnSearch(WPARAM wParam, LPARAM lParam);
+
+
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -46,7 +50,7 @@ protected:
 	afx_msg LRESULT OnDeleteItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddBook(WPARAM wParam, LPARAM lParam);
 
-	afx_msg LRESULT OnImportBook(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnImportBookAsync(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnExportBook(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
 

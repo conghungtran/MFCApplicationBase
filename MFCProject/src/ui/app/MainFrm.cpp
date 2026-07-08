@@ -139,7 +139,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
-	//ReplaceToolbarWithShellIcons();
+	ReplaceToolbarWithShellIcons();
 
 	CString strToolBarName;
 	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);

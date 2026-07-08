@@ -3,6 +3,8 @@
 #include "CSearchCtrl.h"
 #include "CCustomButton.h"
 #include "ImportExportService.h"
+#include "AppMessages.h"
+
 class BookPageToolBar : public CWnd
 {
     DECLARE_DYNAMIC(BookPageToolBar)
@@ -30,6 +32,12 @@ protected:
 
     afx_msg void OnImportClicked();
     afx_msg void OnExportClicked();
+
+    afx_msg void OnBnClickedBtnImportSync();
+    static void OnAsyncImportCallback(const ImportResult& result, void* context);
+    afx_msg LRESULT OnImportAsyncDone(WPARAM wParam, LPARAM lParam);
+
+
     DECLARE_MESSAGE_MAP()
 
 
