@@ -1,18 +1,18 @@
 #pragma once
 #include <afxdb.h>
 #include "DBConfig.h"
+#include "IDatabaseManager.h"
 
-class CDatabaseManager
-{
+class CDatabaseManager : public IDatabaseManager {
 public:
     CDatabaseManager();
-    ~CDatabaseManager();
+    ~CDatabaseManager() override;
 
-    bool Connect(const DBConfig& config);
-    void Disconnect();
+    bool Connect(const DBConfig& config) override;
+    void Disconnect() override;
 
-    CDatabase& GetDatabase();
-    bool IsConnected() const;
+    CDatabase& GetDatabase() override;
+    bool IsConnected() const override;
 
 private:
     CDatabaseManager(const CDatabaseManager&) = delete;

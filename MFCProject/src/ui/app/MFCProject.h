@@ -8,6 +8,7 @@
 #endif
 
 #include "resource.h"       // main symbols
+#include "DatabaseManager.h"
 
 
 // CMFCProjectApp:
@@ -19,6 +20,8 @@ class CMFCProjectApp : public CWinAppEx
 public:
 	CMFCProjectApp() noexcept;
 
+private:
+	
 
 // Overrides
 public:
