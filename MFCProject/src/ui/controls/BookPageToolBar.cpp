@@ -148,7 +148,7 @@ BOOL BookPageToolBar::OnEraseBkgnd(CDC* pDC)
 LRESULT BookPageToolBar::OnSearch(WPARAM wParam, LPARAM lParam)
 {
     if (GetParent())
-        GetParent()->PostMessage(WM_SEARCH, wParam, lParam);
+        GetParent()->SendMessage(WM_SEARCH, wParam, lParam); // đổi luôn ở đây
     return 0;
 }
 
@@ -178,7 +178,9 @@ void BookPageToolBar::OnImportClicked()
 
     // Bước 2: người dùng đã bấm OK trên hộp thoại -> import ngay
     BeginWaitCursor();   // file lớn có thể mất vài giây, đổi con trỏ chờ
+    //ImportResult result = m_importExportService->ImportFromCSV(filePath);
     ImportResult result = m_importExportService->ImportFromCSV(filePath);
+
     EndWaitCursor();
 
     if (!result.errorMsg.IsEmpty())
