@@ -31,8 +31,11 @@ public:
 
 	void InitControlList();
 	void InitTable();
-	void LoadData();
+	void LoadData(std::vector<Book> &books);
 	void UpdateSortArrow(int nSortedCol, bool bAscending);
+	LRESULT OnSearch(WPARAM wParam, LPARAM lParam);
+
+
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

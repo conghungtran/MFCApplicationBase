@@ -89,12 +89,29 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
     ON_MESSAGE(WM_IMPORT_BOOK, &PageBook::OnImportBook)
     ON_MESSAGE(WM_EXPORT_BOOK, &PageBook::OnExportBook)
     ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BOOK, &PageBook::OnLvnColumnClick)
+    ON_MESSAGE(WM_SEARCH, &PageBook::OnSearch)
 
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
+
+LRESULT PageBook::OnSearch(WPARAM wParam, LPARAM lParam)
+{
+    
+    CString keyword = (LPCTSTR)lParam;
+    
+    std::vector<Book> arr = m_bookService->SearchBooks(keyword);
+    std::cout << "PageBook search " << std::endl;
+    LoadData(arr);
+
+    OutputDebugString(keyword);
+    OutputDebugString(_T("\n"));
+
+    //std::cout << arr.size() << std::endl;
+    return 0;
+}
 
 void PageBook::OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -223,7 +240,7 @@ LRESULT PageBook::OnAddBook(WPARAM, LPARAM)
 LRESULT PageBook::OnImportBook(WPARAM, LPARAM)
 {
     std::cout << "Import \n";
-    LoadData();
+    LoadData(m_bookService->GetAllBooks());
 
     
     return 0;
@@ -290,7 +307,7 @@ BOOL PageBook::OnInitDialog()
             clientRect.Width(), clientRect.Height()));
 
     InitTable();
-    LoadData();
+    LoadData(m_bookService->GetAllBooks());
     RefreshTotalCount();
     LoadPage(1);
 
@@ -329,7 +346,7 @@ void PageBook::InitTable()
 
 }
 
-void PageBook::LoadData()
+void PageBook::LoadData(std::vector<Book> &books)
 {
     m_listCtrl.DeleteAllItems();
 
@@ -339,7 +356,7 @@ void PageBook::LoadData()
         return;
     }
 
-    std::vector<Book> books = m_bookService->GetAllBooks();
+    //std::vector<Book> books = m_bookService->GetAllBooks();
 
     for (size_t i = 0; i < books.size(); ++i)
     {

@@ -130,9 +130,14 @@ CString CSearchCtrl::GetSearchText() const
 
 void CSearchCtrl::OnBtnSearch()
 {
+    std::cout << "Search \n";
     CString text = GetSearchText();
+    OutputDebugString(text);
+    OutputDebugString(_T("\n"));
+
+
     // Gửi lên parent kèm text
-    GetParent()->PostMessage(WM_SEARCH, 0, (LPARAM)(LPCTSTR)text);
+    GetParent()->SendMessage(WM_SEARCH, 0, (LPARAM)(LPCTSTR)text);
 }
 
 void CSearchCtrl::OnEditChange()
