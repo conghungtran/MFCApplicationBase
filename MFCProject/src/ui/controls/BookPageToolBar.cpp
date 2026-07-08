@@ -148,7 +148,7 @@ BOOL BookPageToolBar::OnEraseBkgnd(CDC* pDC)
 LRESULT BookPageToolBar::OnSearch(WPARAM wParam, LPARAM lParam)
 {
     if (GetParent())
-        GetParent()->PostMessage(WM_SEARCH, wParam, lParam);
+        GetParent()->SendMessage(WM_SEARCH, wParam, lParam); // đổi luôn ở đây
     return 0;
 }
 
