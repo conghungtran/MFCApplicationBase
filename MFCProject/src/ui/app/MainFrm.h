@@ -4,16 +4,12 @@
 
 #pragma once
 #include "CustomTaskPane.h"
-
 class CMainFrame : public CFrameWndEx
 {
 	
 protected: // create from serialization only
 	CMainFrame() noexcept;
 	DECLARE_DYNCREATE(CMainFrame)
-
-// Attributes
-public:
 
 // Operations
 public:

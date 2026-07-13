@@ -19,6 +19,7 @@ public:
 
     virtual std::vector<Book> GetPaged(int offset, int limit) = 0;
     virtual int GetTotalCount() = 0;
+    virtual int GetTotalPage(int pageSize) = 0;
 
     virtual std::vector<Book> GetAll() = 0;
     virtual std::vector<Book> Search(const CString& keyword) = 0;

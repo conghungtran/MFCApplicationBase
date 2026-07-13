@@ -55,7 +55,7 @@ void PageBook::DoDataExchange(CDataExchange* pDX)
 void PageBook::RefreshTotalCount()
 {
     // TODO: đổi thành m_printerRepo->Count() khi có repository
-    m_nTotalRecords = m_listCtrl.GetItemCount();
+    m_nTotalRecords = m_bookService->GetCount();
 
     int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
@@ -74,6 +74,9 @@ LRESULT PageBook::OnPageChanged(WPARAM wParam, LPARAM lParam)
 {
     int nPage = (int)wParam;
     LoadPage(nPage);
+    std::vector<Book> arr = m_bookService->GetBooksPage(nPage, 15, m_nPageSize);
+    LoadData(arr);
+    std::cout << nPage << "\n";
     return 0;
 }
 
@@ -307,10 +310,10 @@ BOOL PageBook::OnInitDialog()
             clientRect.Width(), clientRect.Height()));
 
     InitTable();
-    int totalPages = 1;
-    LoadData(m_bookService->GetBooksPage(1, 10, totalPages));
+    int totalPages = 20;
+    LoadData(m_bookService->GetBooksPage(1, 15, m_nPageSize));
     RefreshTotalCount();
-    LoadPage(totalPages);
+    LoadPage(1);
 
     return TRUE;
 }
@@ -384,7 +387,7 @@ void PageBook::LoadData(std::vector<Book> &books)
     }
 
     // Cập nhật total sau khi load xong - dùng cho CPaginationBar bạn đã có
-    m_nTotalRecords = m_listCtrl.GetItemCount();
+    //m_nTotalRecords = m_listCtrl.GetItemCount();
 }
 
 LRESULT PageBook::OnEditItem(WPARAM wParam, LPARAM lParam)

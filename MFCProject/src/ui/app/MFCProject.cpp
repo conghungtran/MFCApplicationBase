@@ -67,6 +67,7 @@ CMFCProjectApp theApp;
 BOOL CMFCProjectApp::InitInstance()
 {
 
+	
 	// Tạo console window
 	if (!AllocConsole()) {
 		// Xử lý lỗi nếu cần
@@ -96,6 +97,11 @@ BOOL CMFCProjectApp::InitInstance()
 		std::cout << "Can not connect \n";
 		return FALSE;
 	}
+
+	m_bookRepository = std::make_shared<CBookRepository>();
+	m_bookService = std::make_shared<CBookService>(m_bookRepository);
+	m_importExportService = std::make_shared<CImportExportService>(m_bookRepository);
+
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable

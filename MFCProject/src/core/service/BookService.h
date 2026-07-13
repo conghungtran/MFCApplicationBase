@@ -25,6 +25,8 @@ public:
     // pageNumber bắt đầu từ 1. totalPages được tính ngược ra cho UI hiển thị "Trang 1/5"
     std::vector<Book> GetBooksPage(int pageNumber, int pageSize, int& totalPages);
 
+    int GetCount();
+    int GetTotalPage(int pageSize);
 private:
     bool Validate(const Book& book, CString& errorMsg);
 

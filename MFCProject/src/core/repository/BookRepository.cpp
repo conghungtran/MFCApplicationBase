@@ -193,7 +193,7 @@ std::vector<Book> CBookRepository::GetAll()
 std::vector<Book> CBookRepository::Search(const CString& keyword)
 {
     CString sql;
-    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK WHERE NAME LIKE '%%%s%%' ORDER BY ID"),
+    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK WHERE NAME LIKE '%%%s%%' ORDER BY ID LIMIT 15;"),
         EscapeSql(keyword));
     return ExecuteQuery(sql);
 }
@@ -202,7 +202,7 @@ std::vector<Book> CBookRepository::GetSorted(const CString& column, bool ascendi
 {
     // column nên whitelist ở Service layer (NAME / PRICE) để tránh SQL injection qua tên cột
     CString sql;
-    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK ORDER BY %s %s"),
+    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK ORDER BY %s %s LIMIT 15;"),
         column, ascending ? _T("ASC") : _T("DESC"));
     return ExecuteQuery(sql);
 }
@@ -245,4 +245,34 @@ int CBookRepository::GetTotalCount()
     END_CATCH
 
         return total;
+}
+int CBookRepository::GetTotalPage(int pageSize)
+{
+    CDatabase& db = CDatabaseManager::Instance().GetDatabase();
+    int totalPages = 0;
+
+    TRY
+    {
+        CRecordset rs(&db);
+        CString strSQL;
+        strSQL.Format(_T("SELECT CEIL(COUNT(*) / %d) AS TOTAL_PAGES FROM BOOK"), pageSize);
+        rs.Open(CRecordset::forwardOnly, strSQL, CRecordset::readOnly);
+
+        if (!rs.IsEOF())
+        {
+            CString strTotalPages;
+            rs.GetFieldValue(_T("TOTAL_PAGES"), strTotalPages);
+            totalPages = _ttoi(strTotalPages);
+        }
+        rs.Close();
+    }
+        CATCH(CDBException, e)
+    {
+        CString msg;
+        msg.Format(_T("GetTotalPage failed: %s"), e->m_strError);
+        AfxMessageBox(msg);
+    }
+    END_CATCH
+
+        return totalPages;
 }

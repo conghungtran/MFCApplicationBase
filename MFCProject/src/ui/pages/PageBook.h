@@ -78,7 +78,7 @@ protected:
 
 	// Phân trang
 	int m_nCurrentPage = 1;
-	int m_nPageSize = 20;
+	int m_nPageSize = 30;
 	int m_nTotalRecords = 0;
 
 	afx_msg LRESULT OnPageChanged(WPARAM wParam, LPARAM lParam);

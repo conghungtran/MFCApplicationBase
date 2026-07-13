@@ -120,3 +120,11 @@ std::vector<Book> CBookService::GetBooksPage(int pageNumber, int pageSize, int& 
     int offset = (pageNumber - 1) * pageSize;
     return m_repository->GetPaged(offset, pageSize);
 }
+
+int CBookService::GetCount() {
+    return m_repository->GetTotalCount();
+}
+
+int CBookService::GetTotalPage(int pageSize) {
+    return m_repository->GetTotalPage(pageSize);
+}
