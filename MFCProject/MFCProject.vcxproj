@@ -153,7 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\dialog\;$(ProjectDir)src\ui\resources\res\;$(ProjectDir)src\ui\resources\;$(ProjectDir)src\core\;$(ProjectDir)src\core\database\;$(ProjectDir)src\core\model\;$(ProjectDir)src\core\repository\;$(ProjectDir)src\core\service\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\pch\;$(ProjectDir)src\;$(ProjectDir)src\ui\;$(ProjectDir)src\ui\pages\;$(ProjectDir)src\ui\app\;$(ProjectDir)src\ui\controls\;$(ProjectDir)src\ui\dialogs\;$(ProjectDir)src\ui\views\;$(ProjectDir)src\ui\frames\;$(ProjectDir)src\ui\dialog\;$(ProjectDir)src\ui\resources\res\;$(ProjectDir)src\ui\resources\;$(ProjectDir)src\core\;$(ProjectDir)src\core\database\;$(ProjectDir)src\core\model\;$(ProjectDir)src\core\repository\;$(ProjectDir)src\core\service\;$(ProjectDir)src\config\;$(ProjectDir)src\ui\messages\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -200,6 +200,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\config\AppConfig.h" />
     <ClInclude Include="src\ui\dialog\CAddBookDialog.h" />
     <ClInclude Include="src\core\database\DatabaseManager.h" />
     <ClInclude Include="src\core\model\Book.h" />
@@ -211,8 +212,8 @@
     <ClInclude Include="src\ui\controls\BookPageToolBar.h" />
     <ClInclude Include="src\ui\controls\CSearchCtrl.h" />
     <ClInclude Include="src\ui\controls\CCustomListCtrl.h" />
+    <ClInclude Include="src\ui\messages\AppMessages.h" />
     <ClInclude Include="src\ui\pages\PageFunction.h" />
-    <ClInclude Include="src\ui\pages\PageTicket.h" />
     <ClInclude Include="src\ui\pages\PageBook.h" />
     <ClInclude Include="src\pch\targetver.h" />
     <ClInclude Include="src\ui\app\MFCProject.h" />
@@ -227,6 +228,7 @@
     <ClInclude Include="src\ui\views\MFCProjectView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\config\AppConfig.cpp" />
     <ClCompile Include="src\ui\dialog\CAddBookDialog.cpp" />
     <ClCompile Include="src\core\database\DatabaseManager.cpp" />
     <ClCompile Include="src\core\repository\BookRepository.cpp" />
@@ -237,7 +239,6 @@
     <ClCompile Include="src\ui\controls\CSearchCtrl.cpp" />
     <ClCompile Include="src\ui\controls\CCustomListCtrl.cpp" />
     <ClCompile Include="src\ui\pages\PageFunction.cpp" />
-    <ClCompile Include="src\ui\pages\PageTicket.cpp" />
     <ClCompile Include="src\ui\pages\PageBook.cpp" />
     <ClCompile Include="src\ui\app\MFCProject.cpp" />
     <ClCompile Include="src\ui\controls\CCustomButton.cpp" />

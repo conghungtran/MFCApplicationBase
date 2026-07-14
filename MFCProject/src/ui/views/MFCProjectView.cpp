@@ -78,9 +78,13 @@ void MFCProjectView::OnInitialUpdate()
 
 	CRect rect;
 	GetClientRect(&rect);
-	auto repository = std::make_shared<CBookRepository>();
-	auto bookService = std::make_shared<CBookService>(repository);
-	m_pageBook.SetBookService(bookService);
+
+	auto* pApp = static_cast<CMFCProjectApp*>(AfxGetApp());
+	auto bookService = pApp->GetBookService();   // lấy CÙNG 1 instance
+
+	m_pageBook.SetBookService(pApp->GetBookService());       // PageBook nhận instance này
+	m_pageBook.SetImportExportService(pApp->GetImportExportService());
+	//m_pageFunction.SetBookService(bookService);   // 
 
 	// Tạo các page — parent là View (this)
 	m_pageBook.Create(IDD_PAGE_BOOK, this);

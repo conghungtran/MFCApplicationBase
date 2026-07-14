@@ -90,6 +90,9 @@
     <ClInclude Include="src\ui\dialog\CAddBookDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\config\AppConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ui\app\MFCProject.cpp">
@@ -150,6 +153,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\dialog\CAddBookDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\config\AppConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

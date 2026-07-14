@@ -104,12 +104,12 @@ bool CImportExportService::ExportToCSV(const CString& filePath, CString& errorMs
         return false;
     }
 
-    file.WriteString(_T("ID,NAME,PRICE,QTY\n"));
+    file.WriteString(_T("NAME,PRICE,QTY\n")); //     file.WriteString(_T("ID,NAME,PRICE,QTY\n"));
 
     for (const auto& book : books)
     {
         CString line;
-        line.Format(_T("%ld,%s,%.2f,%d\n"), book.ID, book.Name, book.Price, book.Qty);
+        line.Format(_T("%s,%.2f,%d\n"), book.Name, book.Price, book.Qty);
         file.WriteString(line);
     }
 

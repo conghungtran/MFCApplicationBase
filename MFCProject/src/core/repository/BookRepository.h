@@ -20,6 +20,10 @@ public:
     virtual std::vector<Book> Search(const CString& keyword) override;
     virtual std::vector<Book> GetSorted(const CString& column, bool ascending) override;
 
+    // Phân trang: offset = (số trang - 1) * pageSize, limit = pageSize
+    virtual std::vector<Book> GetPaged(int offset, int limit) override;
+    virtual int GetTotalCount() override;
+    virtual int GetTotalPage(int pageSize) override;
 private:
     Book ReadRow(CRecordset& rs);
     std::vector<Book> ExecuteQuery(const CString& sql);

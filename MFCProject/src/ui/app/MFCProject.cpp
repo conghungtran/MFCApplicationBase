@@ -17,6 +17,7 @@
 #endif
 #include <iostream>
 #include <DatabaseManager.h>
+#include "AppConfig.h"
 
 
 // CMFCProjectApp
@@ -66,6 +67,7 @@ CMFCProjectApp theApp;
 BOOL CMFCProjectApp::InitInstance()
 {
 
+	
 	// Tạo console window
 	if (!AllocConsole()) {
 		// Xử lý lỗi nếu cần
@@ -82,17 +84,24 @@ BOOL CMFCProjectApp::InitInstance()
 	std::cout << "Welcome to MFC: \n" << std::endl;
 
 
+	const auto& dbConfig = AppConfig::Instance().GetDBConfig();
+
 	if (!CDatabaseManager::Instance().ConnectDirect(
-		_T("MySQL ODBC 9.7 Unicode Driver"),  // đúng tên driver trong tab Drivers - copy chính xác
-		_T("localhost"),
-		_T("3306"),
-		_T("book"),
-		_T("root"),
-		_T("")))
+		dbConfig.driverName,
+		dbConfig.server,
+		dbConfig.port,
+		dbConfig.database,
+		dbConfig.user,
+		dbConfig.password))
 	{
 		std::cout << "Can not connect \n";
 		return FALSE;
 	}
+
+	m_bookRepository = std::make_shared<CBookRepository>();
+	m_bookService = std::make_shared<CBookService>(m_bookRepository);
+	m_importExportService = std::make_shared<CImportExportService>(m_bookRepository);
+
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable

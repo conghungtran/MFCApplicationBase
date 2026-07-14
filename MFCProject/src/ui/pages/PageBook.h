@@ -7,6 +7,8 @@
 #include "Book.h"
 #include <memory>
 #include "BookService.h"
+#include "ImportExportService.h"
+#include "AppMessages.h"
 
 // CPageBook dialog
 
@@ -18,15 +20,23 @@ public:
 	PageBook(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~PageBook();
 	BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
-	void SetBookService(std::shared_ptr<CBookService> service) { m_bookService = service; }
+	void SetBookService(std::shared_ptr<CBookService> service) { 
+		m_bookService = service;
+	}
 
+	void SetImportExportService(std::shared_ptr<CImportExportService> importService) {
+		m_wndToolBar.SetImportExportService(importService);
+	}
 	
 	BOOL InitToolBar();
 
 	void InitControlList();
 	void InitTable();
-	void LoadData();
+	void LoadData(std::vector<Book> &books);
 	void UpdateSortArrow(int nSortedCol, bool bAscending);
+	LRESULT OnSearch(WPARAM wParam, LPARAM lParam);
+
+
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -39,6 +49,9 @@ protected:
 	afx_msg LRESULT OnEditItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnDeleteItem(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnAddBook(WPARAM wParam, LPARAM lParam);
+
+	afx_msg LRESULT OnImportBookAsync(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnExportBook(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult);
 
 
@@ -53,9 +66,7 @@ public:
 
 	CImageList m_imageList;
 	BookPageToolBar m_wndToolBar;
-
-	CCustomButton m_btnAdd;
-	CCustomButton m_btnDelete;
+	std::shared_ptr<CBookService> m_bookService;
 
 
 protected:
@@ -68,13 +79,12 @@ protected:
 	// Phân trang
 	int m_nCurrentPage = 1;
 	int m_nPageSize = 20;
+	int m_size = 20;
 	int m_nTotalRecords = 0;
 
 	afx_msg LRESULT OnPageChanged(WPARAM wParam, LPARAM lParam);
-	void LoadPage(int nPage);
+	void LoadPageNumber(int nPage);
 	void RefreshTotalCount();
-
-	std::shared_ptr<CBookService> m_bookService;
 
 
 private:

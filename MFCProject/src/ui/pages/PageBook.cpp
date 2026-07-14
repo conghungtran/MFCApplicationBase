@@ -55,25 +55,31 @@ void PageBook::DoDataExchange(CDataExchange* pDX)
 void PageBook::RefreshTotalCount()
 {
     // TODO: đổi thành m_printerRepo->Count() khi có repository
-    m_nTotalRecords = m_listCtrl.GetItemCount();
+    m_nTotalRecords = m_bookService->GetCount();
 
-    int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    std::cout << "m_nTotalRecords = " << m_nTotalRecords << "\n";
+    std::cout << "m_nPageSize = " << m_nPageSize << "\n";
+
+    int nTotalPages = max(1, m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
-void PageBook::LoadPage(int nPage)
+void PageBook::LoadPageNumber(int nPage)
 {
     m_nCurrentPage = nPage;
 
     // TODO: đổi thành repo->GetPaged(offset, m_nPageSize) khi có repository
     // Hiện tại data đã load hết trong InitTable() nên chỉ update pagination UI
-    int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    int nTotalPages = max(1, m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
 
 LRESULT PageBook::OnPageChanged(WPARAM wParam, LPARAM lParam)
 {
     int nPage = (int)wParam;
-    LoadPage(nPage);
+    LoadPageNumber(nPage);
+    std::vector<Book> arr = m_bookService->GetBooksPage(nPage, m_size, m_nPageSize);
+    LoadData(arr);
+    std::cout << nPage << "\n";
     return 0;
 }
 
@@ -86,13 +92,32 @@ BEGIN_MESSAGE_MAP(PageBook, CDialogEx)
 
     ON_MESSAGE(WM_ADD_BOOK, &PageBook::OnAddBook)
     ON_MESSAGE(WM_DELETE_BOOK, &PageBook::OnBnClickedBtnClear)
+    ON_MESSAGE(WM_IMPORT_COMPLETED, &PageBook::OnImportBookAsync)
+    ON_MESSAGE(WM_EXPORT_BOOK, &PageBook::OnExportBook)
     ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BOOK, &PageBook::OnLvnColumnClick)
+    ON_MESSAGE(WM_SEARCH, &PageBook::OnSearch)
 
     ON_WM_SIZE()
     ON_WM_SETCURSOR()
     ON_WM_CTLCOLOR()
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
+
+LRESULT PageBook::OnSearch(WPARAM wParam, LPARAM lParam)
+{
+    
+    CString keyword = (LPCTSTR)lParam;
+    
+    std::vector<Book> arr = m_bookService->SearchBooks(keyword);
+    std::cout << "PageBook search " << std::endl;
+    LoadData(arr);
+
+    OutputDebugString(keyword);
+    OutputDebugString(_T("\n"));
+
+    //std::cout << arr.size() << std::endl;
+    return 0;
+}
 
 void PageBook::OnLvnColumnClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -173,6 +198,7 @@ LRESULT PageBook::OnBnClickedBtnClear(WPARAM, LPARAM)
     {
         // Chỉ xóa khỏi CListCtrl SAU KHI Database xóa thành công
         m_listCtrl.DeleteAllItems();
+        m_pagination.SetPageInfo(1, 0);
     }
     else
     {
@@ -217,6 +243,25 @@ LRESULT PageBook::OnAddBook(WPARAM, LPARAM)
     }
     return 0;
 }
+
+LRESULT PageBook::OnImportBookAsync(WPARAM, LPARAM)
+{
+    std::cout << "Import \n";
+    LoadData(m_bookService->GetBooksPage(1, m_size, m_nPageSize));
+    RefreshTotalCount();
+    LoadPageNumber(1);
+    return 0;
+}
+
+
+LRESULT PageBook::OnExportBook(WPARAM, LPARAM)
+{
+
+    std::cout << "Export \n";
+
+    return 0;
+}
+
 
 void PageBook::AddBookToListCtrl(const Book& book)
 {
@@ -269,9 +314,11 @@ BOOL PageBook::OnInitDialog()
             clientRect.Width(), clientRect.Height()));
 
     InitTable();
-    LoadData();
+    std::cout << "Before:  " << m_nPageSize << "\n";
+    LoadData(m_bookService->GetBooksPage(1, m_size, m_nPageSize));
+    std::cout << "After*:  " << m_nPageSize << "\n";
     RefreshTotalCount();
-    LoadPage(1);
+    LoadPageNumber(1);
 
     return TRUE;
 }
@@ -308,8 +355,9 @@ void PageBook::InitTable()
 
 }
 
-void PageBook::LoadData()
+void PageBook::LoadData(std::vector<Book> &books)
 {
+    std::cout << "Size Book: " << books.size() << "\n";
     m_listCtrl.DeleteAllItems();
 
     if (!m_bookService)
@@ -318,7 +366,7 @@ void PageBook::LoadData()
         return;
     }
 
-    std::vector<Book> books = m_bookService->GetAllBooks();
+    //std::vector<Book> books = m_bookService->GetAllBooks();
 
     for (size_t i = 0; i < books.size(); ++i)
     {
@@ -345,7 +393,7 @@ void PageBook::LoadData()
     }
 
     // Cập nhật total sau khi load xong - dùng cho CPaginationBar bạn đã có
-    m_nTotalRecords = m_listCtrl.GetItemCount();
+    //m_nTotalRecords = m_listCtrl.GetItemCount();
 }
 
 LRESULT PageBook::OnEditItem(WPARAM wParam, LPARAM lParam)
@@ -407,6 +455,7 @@ LRESULT PageBook::OnDeleteItem(WPARAM wParam, LPARAM lParam)
     {
         // Chỉ xóa khỏi CListCtrl SAU KHI Database xóa thành công
         m_listCtrl.DeleteItem(nRow);
+        RefreshTotalCount();
     }
     else
     {
@@ -415,6 +464,3 @@ LRESULT PageBook::OnDeleteItem(WPARAM wParam, LPARAM lParam)
 
     return 0;
 }
-
-
-// PageBook message handlers
