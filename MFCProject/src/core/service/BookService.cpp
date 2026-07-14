@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "BookService.h"
+#include <iostream>
 
 CBookService::CBookService(std::shared_ptr<IBookRepository> repository)
     : m_repository(repository)
@@ -114,6 +115,9 @@ std::vector<Book> CBookService::GetBooksPage(int pageNumber, int pageSize, int& 
 
     int totalRecords = m_repository->GetTotalCount();
     totalPages = (totalRecords + pageSize - 1) / pageSize;   // làm tròn lên
+
+    std::cout << "After:  " << totalPages << "\n";
+
     if (totalPages < 1)
         totalPages = 1;
 
