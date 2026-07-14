@@ -193,7 +193,7 @@ std::vector<Book> CBookRepository::GetAll()
 std::vector<Book> CBookRepository::Search(const CString& keyword)
 {
     CString sql;
-    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK WHERE NAME LIKE '%%%s%%' ORDER BY ID LIMIT 15;"),
+    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK WHERE NAME LIKE '%%%s%%' ORDER BY ID LIMIT 20;"),
         EscapeSql(keyword));
     return ExecuteQuery(sql);
 }
@@ -202,7 +202,7 @@ std::vector<Book> CBookRepository::GetSorted(const CString& column, bool ascendi
 {
     // column nên whitelist ở Service layer (NAME / PRICE) để tránh SQL injection qua tên cột
     CString sql;
-    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK ORDER BY %s %s LIMIT 15;"),
+    sql.Format(_T("SELECT ID, NAME, PRICE, QTY, CREATED_DATE FROM BOOK ORDER BY %s %s LIMIT 20;"),
         column, ascending ? _T("ASC") : _T("DESC"));
     return ExecuteQuery(sql);
 }

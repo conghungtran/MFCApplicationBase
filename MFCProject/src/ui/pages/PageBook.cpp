@@ -57,24 +57,27 @@ void PageBook::RefreshTotalCount()
     // TODO: đổi thành m_printerRepo->Count() khi có repository
     m_nTotalRecords = m_bookService->GetCount();
 
-    int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    std::cout << "m_nTotalRecords = " << m_nTotalRecords << "\n";
+    std::cout << "m_nPageSize = " << m_nPageSize << "\n";
+
+    int nTotalPages = max(1, m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
-void PageBook::LoadPage(int nPage)
+void PageBook::LoadPageNumber(int nPage)
 {
     m_nCurrentPage = nPage;
 
     // TODO: đổi thành repo->GetPaged(offset, m_nPageSize) khi có repository
     // Hiện tại data đã load hết trong InitTable() nên chỉ update pagination UI
-    int nTotalPages = max(1, (m_nTotalRecords + m_nPageSize - 1) / m_nPageSize);
+    int nTotalPages = max(1, m_nPageSize);
     m_pagination.SetPageInfo(m_nCurrentPage, nTotalPages);
 }
 
 LRESULT PageBook::OnPageChanged(WPARAM wParam, LPARAM lParam)
 {
     int nPage = (int)wParam;
-    LoadPage(nPage);
-    std::vector<Book> arr = m_bookService->GetBooksPage(nPage, 15, m_nPageSize);
+    LoadPageNumber(nPage);
+    std::vector<Book> arr = m_bookService->GetBooksPage(nPage, m_size, m_nPageSize);
     LoadData(arr);
     std::cout << nPage << "\n";
     return 0;
@@ -195,6 +198,7 @@ LRESULT PageBook::OnBnClickedBtnClear(WPARAM, LPARAM)
     {
         // Chỉ xóa khỏi CListCtrl SAU KHI Database xóa thành công
         m_listCtrl.DeleteAllItems();
+        m_pagination.SetPageInfo(1, 0);
     }
     else
     {
@@ -243,9 +247,9 @@ LRESULT PageBook::OnAddBook(WPARAM, LPARAM)
 LRESULT PageBook::OnImportBookAsync(WPARAM, LPARAM)
 {
     std::cout << "Import \n";
-    LoadData(m_bookService->GetAllBooks());
-
-    
+    LoadData(m_bookService->GetBooksPage(1, m_size, m_nPageSize));
+    RefreshTotalCount();
+    LoadPageNumber(1);
     return 0;
 }
 
@@ -310,10 +314,11 @@ BOOL PageBook::OnInitDialog()
             clientRect.Width(), clientRect.Height()));
 
     InitTable();
-    int totalPages = 20;
-    LoadData(m_bookService->GetBooksPage(1, 15, m_nPageSize));
+    std::cout << "Before:  " << m_nPageSize << "\n";
+    LoadData(m_bookService->GetBooksPage(1, m_size, m_nPageSize));
+    std::cout << "After*:  " << m_nPageSize << "\n";
     RefreshTotalCount();
-    LoadPage(1);
+    LoadPageNumber(1);
 
     return TRUE;
 }
@@ -352,6 +357,7 @@ void PageBook::InitTable()
 
 void PageBook::LoadData(std::vector<Book> &books)
 {
+    std::cout << "Size Book: " << books.size() << "\n";
     m_listCtrl.DeleteAllItems();
 
     if (!m_bookService)
@@ -449,6 +455,7 @@ LRESULT PageBook::OnDeleteItem(WPARAM wParam, LPARAM lParam)
     {
         // Chỉ xóa khỏi CListCtrl SAU KHI Database xóa thành công
         m_listCtrl.DeleteItem(nRow);
+        RefreshTotalCount();
     }
     else
     {
